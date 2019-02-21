@@ -3,163 +3,213 @@ import React, { Component } from 'react';
 import './App.css';
 import web3 from './web3.js';
 import ipfs from './ipfs.js';
-import storehash from './storehash.js';
+import storehashes from './storehashes.js';
 
 class App extends Component {
- 
+
     state = {
-      ipfsHash:null,
-      buffer:'',
-      ethAddress:'',
-      blockNumber:'',
-      transactionHash:'',
-      gasUsed:'',
-      txReceipt: ''   
-    };
-   
-    captureFile =(event) => {
+        ipfsHash:null,
+        buffer:'',
+        ethAddress:'',
+        blockNumber:'',
+        transactionHash:'',
+        gasUsed:'',
+        txReceipt: '',
+
+        droneCorridorName: '', // Will store the name of the drone corridor being passed in
+        ethCertificates: [], // Will store objects (country and string),
+        certCount: ''
+    };    
+    componentWillMount = () => {
+        this.getCertificatesFromBlockchain()
+    }
+
+    handleChange = event => {
+        event.stopPropagation()
+        event.preventDefault()
+        console.log(event.target.value)
+        this.setState({droneCorridorName: event.target.value});
+    }
+
+    captureFile = event => {
         event.stopPropagation()
         event.preventDefault()
         const file = event.target.files[0]
         let reader = new window.FileReader()
         reader.readAsArrayBuffer(file)
         reader.onloadend = () => this.convertToBuffer(reader)    
-      };
+    };
 
     convertToBuffer = async(reader) => {
-      //file is converted to a buffer to prepare for uploading to IPFS
         const buffer = await Buffer.from(reader.result);
-      //set this buffer -using es6 syntax
         this.setState({buffer});
     };
 
     onClick = async () => {
+        try{
+            this.setState({blockNumber:"waiting.."});
+            this.setState({gasUsed:"waiting..."});
 
-    try{
-        this.setState({blockNumber:"waiting.."});
-        this.setState({gasUsed:"waiting..."});
+            await web3.eth.getTransactionReceipt(this.state.transactionHash, (err, txReceipt)=>{
+                console.log(err,txReceipt);
+                this.setState({txReceipt});
+            }); //await for getTransactionReceipt
 
-        // get Transaction Receipt in console on click
-        // See: https://web3js.readthedocs.io/en/1.0/web3-eth.html#gettransactionreceipt
-        await web3.eth.getTransactionReceipt(this.state.transactionHash, (err, txReceipt)=>{
-          console.log(err,txReceipt);
-          this.setState({txReceipt});
-        }); //await for getTransactionReceipt
+            await this.setState({blockNumber: this.state.txReceipt.blockNumber});
+            await this.setState({gasUsed: this.state.txReceipt.gasUsed});    
+        } //try
+        catch(error){
+            console.log(error);
+        } //catch
+    } //onClick
 
-        await this.setState({blockNumber: this.state.txReceipt.blockNumber});
-        await this.setState({gasUsed: this.state.txReceipt.gasUsed});    
-      } //try
-    catch(error){
-        console.log(error);
-      } //catch
-  } //onClick
+    getCertificateTableRows = (country, hash) => {
+        const ipfsLink = 'https://ipfs.io/ipfs/' + hash
+        return(
+            <tr>
+                <td>{country}</td>
+                <td><a href={ipfsLink}>File on IPFS</a></td>
+                <td>{hash}</td>
+            </tr>
+        )
+    }
+    getCertificatesFromBlockchain = async () => {
+        const accounts = await web3.eth.getAccounts();
+        storehashes.methods._getOwnerCount().call({
+                from: accounts[0]
+            }, (error, response) => {
+                console.log(response);
+                this.setState({certCount: response})
+                for(let i = 0; i < this.state.certCount; i++){
+                    storehashes.methods._getCert(i).call()
+                    .then(cert => {
+                        this.setState({ ethCertificates: [...this.state.ethCertificates, cert] })
 
+                    })
+                }
+            });
+    }
     onSubmit = async (event) => {
-      event.preventDefault();
+        event.preventDefault();
 
-      //bring in user's metamask account address
-      const accounts = await web3.eth.getAccounts();
-     
-      console.log('Sending from Metamask account: ' + accounts[0]);
-
-      //obtain contract address from storehash.js
-      const ethAddress= await storehash.options.address;
-      this.setState({ethAddress});
-
-      //save document to IPFS,return its hash#, and set hash# to state
-      //https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/FILES.md#add 
-      await ipfs.add(this.state.buffer, (err, ipfsHash) => {
-        console.log(err,ipfsHash);
-        //setState by setting ipfsHash to ipfsHash[0].hash 
-        this.setState({ ipfsHash:ipfsHash[0].hash });
-
-        // call Ethereum contract method "sendHash" and .send IPFS hash to etheruem contract 
-        //return the transaction hash from the ethereum contract
-        //see, this https://web3js.readthedocs.io/en/1.0/web3-eth-contract.html#methods-mymethod-send
-        
-        storehash.methods.sendHash(this.state.ipfsHash).send({
-          from: accounts[0] 
-        }, (error, transactionHash) => {
-          console.log(transactionHash);
-          this.setState({transactionHash});
-        }); //storehash 
-      }) //await ipfs.add 
+        //bring in user's metamask account address
+        const accounts = await web3.eth.getAccounts();
+        console.log('Sending from Metamask account: ' + accounts[0]);
+        const ethAddress= await storehashes.options.address;
+        this.setState({ethAddress});
+        await ipfs.add(this.state.buffer, (err, ipfsHash) => {
+            console.log(err,ipfsHash);
+            this.setState({ ipfsHash:ipfsHash[0].hash });
+            storehashes.methods._createCert(this.state.droneCorridorName, this.state.ipfsHash).send({
+                from: accounts[0]
+            }, (error, transactionHash) => {
+                console.log(transactionHash);
+                this.setState({transactionHash});
+            });
+        }) //await ipfs.add 
     }; //onSubmit 
-  
-    render() {
-      
-      return (
-        <div className="App">
+
+render() {
+
+  return (
+    <div className="App">
 
         <Grid>
-          <header className="App-header">
-            <h1>Ethereum and InterPlanetary File System (IPFS)</h1>
-          </header>
+            <header className="App-header">
+                <h1>Ethereum and InterPlanetary File System (IPFS)</h1>
+            </header>
             <p>
-              This application uploads a file to IPFS.  Once IPFS returns a hash the hash is stored as a string on the Ethereum blockchain.
+                This application uploads a file to IPFS.  Once IPFS returns a hash the hash is stored as a string on the Ethereum blockchain.
             </p>
-          <hr />
+            <hr />
 
-          <h3> Choose file to send to IPFS </h3>
-          <Form onSubmit={this.onSubmit}>
-            <input 
-              type = "file"
-
-              onChange = {this.captureFile}
-            />
-             <Button 
-             bsStyle="primary" 
-             type="submit"> 
-             Send it 
-             </Button>
-          </Form>
-
-          <hr/>
+            <h3> Choose file to send to IPFS </h3>
+            <Form onSubmit={this.onSubmit}>
+                <div className="form-group">
+                    <input 
+                        type = "text"
+                        className="form-control"
+                        onChange={this.handleChange}
+                        placeholder="Enter Drone Corridor Name"
+                    />
+                    <input 
+                        type = "file"
+                        className="form-control-file"
+                        onChange = {this.captureFile}
+                    />
+                </div>
+                <Button 
+                    bsStyle="primary" 
+                    type="submit"
+                > 
+                    Send it 
+                </Button>
+            </Form>
+            <hr/>
             <Button 
-              className="btn btn-success"
-              onClick = {this.onClick}
+                className="btn btn-success"
+                onClick = {this.onClick}
             > 
-              Get Transaction Receipt 
+                Get Transaction Receipt 
             </Button>
             <hr/>
-              <Table bordered responsive>
+            <Table bordered responsive>
+    <thead>
+    <tr>
+    <th>Tx Receipt Category</th>
+    <th>Values</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr>
+    <td>IPFS Hash # stored on Eth Contract</td>
+    <td>{this.state.ipfsHash}</td>
+    </tr>
+    <tr>
+    <td>Ethereum Contract Address</td>
+    <td>{this.state.ethAddress}</td>
+    </tr>
+
+    <tr>
+    <td>Tx Hash # </td>
+    <td>{this.state.transactionHash}</td>
+    </tr>
+
+    <tr>
+    <td>Block Number # </td>
+    <td>{this.state.blockNumber}</td>
+    </tr>
+
+    <tr>
+    <td>Gas Used</td>
+    <td>{this.state.gasUsed}</td>
+    </tr>                
+    </tbody>
+            </Table>
+            <hr/>
+            <Table bordered responsive>
                 <thead>
-                  <tr>
-                    <th>Tx Receipt Category</th>
-                    <th>Values</th>
-                  </tr>
+                    <tr>
+                        <th>Corridor</th>
+                        <th>Certificate on Blockchain</th>
+                        <th>Hash</th>
+                    </tr>
                 </thead>
-               
+
                 <tbody>
-                  <tr>
-                    <td>IPFS Hash # stored on Eth Contract</td>
-                    <td>{this.state.ipfsHash}</td>
-                  </tr>
-                  <tr>
-                    <td>Ethereum Contract Address</td>
-                    <td>{this.state.ethAddress}</td>
-                  </tr>
-
-                  <tr>
-                    <td>Tx Hash # </td>
-                    <td>{this.state.transactionHash}</td>
-                  </tr>
-
-                  <tr>
-                    <td>Block Number # </td>
-                    <td>{this.state.blockNumber}</td>
-                  </tr>
-
-                  <tr>
-                    <td>Gas Used</td>
-                    <td>{this.state.gasUsed}</td>
-                  </tr>                
+                    {
+                        this.state.ethCertificates.map(certificate => {
+                            return this.getCertificateTableRows(certificate["0"],certificate["1"])     
+                        }) 
+                        
+                    }
                 </tbody>
             </Table>
         </Grid>
-     </div>
-      );
-    } //render
+    </div>
+    );
+} //render
 }
 
 export default App;
