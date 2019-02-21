@@ -109,6 +109,10 @@ class App extends Component {
         }) //await ipfs.add 
     }; //onSubmit 
 
+    generateLink = hash => {
+        return 'https://etherscan.io/tx/' + hash
+    }
+
 render() {
 
   return (
@@ -176,6 +180,14 @@ render() {
     <td>{this.state.transactionHash}</td>
     </tr>
 
+    <tr>
+    <td>Etherscan Link </td>
+    {
+
+    }
+    <td><a href={this.generateLink(this.state.transactionHash)}>{this.state.transactionHash=='' ? '' : 'Link' }</a></td>
+    </tr>
+    
     <tr>
     <td>Block Number # </td>
     <td>{this.state.blockNumber}</td>
