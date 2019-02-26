@@ -1,9 +1,13 @@
-import {Table, Grid, Button, Form } from 'react-bootstrap';
 import React, { Component } from 'react';
 import './App.css';
-import web3 from './web3.js';
-import ipfs from './ipfs.js';
-import storehashes from './storehashes.js';
+import web3 from './utils/web3.js';
+import ipfs from './utils/ipfs.js';
+import storehashes from './utils/storehashes.js';
+
+// Material UI Imports:
+import ButtonAppBar from './components/ButtonAppBar';
+import Jumbotron from './components/Jumbotron';
+import Blog from './components/Blog';
 
 class App extends Component {
 
@@ -117,18 +121,11 @@ render() {
 
   return (
     <div className="App">
-
-        <Grid>
-            <header className="App-header">
-                <h1>Ethereum and InterPlanetary File System (IPFS)</h1>
-            </header>
-            <p>
-                This application uploads a file to IPFS.  Once IPFS returns a hash the hash is stored as a string on the Ethereum blockchain.
-            </p>
-            <hr />
-
+            <ButtonAppBar />
+            {/* <Jumbotron /> */}
+            <Blog/>
             <h3> Choose file to send to IPFS </h3>
-            <Form onSubmit={this.onSubmit}>
+            <form onSubmit={this.onSubmit}>
                 <div className="form-group">
                     <input 
                         type = "text"
@@ -142,22 +139,22 @@ render() {
                         onChange = {this.captureFile}
                     />
                 </div>
-                <Button 
+                <button 
                     bsStyle="primary" 
                     type="submit"
                 > 
                     Send it 
-                </Button>
-            </Form>
+                </button>
+            </form>
             <hr/>
-            <Button 
+            <button 
                 className="btn btn-success"
                 onClick = {this.onClick}
             > 
                 Get Transaction Receipt 
-            </Button>
+            </button>
             <hr/>
-            <Table bordered responsive>
+            <table bordered responsive>
     <thead>
     <tr>
     <th>Tx Receipt Category</th>
@@ -185,7 +182,7 @@ render() {
     {
 
     }
-    <td><a href={this.generateLink(this.state.transactionHash)}>{this.state.transactionHash=='' ? '' : 'Link' }</a></td>
+    <td><a href={this.generateLink(this.state.transactionHash)}>{this.state.transactionHash === '' ? '' : 'Link' }</a></td>
     </tr>
     
     <tr>
@@ -198,9 +195,9 @@ render() {
     <td>{this.state.gasUsed}</td>
     </tr>                
     </tbody>
-            </Table>
+            </table>
             <hr/>
-            <Table bordered responsive>
+            <table>
                 <thead>
                     <tr>
                         <th>Corridor</th>
@@ -217,8 +214,7 @@ render() {
                         
                     }
                 </tbody>
-            </Table>
-        </Grid>
+            </table>
     </div>
     );
 } //render
