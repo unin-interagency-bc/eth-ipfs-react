@@ -6,7 +6,6 @@ import storehashes from './utils/storehashes.js';
 
 // Material UI Imports:
 import ButtonAppBar from './components/ButtonAppBar';
-import Jumbotron from './components/Jumbotron';
 import Blog from './components/Blog';
 
 class App extends Component {
@@ -122,7 +121,6 @@ render() {
   return (
     <div className="App">
             <ButtonAppBar />
-            {/* <Jumbotron /> */}
             <Blog/>
             <h3> Choose file to send to IPFS </h3>
             <form onSubmit={this.onSubmit}>
