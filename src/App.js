@@ -24,7 +24,7 @@ class App extends Component {
         certCount: ''
     };    
     componentWillMount = () => {
-        this.getCertificatesFromBlockchain()
+        // this.getCertificatesFromBlockchain()
     }
 
     handleChange = event => {
@@ -65,33 +65,6 @@ class App extends Component {
             console.log(error);
         } //catch
     } //onClick
-
-    getCertificateTableRows = (country, hash) => {
-        const ipfsLink = 'https://ipfs.io/ipfs/' + hash
-        return(
-            <tr>
-                <td>{country}</td>
-                <td><a href={ipfsLink}>File on IPFS</a></td>
-                <td>{hash}</td>
-            </tr>
-        )
-    }
-    getCertificatesFromBlockchain = async () => {
-        const accounts = await web3.eth.getAccounts();
-        storehashes.methods._getOwnerCount().call({
-                from: accounts[0]
-            }, (error, response) => {
-                console.log(response);
-                this.setState({certCount: response})
-                for(let i = 0; i < this.state.certCount; i++){
-                    storehashes.methods._getCert(i).call()
-                    .then(cert => {
-                        this.setState({ ethCertificates: [...this.state.ethCertificates, cert] })
-
-                    })
-                }
-            });
-    }
     onSubmit = async (event) => {
         event.preventDefault();
 
@@ -112,9 +85,7 @@ class App extends Component {
         }) //await ipfs.add 
     }; //onSubmit 
 
-    generateLink = hash => {
-        return 'https://etherscan.io/tx/' + hash
-    }
+    
 
 render() {
 
@@ -138,7 +109,6 @@ render() {
                     />
                 </div>
                 <button 
-                    bsStyle="primary" 
                     type="submit"
                 > 
                     Send it 
@@ -152,70 +122,47 @@ render() {
                 Get Transaction Receipt 
             </button>
             <hr/>
-            <table bordered responsive>
-    <thead>
-    <tr>
-    <th>Tx Receipt Category</th>
-    <th>Values</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    <tr>
-    <td>IPFS Hash # stored on Eth Contract</td>
-    <td>{this.state.ipfsHash}</td>
-    </tr>
-    <tr>
-    <td>Ethereum Contract Address</td>
-    <td>{this.state.ethAddress}</td>
-    </tr>
-
-    <tr>
-    <td>Tx Hash # </td>
-    <td>{this.state.transactionHash}</td>
-    </tr>
-
-    <tr>
-    <td>Etherscan Link </td>
-    {
-
-    }
-    <td><a href={this.generateLink(this.state.transactionHash)}>{this.state.transactionHash === '' ? '' : 'Link' }</a></td>
-    </tr>
-    
-    <tr>
-    <td>Block Number # </td>
-    <td>{this.state.blockNumber}</td>
-    </tr>
-
-    <tr>
-    <td>Gas Used</td>
-    <td>{this.state.gasUsed}</td>
-    </tr>                
-    </tbody>
-            </table>
-            <hr/>
             <table>
                 <thead>
                     <tr>
-                        <th>Corridor</th>
-                        <th>Certificate on Blockchain</th>
-                        <th>Hash</th>
+                        <th>Tx Receipt Category</th>
+                        <th>Values</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    {
-                        this.state.ethCertificates.map(certificate => {
-                            return this.getCertificateTableRows(certificate["0"],certificate["1"])     
-                        }) 
-                        
-                    }
+                    <tr>
+                        <td>IPFS Hash # stored on Eth Contract</td>
+                        <td>{this.state.ipfsHash}</td>
+                    </tr>
+                    <tr>
+                        <td>Ethereum Contract Address</td>
+                        <td>{this.state.ethAddress}</td>
+                    </tr>
+
+                    <tr>
+                        <td>Tx Hash # </td>
+                        <td>{this.state.transactionHash}</td>
+                    </tr>
+
+                    <tr>
+                        <td>Etherscan Link</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>Block Number # </td>
+                        <td>{this.state.blockNumber}</td>
+                    </tr>
+                    <tr>
+                        <td>Gas Used</td>
+                        <td>{this.state.gasUsed}</td>
+                    </tr>                
                 </tbody>
             </table>
-    </div>
-    );
-} //render
+            <hr/>
+        </div>
+        );
+    } //render
 }
 
 export default App;

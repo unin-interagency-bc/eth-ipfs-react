@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import Link from '@material-ui/core/Link';
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
@@ -14,6 +15,9 @@ import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
+
+import web3 from '../utils/web3.js';
+import storehashes from '../utils/storehashes.js';
 
 const actionsStyles = theme => ({
   root: {
@@ -115,26 +119,43 @@ const styles = theme => ({
 
 class CertificateTable extends React.Component {
   state = {
-    // rows: [
-    //   createData('Cupcake', 305, 3.7),
-    //   createData('Donut', 452, 25.0),
-    //   createData('Eclair', 262, 16.0),
-    //   createData('Frozen yoghurt', 159, 6.0),
-    //   createData('Gingerbread', 356, 16.0),
-    //   createData('Honeycomb', 408, 3.2),
-    //   createData('Ice cream sandwich', 237, 9.0),
-    //   createData('Jelly Bean', 375, 0.0),
-    //   createData('KitKat', 518, 26.0),
-    //   createData('Lollipop', 392, 0.2),
-    //   createData('Marshmallow', 318, 0),
-    //   createData('Nougat', 360, 19.0),
-    //   createData('Oreo', 437, 18.0),
-    // ].sort((a, b) => (a.calories < b.calories ? -1 : 1)),
-    rows: [],
     page: 0,
     rowsPerPage: 5,
+    ethCertificates: [],
   };
-
+  componentWillMount = () => {
+    this.getCertificatesFromBlockchain()
+  }
+  getCertificatesFromBlockchain = async () => {
+    console.log('1')
+    const accounts = await web3.eth.getAccounts();
+    storehashes.methods._getOwnerCount().call({
+            from: accounts[0]
+            // from: '0x9b43c8ed1bb9d02fbf47c81ea80b62dbe18d7362' // Will have to hard code (or from process.env) get the address that we used to deploy certificates
+        }, (error, response) => {
+            console.log(response);
+            this.setState({certCount: response})
+            for(let i = 0; i < this.state.certCount; i++){
+                storehashes.methods._getCert(i).call()
+                .then(cert => {
+                    this.setState({ ethCertificates: [...this.state.ethCertificates, cert] })
+  
+                })
+            }
+        });
+    }
+  
+    getCertificateTableRows = (country, hash) => {
+      console.log('2')
+      const ipfsLink = 'https://ipfs.io/ipfs/' + hash
+      return(
+          <tr>
+              <td>{country}</td>
+              <td><a href={ipfsLink}>File on IPFS</a></td>
+              <td>{hash}</td>
+          </tr>
+      )
+  }
   handleChangePage = (event, page) => {
     this.setState({ page });
   };
@@ -145,8 +166,8 @@ class CertificateTable extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { rows, rowsPerPage, page } = this.state;
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+    const { ethCertificates, rowsPerPage, page } = this.state;
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, ethCertificates.length - page * rowsPerPage);
 
     return (
       <Card className={classes.root}>
@@ -160,13 +181,14 @@ class CertificateTable extends React.Component {
             </TableRow>
             </TableHead>
             <TableBody>
-              {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => (
+              {ethCertificates.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => (
+                // <TableRow key={row.id}>
                 <TableRow key={row.id}>
                   <TableCell component="th" scope="row">
-                    {row.name}
+                    {row["0"]}
                   </TableCell>
-                  <TableCell align="right">{row.calories}</TableCell>
-                  <TableCell align="right">{row.fat}</TableCell>
+                  <TableCell>{row["1"]}</TableCell>
+                  <TableCell><Link href={'https://ipfs.io/ipfs/' + row["1"]}>IPFS Link</Link></TableCell>
                 </TableRow>
               ))}
               {emptyRows > 0 && (
@@ -180,7 +202,7 @@ class CertificateTable extends React.Component {
                 <TablePagination
                   rowsPerPageOptions={[5, 10, 25]}
                   colSpan={3}
-                  count={rows.length}
+                  count={ethCertificates.length}
                   rowsPerPage={rowsPerPage}
                   page={page}
                   SelectProps={{

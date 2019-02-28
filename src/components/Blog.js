@@ -1,11 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Link from '@material-ui/core/Link';
 import { withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import SearchIcon from '@material-ui/icons/Search';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
@@ -13,13 +9,9 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Hidden from '@material-ui/core/Hidden';
-import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
-import Markdown from './Markdown';
 import CertificateTable from './CertificateTable';
-// import post1 from './blog-post.1.md';
-// import post2 from './blog-post.2.md';
-// import post3 from './blog-post.3.md';
+import TwitterFeed from './TwitterFeed'
 
 const styles = theme => ({
   layout: {
@@ -91,13 +83,6 @@ const styles = theme => ({
   },
 });
 
-const sections = [
-  'Introduction',
-  'Twitter Feed',
-  'Blog',
-  'Certificates'
-];
-
 const featuredPosts = [
   {
     title: 'Featured post',
@@ -132,49 +117,28 @@ const archives = [
 
 const social = ['GitHub', 'Twitter', 'Facebook'];
 
-function Blog(props) {
+function Blog (props) {
+
   const { classes } = props;
 
   return (
     <React.Fragment>
       <CssBaseline />
       <div className={classes.layout}>
-        {/* <Toolbar className={classes.toolbarMain}>
-          <Button size="small">Office of Innovation</Button>
-          <Typography
-            component="h2"
-            variant="h5"
-            color="inherit"
-            align="center"
-            noWrap
-            className={classes.toolbarTitle}
-          >
-            UNICEF Drone Corridor Certificates
-          </Typography>
-          <IconButton>
-            <SearchIcon />
-          </IconButton>
-        </Toolbar>
-        <Toolbar variant="dense" className={classes.toolbarSecondary}>
-          {sections.map(section => (
-            <Typography color="inherit" noWrap key={section}>
-              {section}
-            </Typography>
-          ))}
-        </Toolbar> */}
         <br/>
         <main>
           {/* Main featured post */}
           <Paper className={classes.mainFeaturedPost}>
             <Grid container>
-              <Grid item md={6}>
+              <Grid item md={8}>
                 <div className={classes.mainFeaturedPostContent}>
                   <Typography component="h1" variant="h3" color="inherit" gutterBottom>
-                    Title of a longer featured blog post
+                    Drone Corridor
                   </Typography>
                   <Typography variant="h5" color="inherit" paragraph>
-                    Multiple lines of text that form the lede, informing new readers quickly and
-                    efficiently about what&apos;s most interesting in this post&apos;s contents…
+                    A Drone Corridor is a place where drones can be tested for humanitarian purposes.  It provides a controlled platform for the private sector, universities and other partners to explore how drones, also known as unmanned aerial vehicles (UAVs), can help deliver services that benefit communities and schools. 
+                    <br/><br/>The goal? Help the poorest and hardest to reach families around the world. The choice of location for the corridor will allow companies to test drones in a rural setting with a variety of landscape and several remote areas, where health clinics and schools struggle with transportation and mobile reception. 
+                    <br/><br/>The UNICEF Drone Corridor issues certificates on the Ethereum blockchain.  The certificates represent a successful pilot within a Drone Corridor.
                   </Typography>
                 </div>
               </Grid>
@@ -214,43 +178,31 @@ function Blog(props) {
             ))}
           </Grid>
           {/* End sub featured posts */}
-          <Grid container spacing={40} className={classes.mainGrid}>
+          <Grid container spacing={24} className={classes.mainGrid}>
             {/* Main content */}
-            <Grid item xs={12} md={8}>
+            <Grid item xs={12} sm={12} md={8} lg={8}>
               <Typography variant="h6" gutterBottom>
                 Newest Certificates
               </Typography>
               <Divider />
-              {/* {posts.map(post => (
-                <Markdown className={classes.markdown} key={post.substring(0, 40)}>
-                  {post}
-                </Markdown>
-              ))} */}
               <CertificateTable />
+              <Typography variant="h6" gutterBottom className={classes.sidebarSection}>
+                  Archives
+                </Typography>
+                {archives.map(archive => (
+                  <Typography key={archive}>{archive}</Typography>
+                ))}
+                <Typography variant="h6" gutterBottom className={classes.sidebarSection}>
+                  Social
+                </Typography>
+                {social.map(network => (
+                  <Typography key={network}>{network}</Typography>
+                ))}
             </Grid>
             {/* End main content */}
             {/* Sidebar */}
-            <Grid item xs={12} md={4}>
-              <Paper elevation={0} className={classes.sidebarAboutBox}>
-                <Typography variant="h5" color='white' className={classes.twitterBox} gutterBottom>
-                  Tweets by:<Link href={'https://twitter.com/UNICEFinnovate'} className={classes.link}>@UNICEFinnovate</Link>
-                </Typography>
-                <Typography className={classes.twitterBox}>
-                
-                </Typography>
-              </Paper>
-              <Typography variant="h6" gutterBottom className={classes.sidebarSection}>
-                Archives
-              </Typography>
-              {archives.map(archive => (
-                <Typography key={archive}>{archive}</Typography>
-              ))}
-              <Typography variant="h6" gutterBottom className={classes.sidebarSection}>
-                Social
-              </Typography>
-              {social.map(network => (
-                <Typography key={network}>{network}</Typography>
-              ))}
+            <Grid item xs={4} sm={4} md={4} lg={4}>
+              <TwitterFeed />
             </Grid>
             {/* End sidebar */}
           </Grid>

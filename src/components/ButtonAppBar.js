@@ -4,15 +4,12 @@ import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-
-
 
 const theme = createMuiTheme({
   palette: {
@@ -21,7 +18,6 @@ const theme = createMuiTheme({
           '& *': {
             color: 'white',
           }
-          
       },
       text: '#FFFFFF'
     },
@@ -98,7 +94,7 @@ function ButtonAppBar(props) {
           </Typography>
           <div className={classes.search}>
               <div className={classes.searchIcon}>
-                <SearchIcon color='pun' />
+                <SearchIcon />
               </div>
               <InputBase disabled
                 placeholder="Search…"
@@ -108,7 +104,6 @@ function ButtonAppBar(props) {
                 }}
               />
             </div>
-          {/* <Button color="inherit">Login</Button> */}
         </Toolbar>
       </AppBar>
     </div>

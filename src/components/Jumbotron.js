@@ -33,14 +33,14 @@ function Jumbotron(props) {
             </Grid>  
             <Grid item xs = {8}>
                 <Card className={classes.Card}>
-                    <Typography variant="p" color="black" className={classes.grow}>
-                        A Drone Corridor is a place where drones can be tested for humanitarian purposes.  It provides a controlled platform for the private sector, universities and other partners to explore how drones, also known as unmanned aerial vehicles (UAVs), can help deliver services that benefit communities and schools.
+                    <Typography variant="body1" color="black" className={classes.grow}>
+                        
                     </Typography><br/>   
-                    <Typography variant="p" color="black" className={classes.grow}>
-                    The goal? Help the poorest and hardest to reach families around the world. The choice of location for the corridor will allow companies to test drones in a rural setting with a variety of landscape and several remote areas, where health clinics and schools struggle with transportation and mobile reception.
+                    <Typography variant="body1" color="black" className={classes.grow}>
+                    
                     </Typography><br/>           
-                    <Typography variant="p" color="black" className={classes.grow}>
-                        The UNICEF Drone Corridor issues certificates on the Ethereum blockchain.  The certificates represent a successful pilot within a Drone Corridor.
+                    <Typography variant="body1" color="black" className={classes.grow}>
+                        
                     </Typography>                
                 </Card>
                 <br/>
@@ -58,13 +58,13 @@ function Jumbotron(props) {
                     </Typography>
                 </Card>
                 <Card className={classes.Card}>
-                    <Typography variant="p" color="black" className={classes.grow}>
+                    <Typography variant="body1" color="black" className={classes.grow}>
                         A Drone Corridor is a place where drones can be tested for humanitarian purposes.  It provides a controlled platform for the private sector, universities and other partners to explore how drones, also known as unmanned aerial vehicles (UAVs), can help deliver services that benefit communities and schools.
                     </Typography><br/>   
-                    <Typography variant="p" color="black" className={classes.grow}>
+                    <Typography variant="body1" color="black" className={classes.grow}>
                     The goal? Help the poorest and hardest to reach families around the world. The choice of location for the corridor will allow companies to test drones in a rural setting with a variety of landscape and several remote areas, where health clinics and schools struggle with transportation and mobile reception.
                     </Typography><br/>           
-                    <Typography variant="p" color="black" className={classes.grow}>
+                    <Typography variant="body1" color="black" className={classes.grow}>
                         The UNICEF Drone Corridor issues certificates on the Ethereum blockchain.  The certificates represent a successful pilot within a Drone Corridor.
                     </Typography>                
                 </Card>
