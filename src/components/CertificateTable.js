@@ -175,9 +175,12 @@ class CertificateTable extends React.Component {
           <Table className={classes.table}>
             <TableHead>
             <TableRow>
-                <TableCell>Corridor</TableCell>
-                <TableCell>Hash</TableCell>
-                <TableCell>Certificate on Blockchain</TableCell>
+                <TableCell>Company Name</TableCell>
+                <TableCell>Country</TableCell>
+                {/* <TableCell>Hash</TableCell> */}
+                <TableCell>Date of Participation</TableCell>
+                <TableCell>Valid Certificate</TableCell>
+                <TableCell>Confirmed</TableCell>
             </TableRow>
             </TableHead>
             <TableBody>
@@ -185,10 +188,17 @@ class CertificateTable extends React.Component {
                 // <TableRow key={row.id}>
                 <TableRow key={row.id}>
                   <TableCell component="th" scope="row">
+                    {row["2"]}
+                  </TableCell>
+                  <TableCell component="th" scope="row">
                     {row["0"]}
                   </TableCell>
-                  <TableCell>{row["1"]}</TableCell>
-                  <TableCell><Link href={'https://ipfs.io/ipfs/' + row["1"]}>IPFS Link</Link></TableCell>
+                  <TableCell component="th" scope="row">
+                    {row["3"]}
+                  </TableCell>
+                  {/* <TableCell>{row["1"]}</TableCell> */}
+                  <TableCell><Link href={'https://ipfs.io/ipfs/' + row["1"]}>Link</Link></TableCell>
+                  <TableCell><i style={{color:'green'}} class="fas fa-check-circle"></i></TableCell>
                 </TableRow>
               ))}
               {emptyRows > 0 && (

@@ -8,21 +8,21 @@ import Typography from '@material-ui/core/Typography';
 import Tweet from './Tweet';
 
 const styles = theme => ({
-  layout: {
-    width: 'auto',
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
-    [theme.breakpoints.up(1100 + theme.spacing.unit * 3 * 2)]: {
-      // width: 1100,
-      marginLeft: 'auto',
-      marginRight: 'auto',
-    },
-  },
+  // layout: {
+  //   width: 'auto',
+  //   marginLeft: theme.spacing.unit * 3,
+  //   marginRight: theme.spacing.unit * 3,
+  //   [theme.breakpoints.up(1100 + theme.spacing.unit * 3 * 2)]: {
+  //     // width: 1100,
+  //     marginLeft: 'auto',
+  //     marginRight: 'auto',
+  //   },
+  // },
   toolbarMain: {
     borderBottom: `1px solid #00AEFD`,
   },
   toolbarTitle: {
-    flex: 1,
+    // flex: 1,
   },
   toolbarSecondary: {
     justifyContent: 'space-between',
@@ -43,7 +43,7 @@ const styles = theme => ({
     // backgroundColor: '#00AEFD',
   },
   mainGrid: {
-    marginTop: theme.spacing.unit * 3,
+    // marginTop: theme.spacing.unit * 3,
   },
   card: {
     display: 'flex',
@@ -59,7 +59,6 @@ const styles = theme => ({
   },
   sidebarAboutBox: {
     padding: theme.spacing.unit * 2,
-    // backgroundColor: theme.palette.grey[800],
     backgroundColor: '#00AEFD',
     color: theme.palette.common.white,
   },
@@ -77,23 +76,6 @@ const styles = theme => ({
   },
 });
 
-const archives = [
-  'March 2020',
-  'February 2020',
-  'January 2020',
-  'December 2019',
-  'November 2019',
-  'October 2019',
-  'September 2019',
-  'August 2019',
-  'July 2019',
-  'June 2019',
-  'May 2019',
-  'April 2019',
-];
-
-const social = ['GitHub', 'Twitter', 'Facebook'];
-
 class TwitterFeed extends React.Component {
   
   state = {
@@ -101,7 +83,6 @@ class TwitterFeed extends React.Component {
   }
 
   getTweets() {
-    console.log('Hi there')
     fetch('/getTweets', 
     {
       method: 'GET'
@@ -113,8 +94,6 @@ class TwitterFeed extends React.Component {
       return response.json()
     })
     .then(data => {
-      console.log(3)
-      console.log(data)
       this.setState({tweets: data})
     })
     .catch(err => {
@@ -128,7 +107,6 @@ class TwitterFeed extends React.Component {
 
   render() {
     const { classes } = this.props;
-    // console.log(this.state.tweets)
     const tweets  = this.state.tweets
     return (
       <React.Fragment>

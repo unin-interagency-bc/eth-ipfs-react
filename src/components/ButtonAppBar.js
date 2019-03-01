@@ -90,7 +90,7 @@ function ButtonAppBar(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.grow}>
-            UNICEF Drone Corridor
+            UNICEF Innovation
           </Typography>
           <div className={classes.search}>
               <div className={classes.searchIcon}>

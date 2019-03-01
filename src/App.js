@@ -20,6 +20,8 @@ class App extends Component {
         txReceipt: '',
 
         droneCorridorName: '', // Will store the name of the drone corridor being passed in
+        date: '',
+        companyName:'',
         ethCertificates: [], // Will store objects (country and string),
         certCount: ''
     };    
@@ -27,11 +29,23 @@ class App extends Component {
         // this.getCertificatesFromBlockchain()
     }
 
-    handleChange = event => {
+    handleChangeCorridor = event => {
         event.stopPropagation()
         event.preventDefault()
         console.log(event.target.value)
         this.setState({droneCorridorName: event.target.value});
+    }
+    handleChangeDate = event => {
+        event.stopPropagation()
+        event.preventDefault()
+        console.log(event.target.value)
+        this.setState({date: event.target.value});
+    }
+    handleChangeCompany = event => {
+        event.stopPropagation()
+        event.preventDefault()
+        console.log(event.target.value)
+        this.setState({companyName: event.target.value});
     }
 
     captureFile = event => {
@@ -76,7 +90,13 @@ class App extends Component {
         await ipfs.add(this.state.buffer, (err, ipfsHash) => {
             console.log(err,ipfsHash);
             this.setState({ ipfsHash:ipfsHash[0].hash });
-            storehashes.methods._createCert(this.state.droneCorridorName, this.state.ipfsHash).send({
+            storehashes.methods._createCert(
+                this.state.droneCorridorName, 
+                this.state.ipfsHash,
+                this.state.companyName,
+                this.state.date
+                
+                ).send({
                 from: accounts[0]
             }, (error, transactionHash) => {
                 console.log(transactionHash);
@@ -99,9 +119,21 @@ render() {
                     <input 
                         type = "text"
                         className="form-control"
-                        onChange={this.handleChange}
-                        placeholder="Enter Drone Corridor Name"
+                        onChange={this.handleChangeCorridor}
+                        placeholder="Enter Drone Corridor Name (country)"
                     />
+                    <input 
+                        type = "date"
+                        className="form-control"
+                        onChange={this.handleChangeDate}
+                        placeholder="Enter Date"
+                    />
+                    <input 
+                        type = "text"
+                        className="form-control"
+                        onChange={this.handleChangeCompany}
+                        placeholder="Enter Company Name"
+                    />                    
                     <input 
                         type = "file"
                         className="form-control-file"
