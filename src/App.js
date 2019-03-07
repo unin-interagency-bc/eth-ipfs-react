@@ -113,7 +113,7 @@ render() {
     <div className="App">
             <ButtonAppBar />
             <Blog/>
-            <h3> Choose file to send to IPFS </h3>
+            {/* <h3> Choose file to send to IPFS </h3>
             <form onSubmit={this.onSubmit}>
                 <div className="form-group">
                     <input 
@@ -190,7 +190,7 @@ render() {
                         <td>{this.state.gasUsed}</td>
                     </tr>                
                 </tbody>
-            </table>
+            </table> */}
             <hr/>
         </div>
         );

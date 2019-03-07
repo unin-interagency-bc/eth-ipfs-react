@@ -19,6 +19,7 @@ import LastPageIcon from '@material-ui/icons/LastPage';
 import web3 from '../utils/web3.js';
 import storehashes from '../utils/storehashes.js';
 
+
 const actionsStyles = theme => ({
   root: {
     flexShrink: 0,
@@ -134,7 +135,8 @@ class CertificateTable extends React.Component {
     // const accounts = await web3.eth.getAccounts();
     storehashes.methods._getOwnerCount().call({
             // from: accounts[0]
-            from: process.env.BLOCKCHAIN_CONTRACT_SENDER // Will have to hard code (or from process.env) get the address that we used to deploy certificates
+            // from: process.env.BLOCKCHAIN_CONTRACT_SENDER // Will have to hard code (or from process.env) get the address that we used to deploy certificates
+            from: "0x49880bae91e8bc7129a08cfdef089888d6eeb006"
         }, (error, response) => {
             console.log(response);
             this.setState({certCount: response})
@@ -201,7 +203,7 @@ class CertificateTable extends React.Component {
                   </TableCell>
                   {/* <TableCell>{row["1"]}</TableCell> */}
                   <TableCell className={classes.tablecell} ><Link href={'https://ipfs.io/ipfs/' + row["1"]}>Link</Link></TableCell>
-                  <TableCell className={classes.tablecell} ><i style={{color:'green'}} class="fas fa-check-circle"></i></TableCell>
+                  <TableCell className={classes.tablecell} ><i style={{color:'green'}} className="fas fa-check-circle"></i></TableCell>
                 </TableRow>
               ))}
               {emptyRows > 0 && (

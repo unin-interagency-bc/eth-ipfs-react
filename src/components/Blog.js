@@ -154,7 +154,7 @@ function Blog (props) {
             <Grid item xs={12} md={12}>
               <Paper >
                  <Grid item md={12}>
-                   <Grid className={classes.featuredPostTitle} md={12}>
+                   <Grid className={classes.featuredPostTitle} >
                      <Typography component="h3" variant="h4" color="inherit" gutterBottom>
                      Contract on Etherscan
                      </Typography>
@@ -162,9 +162,13 @@ function Blog (props) {
                        <Link href='https://etherscan.io/address/0x87f74b6d00dd8bd8ff6e3b805bda09ca34390258'>View the smart contract on Etherscan</Link>
                      </Typography>
                    </Grid>
-                   {/* <Grid md={6} className={classes.featuredPostTitle}>
-            
-                   </Grid> */}
+                   <Grid item md={12} className={classes.mainFeaturedPostContent}>
+                   <Typography variant="body1" color="inherit" style={{fontSize:'120%'}}paragraph>
+                     UNICEF Innovation is leveraging blockchain to issue certificates to Drone Corridor participants.  These certificates will belong to the recipients forever and they can be shared and verified with blockchain.<br/><br/>
+                     The authentic certificate issued by UNICEF will start a trail of tamper-proof and immutable credentials for the participant. The time-stamped certificate will enable participants to store, share and verify their qualifications to whomever.  Participants will no longer  have to go through an intermediary with cumbersome and expensive processes to share and validate achievements and certifications with third parties.<br/><br/>
+                     The certifications will be auditable through this <Link href='https://etherscan.io/address/0x87f74b6d00dd8bd8ff6e3b805bda09ca34390258'>smart contract</Link>.
+                    </Typography>
+                   </Grid>
                  </Grid>
              </Paper>
 
