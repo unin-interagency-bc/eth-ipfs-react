@@ -1,9 +1,12 @@
-import {Table, Grid, Button, Form } from 'react-bootstrap';
 import React, { Component } from 'react';
 import './App.css';
-import web3 from './web3.js';
-import ipfs from './ipfs.js';
-import storehashes from './storehashes.js';
+import web3 from './utils/web3.js';
+import ipfs from './utils/ipfs.js';
+import storehashes from './utils/storehashes.js';
+
+// Material UI Imports:
+import ButtonAppBar from './components/ButtonAppBar';
+import Blog from './components/Blog';
 
 class App extends Component {
 
@@ -17,18 +20,32 @@ class App extends Component {
         txReceipt: '',
 
         droneCorridorName: '', // Will store the name of the drone corridor being passed in
+        date: '',
+        companyName:'',
         ethCertificates: [], // Will store objects (country and string),
         certCount: ''
     };    
     componentWillMount = () => {
-        this.getCertificatesFromBlockchain()
+        // this.getCertificatesFromBlockchain()
     }
 
-    handleChange = event => {
+    handleChangeCorridor = event => {
         event.stopPropagation()
         event.preventDefault()
         console.log(event.target.value)
         this.setState({droneCorridorName: event.target.value});
+    }
+    handleChangeDate = event => {
+        event.stopPropagation()
+        event.preventDefault()
+        console.log(event.target.value)
+        this.setState({date: event.target.value});
+    }
+    handleChangeCompany = event => {
+        event.stopPropagation()
+        event.preventDefault()
+        console.log(event.target.value)
+        this.setState({companyName: event.target.value});
     }
 
     captureFile = event => {
@@ -62,33 +79,6 @@ class App extends Component {
             console.log(error);
         } //catch
     } //onClick
-
-    getCertificateTableRows = (country, hash) => {
-        const ipfsLink = 'https://ipfs.io/ipfs/' + hash
-        return(
-            <tr>
-                <td>{country}</td>
-                <td><a href={ipfsLink}>File on IPFS</a></td>
-                <td>{hash}</td>
-            </tr>
-        )
-    }
-    getCertificatesFromBlockchain = async () => {
-        const accounts = await web3.eth.getAccounts();
-        storehashes.methods._getOwnerCount().call({
-                from: accounts[0]
-            }, (error, response) => {
-                console.log(response);
-                this.setState({certCount: response})
-                for(let i = 0; i < this.state.certCount; i++){
-                    storehashes.methods._getCert(i).call()
-                    .then(cert => {
-                        this.setState({ ethCertificates: [...this.state.ethCertificates, cert] })
-
-                    })
-                }
-            });
-    }
     onSubmit = async (event) => {
         event.preventDefault();
 
@@ -100,7 +90,13 @@ class App extends Component {
         await ipfs.add(this.state.buffer, (err, ipfsHash) => {
             console.log(err,ipfsHash);
             this.setState({ ipfsHash:ipfsHash[0].hash });
-            storehashes.methods._createCert(this.state.droneCorridorName, this.state.ipfsHash).send({
+            storehashes.methods._createCert(
+                this.state.droneCorridorName, 
+                this.state.ipfsHash,
+                this.state.companyName,
+                this.state.date
+                
+                ).send({
                 from: accounts[0]
             }, (error, transactionHash) => {
                 console.log(transactionHash);
@@ -109,119 +105,96 @@ class App extends Component {
         }) //await ipfs.add 
     }; //onSubmit 
 
-    generateLink = hash => {
-        return 'https://etherscan.io/tx/' + hash
-    }
+    
 
 render() {
 
   return (
     <div className="App">
-
-        <Grid>
-            <header className="App-header">
-                <h1>Ethereum and InterPlanetary File System (IPFS)</h1>
-            </header>
-            <p>
-                This application uploads a file to IPFS.  Once IPFS returns a hash the hash is stored as a string on the Ethereum blockchain.
-            </p>
-            <hr />
-
-            <h3> Choose file to send to IPFS </h3>
-            <Form onSubmit={this.onSubmit}>
+            <ButtonAppBar />
+            <Blog/>
+            {/* <h3> Choose file to send to IPFS </h3>
+            <form onSubmit={this.onSubmit}>
                 <div className="form-group">
                     <input 
                         type = "text"
                         className="form-control"
-                        onChange={this.handleChange}
-                        placeholder="Enter Drone Corridor Name"
+                        onChange={this.handleChangeCorridor}
+                        placeholder="Enter Drone Corridor Name (country)"
                     />
+                    <input 
+                        type = "date"
+                        className="form-control"
+                        onChange={this.handleChangeDate}
+                        placeholder="Enter Date"
+                    />
+                    <input 
+                        type = "text"
+                        className="form-control"
+                        onChange={this.handleChangeCompany}
+                        placeholder="Enter Company Name"
+                    />                    
                     <input 
                         type = "file"
                         className="form-control-file"
                         onChange = {this.captureFile}
                     />
                 </div>
-                <Button 
-                    bsStyle="primary" 
+                <button 
                     type="submit"
                 > 
                     Send it 
-                </Button>
-            </Form>
+                </button>
+            </form>
             <hr/>
-            <Button 
+            <button 
                 className="btn btn-success"
                 onClick = {this.onClick}
             > 
                 Get Transaction Receipt 
-            </Button>
+            </button>
             <hr/>
-            <Table bordered responsive>
-    <thead>
-    <tr>
-    <th>Tx Receipt Category</th>
-    <th>Values</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    <tr>
-    <td>IPFS Hash # stored on Eth Contract</td>
-    <td>{this.state.ipfsHash}</td>
-    </tr>
-    <tr>
-    <td>Ethereum Contract Address</td>
-    <td>{this.state.ethAddress}</td>
-    </tr>
-
-    <tr>
-    <td>Tx Hash # </td>
-    <td>{this.state.transactionHash}</td>
-    </tr>
-
-    <tr>
-    <td>Etherscan Link </td>
-    {
-
-    }
-    <td><a href={this.generateLink(this.state.transactionHash)}>{this.state.transactionHash=='' ? '' : 'Link' }</a></td>
-    </tr>
-    
-    <tr>
-    <td>Block Number # </td>
-    <td>{this.state.blockNumber}</td>
-    </tr>
-
-    <tr>
-    <td>Gas Used</td>
-    <td>{this.state.gasUsed}</td>
-    </tr>                
-    </tbody>
-            </Table>
-            <hr/>
-            <Table bordered responsive>
+            <table>
                 <thead>
                     <tr>
-                        <th>Corridor</th>
-                        <th>Certificate on Blockchain</th>
-                        <th>Hash</th>
+                        <th>Tx Receipt Category</th>
+                        <th>Values</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    {
-                        this.state.ethCertificates.map(certificate => {
-                            return this.getCertificateTableRows(certificate["0"],certificate["1"])     
-                        }) 
-                        
-                    }
+                    <tr>
+                        <td>IPFS Hash # stored on Eth Contract</td>
+                        <td>{this.state.ipfsHash}</td>
+                    </tr>
+                    <tr>
+                        <td>Ethereum Contract Address</td>
+                        <td>{this.state.ethAddress}</td>
+                    </tr>
+
+                    <tr>
+                        <td>Tx Hash # </td>
+                        <td>{this.state.transactionHash}</td>
+                    </tr>
+
+                    <tr>
+                        <td>Etherscan Link</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>Block Number # </td>
+                        <td>{this.state.blockNumber}</td>
+                    </tr>
+                    <tr>
+                        <td>Gas Used</td>
+                        <td>{this.state.gasUsed}</td>
+                    </tr>                
                 </tbody>
-            </Table>
-        </Grid>
-    </div>
-    );
-} //render
+            </table> */}
+            <hr/>
+        </div>
+        );
+    } //render
 }
 
 export default App;
