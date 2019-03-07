@@ -26,26 +26,30 @@ const styles = theme => ({
       marginRight: 'auto',
     },
   },
-  toolbarMain: {
-    borderBottom: `1px solid #00AEFD`,
-  },
-  toolbarTitle: {
-    flex: 1,
-  },
-  toolbarSecondary: {
-    justifyContent: 'space-between',
-  },
   mainFeaturedPost: {
     backgroundColor: '#00AEFD',
     color: theme.palette.common.white,
+    textAlign: 'center'
     // marginBottom: theme.spacing.unit * 4,
+  },
+  featuredPostTitle: {
+    padding: `${theme.spacing.unit * 2}px`,
+    backgroundColor: '#00AEFD',
+    textAlign: 'center',
+    color: theme.palette.common.white,
   },
   mainFeaturedPostContent: {
     padding: `${theme.spacing.unit * 6}px`,
-    [theme.breakpoints.up('md')]: {
-      paddingRight: 0,
-    },
+    // [theme.breakpoints.up('md')]: {
+    //   paddingRight: 0,
+    // },
   },
+  // featuredPostTitle: {
+  //   padding: `${theme.spacing.unit * 6}px`,
+  //   // [theme.breakpoints.up('md')]: {
+  //   //   paddingRight: 0,
+  //   // },
+  // },
   twitterBox: {
     color: theme.palette.common.white,
     // backgroundColor: '#00AEFD',
@@ -55,6 +59,7 @@ const styles = theme => ({
   },
   card: {
     display: 'flex',
+    height: '150px'
   },
   cardDetails: {
     flex: 1,
@@ -106,10 +111,6 @@ const featuredPosts = [
   },
 ];
 
-// const posts = [post1, post2, post3];
-
-const social = ['GitHub', 'Twitter', 'Facebook'];
-
 function Blog (props) {
 
   const { classes } = props;
@@ -120,18 +121,25 @@ function Blog (props) {
       <br/>
       <div className = {classes.layout}>
         <Grid container spacing={24}>
+        {/* <Grid> */}
             <Grid item xs={12} md={12}>
               <Paper className={classes.mainFeaturedPost}>
-                 <Grid item md={10}>
+                 <Grid item md={12}>
                    <div className={classes.mainFeaturedPostContent}>
-                     <Typography component="h3" variant="h5" color="inherit" gutterBottom>
+                     <Typography component="h3" variant="h4" color="inherit" gutterBottom>
                      UNICEF issues certificates on the Ethereum blockchain to companies testing drones for emergency and response in Kazakhstan corridor
                      </Typography>
-                     <Typography variant="body1" color="inherit" paragraph>
-                       28 February 2019, Astana, Kazakhstan: This week, UNICEF and the Center for Emergency Situations and Disaster Risk Reduction, from the Government of Kazakhstan, conducted a training seminar on how to integrate drones as part of emergency preparedness and response efforts. 42 participants from emergency response agencies of Kazakhstan and neighboring Central Asian countries - Kyrgyzstan, Tajikistan, Turkmenistan, Uzbekistan and Afghanistan - participated in this event.
-                       <br/><br/>A large country with diverse terrain, Kazakhstan is vulnerable to nearly every type of natural disaster: floods, extreme temperature events, earthquakes, landslides, mudslides, storms and wildfires. Every year, close to 4,000 emergencies cause 3,000-5,000 injuries and claim several dozen lives. The changing climate also affects the rise of weather-related disasters.
-                       <br/><br/>One day after the training seminar, all participants traveled to the drone corridor in the Akmola province for a second round of testing, after the {<Link href='https://www.unicef.org/innovation/stories/unicef-and-government-kazakhstan-begin-test-flights-emergency-response'>initial tests</Link>} in January 22. Drones were used in search and rescue real-life scenarios, forest wildfire location and mapping in mountainous terrains for damage assessment in cases of mudslides and avalanches. Four companies from Kazakhstan ({<Link href='http://www.kazuav.kz/'>KazUAV</Link>}, UAV Service Group, AltF4, UAV Group) came to the Zhambyl district of Almaty province to show how their drones perform and can help save lives.
-                       <br/><br/>UNICEF Kazakhstan issued certificates of recognition to these drone companies. The certificates were issued in the Ethereum blockchain.
+                   </div>
+                 </Grid>
+             </Paper>
+             <Paper>
+                 <Grid item md={12}>
+                   <div className={classes.mainFeaturedPostContent}>
+                     <Typography variant="h6" color="inherit" paragraph>
+                       28 February 2019, Astana, Kazakhstan: This week, UNICEF Kazakhstan and the Center for Emergency Situations and Disaster Risk Reduction, from the Government of Kazakhstan, conducted a training seminar on how to integrate drones as part of emergency preparedness and response efforts. Forty-two participants from emergency response agencies of Kazakhstan and neighboring Central Asian countries - Kyrgyzstan, Tajikistan, Turkmenistan, Uzbekistan and Afghanistan - participated in this event.
+                       <br/><br/>Kazakhstan, a large country with diverse terrain, is vulnerable to nearly every type of natural disaster: floods, extreme temperature events, earthquakes, landslides, mudslides, storms and wildfires. Every year, close to 4,000 emergencies cause 3,000-5,000 injuries and claim several dozen lives. The changing climate also affects the rise of weather-related disasters.
+                       <br/><br/>On February 28, 2019, one day after the training seminar, all participants traveled to the drone corridor in the Akmola province for a second round of testing, following {<Link href='https://www.unicef.org/innovation/stories/unicef-and-government-kazakhstan-begin-test-flights-emergency-response'>initial tests</Link>}. Drones were used in search and rescue real-life scenarios, forest wildfire location and mapping in mountainous terrains for damage assessment in cases of mudslides and avalanches. Four companies from Kazakhstan ({<Link href='http://www.kazuav.kz/'>KazUAV</Link>}, UAV Service Group, AltF4, UAV Group) came to the Zhambyl district of Almaty province to show how their drones perform and can help save lives.
+                       <br/><br/>UNICEF Kazakhstan issued certificates of recognition to these drone companies for their participation. The certificates were issued in the Ethereum blockchain, ensuring the authenticity of the documents.
                      </Typography>
                    </div>
                  </Grid>
@@ -144,14 +152,29 @@ function Blog (props) {
               <CertificateTable/>
             </Grid>
             <Grid item xs={12} md={12}>
-              <Paper className={classes.mainFeaturedPost}>
-                 <Grid item md={10}>
-                   <div className={classes.mainFeaturedPostContent}>
-                     <Typography component="h3" variant="h5" color="inherit" gutterBottom>
+              <Paper >
+                 <Grid item md={12}>
+                   <Grid className={classes.featuredPostTitle} md={12}>
+                     <Typography component="h3" variant="h4" color="inherit" gutterBottom>
                      Contract on Etherscan
                      </Typography>
                      <Typography variant="body1" color="inherit" paragraph>
-                       <Link href='https://kovan.etherscan.io/address/0xFdF80E31D061a88F4dEA4e4A190236AD0Ff37C5A'>View the smart contract on Etherscan</Link>
+                       <Link href='https://etherscan.io/address/0x87f74b6d00dd8bd8ff6e3b805bda09ca34390258'>View the smart contract on Etherscan</Link>
+                     </Typography>
+                   </Grid>
+                   {/* <Grid md={6} className={classes.featuredPostTitle}>
+            
+                   </Grid> */}
+                 </Grid>
+             </Paper>
+
+            </Grid>
+            <Grid item xs={12} md={12}>
+              <Paper >
+                 <Grid item md={12}>
+                   <div className={classes.featuredPostTitle}>
+                     <Typography component="h3" variant="h4" color="inherit" gutterBottom>
+                     Featured Articles
                      </Typography>
                    </div>
                  </Grid>
@@ -182,10 +205,13 @@ function Blog (props) {
       </div>
        <footer className={classes.footer}>
          <Typography variant="h6" align="center" gutterBottom>
-          All UAS/drones projects tested in the corridors will abide by the UNICEF innovation principles – meaning open source, open data, shareable, designed for scale, and others.
+         All UAS/drones projects tested in the corridors will abide by the UNICEF innovation principles – meaning open source, open data, shareable, designed for scale, and others.
          </Typography>
          <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-         Companies and individuals can register their interest in using the testing corridors by completing an online form {<Link href="https://form.jotform.me/82913409891465">here</Link>}.
+          Companies and individuals can register their interest in using the testing corridors by completing an online form {<Link href="https://form.jotform.me/82913409891465">here</Link>}.
+        </Typography>
+        <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
+          For more information, contact <Link href='mailto=drones@unicef.org'>drones@unicef.org</Link> or <Link href='mailto=blockchain@unicef.org'>blockchain@unicef.org</Link>
         </Typography>
       </footer>
     </React.Fragment>

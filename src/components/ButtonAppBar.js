@@ -6,6 +6,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import Button from '@material-ui/core/Button';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import { fade } from '@material-ui/core/styles/colorManipulator';
@@ -90,7 +91,7 @@ function ButtonAppBar(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.grow}>
-            UNICEF Innovation
+            <Button href ='https://www.unicef.org/innovation/venturefund'>UNICEF Ventures</Button>
           </Typography>
           <div className={classes.search}>
               <div className={classes.searchIcon}>

@@ -110,11 +110,14 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 3,
   },
   table: {
-    minWidth: 500,
+    minWidth: 300,
   },
   tableWrapper: {
     overflowX: 'auto',
   },
+  tablecell: {
+    fontSize: '10pt'
+  }
 });
 
 class CertificateTable extends React.Component {
@@ -127,11 +130,11 @@ class CertificateTable extends React.Component {
     this.getCertificatesFromBlockchain()
   }
   getCertificatesFromBlockchain = async () => {
-    console.log('1')
-    const accounts = await web3.eth.getAccounts();
+    // console.log('1')
+    // const accounts = await web3.eth.getAccounts();
     storehashes.methods._getOwnerCount().call({
-            from: accounts[0]
-            // from: '0x9b43c8ed1bb9d02fbf47c81ea80b62dbe18d7362' // Will have to hard code (or from process.env) get the address that we used to deploy certificates
+            // from: accounts[0]
+            from: process.env.BLOCKCHAIN_CONTRACT_SENDER // Will have to hard code (or from process.env) get the address that we used to deploy certificates
         }, (error, response) => {
             console.log(response);
             this.setState({certCount: response})
@@ -146,7 +149,7 @@ class CertificateTable extends React.Component {
     }
   
     getCertificateTableRows = (country, hash) => {
-      console.log('2')
+      // console.log('2')
       const ipfsLink = 'https://ipfs.io/ipfs/' + hash
       return(
           <tr>
@@ -175,30 +178,30 @@ class CertificateTable extends React.Component {
           <Table className={classes.table}>
             <TableHead>
             <TableRow>
-                <TableCell>Company Name</TableCell>
-                <TableCell>Country</TableCell>
+                <TableCell className ={classes.tablecell}>Company Name</TableCell>
+                <TableCell className ={classes.tablecell}>Country</TableCell>
                 {/* <TableCell>Hash</TableCell> */}
-                <TableCell>Date of Participation</TableCell>
-                <TableCell>Valid Certificate</TableCell>
-                <TableCell>Confirmed</TableCell>
+                <TableCell className ={classes.tablecell}>Date of Participation</TableCell>
+                <TableCell className ={classes.tablecell}>Valid Certificate</TableCell>
+                <TableCell className ={classes.tablecell}>Confirmed</TableCell>
             </TableRow>
             </TableHead>
             <TableBody>
               {ethCertificates.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => (
                 // <TableRow key={row.id}>
                 <TableRow key={row.id}>
-                  <TableCell component="th" scope="row">
+                  <TableCell  className={classes.tablecell} component="th" scope="row">
                     {row["2"]}
                   </TableCell>
-                  <TableCell component="th" scope="row">
+                  <TableCell  className={classes.tablecell} component="th" scope="row">
                     {row["0"]}
                   </TableCell>
-                  <TableCell component="th" scope="row">
+                  <TableCell  className={classes.tablecell} component="th" scope="row">
                     {row["3"]}
                   </TableCell>
                   {/* <TableCell>{row["1"]}</TableCell> */}
-                  <TableCell><Link href={'https://ipfs.io/ipfs/' + row["1"]}>Link</Link></TableCell>
-                  <TableCell><i style={{color:'green'}} class="fas fa-check-circle"></i></TableCell>
+                  <TableCell className={classes.tablecell} ><Link href={'https://ipfs.io/ipfs/' + row["1"]}>Link</Link></TableCell>
+                  <TableCell className={classes.tablecell} ><i style={{color:'green'}} class="fas fa-check-circle"></i></TableCell>
                 </TableRow>
               ))}
               {emptyRows > 0 && (

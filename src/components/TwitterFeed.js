@@ -61,6 +61,7 @@ const styles = theme => ({
     padding: theme.spacing.unit * 2,
     backgroundColor: '#00AEFD',
     color: theme.palette.common.white,
+    textAlign: 'center'
   },
   link: {
     color: theme.palette.common.white,
