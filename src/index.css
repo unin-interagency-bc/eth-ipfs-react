@@ -1,5 +1,10 @@
+header, section, footer, aside, nav, main, article, figure {
+  display: block; 
+}
+
 body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
 }
+
