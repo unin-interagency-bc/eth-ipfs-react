@@ -8,21 +8,8 @@ import Typography from '@material-ui/core/Typography';
 import Tweet from './Tweet';
 
 const styles = theme => ({
-  // layout: {
-  //   width: 'auto',
-  //   marginLeft: theme.spacing.unit * 3,
-  //   marginRight: theme.spacing.unit * 3,
-  //   [theme.breakpoints.up(1100 + theme.spacing.unit * 3 * 2)]: {
-  //     // width: 1100,
-  //     marginLeft: 'auto',
-  //     marginRight: 'auto',
-  //   },
-  // },
   toolbarMain: {
     borderBottom: `1px solid #00AEFD`,
-  },
-  toolbarTitle: {
-    // flex: 1,
   },
   toolbarSecondary: {
     justifyContent: 'space-between',
@@ -40,10 +27,8 @@ const styles = theme => ({
   },
   twitterBox: {
     color: theme.palette.common.white,
-    // backgroundColor: '#00AEFD',
   },
   mainGrid: {
-    // marginTop: theme.spacing.unit * 3,
   },
   card: {
     display: 'flex',
