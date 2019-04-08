@@ -1,14 +1,12 @@
 const Twitter = require('twitter');
 
 module.exports = (app, io) => {
-
     let twitter = new Twitter({
         consumer_key: process.env.TWITTER_CONSUMER_KEY,
         consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
         access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
         access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
     });
-
     let socketConnection;
     let twitterStream;
 
@@ -37,7 +35,7 @@ module.exports = (app, io) => {
         console.log('Getting tweets from @unicefinnovate');
         let params = { 
             screen_name: 'unicefinnovate',
-            count: 3,
+            count: 2,
             tweet_mode: 'extended'
         }
         return new Promise((resolve, reject) => {

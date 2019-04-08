@@ -7,6 +7,7 @@ import storehashes from './utils/storehashes.js';
 // Material UI Imports:
 import ButtonAppBar from './components/ButtonAppBar';
 import Blog from './components/Blog';
+import Layout from './components/Layout';
 
 class App extends Component {
 
@@ -111,8 +112,9 @@ render() {
 
   return (
     <div className="App">
-            <ButtonAppBar />
-            <Blog/>
+        <ButtonAppBar />
+        <Layout />
+            {/* <Blog/> */}
             {/* <h3> Choose file to send to IPFS </h3>
             <form onSubmit={this.onSubmit}>
                 <div className="form-group">

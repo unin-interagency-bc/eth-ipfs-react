@@ -100,10 +100,6 @@ const TablePaginationActionsWrapped = withStyles(actionsStyles, { withTheme: tru
 );
 
 let counter = 0;
-function createData(name, calories, fat) {
-  counter += 1;
-  return { id: counter, name, calories, fat };
-}
 
 const styles = theme => ({
   root: {
@@ -131,7 +127,6 @@ class CertificateTable extends React.Component {
     this.getCertificatesFromBlockchain()
   }
   getCertificatesFromBlockchain = async () => {
-    // console.log('1')
     // const accounts = await web3.eth.getAccounts();
     storehashes.methods._getOwnerCount().call({
             // from: accounts[0]
@@ -151,7 +146,6 @@ class CertificateTable extends React.Component {
     }
   
     getCertificateTableRows = (country, hash) => {
-      // console.log('2')
       const ipfsLink = 'https://ipfs.io/ipfs/' + hash
       return(
           <tr>
@@ -182,7 +176,6 @@ class CertificateTable extends React.Component {
             <TableRow>
                 <TableCell className ={classes.tablecell}>Company Name</TableCell>
                 <TableCell className ={classes.tablecell}>Country</TableCell>
-                {/* <TableCell>Hash</TableCell> */}
                 <TableCell className ={classes.tablecell}>Date of Participation</TableCell>
                 <TableCell className ={classes.tablecell}>Valid Certificate</TableCell>
                 <TableCell className ={classes.tablecell}>Confirmed</TableCell>
@@ -244,7 +237,7 @@ class CertificateTable extends React.Component {
                 </TableRow>
 
               {emptyRows > 0 && (
-                <TableRow style={{ height: 48 * emptyRows }}>
+                <TableRow style={{ height: 30 * emptyRows }}>
                   <TableCell colSpan={6} />
                 </TableRow>
               )}
