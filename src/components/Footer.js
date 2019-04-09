@@ -81,7 +81,10 @@ function Footer (props) {
           Companies and individuals can register their interest in using the testing corridors by completing an online form {<Link href="https://form.jotform.me/82913409891465">here</Link>}.
         </Typography>
         <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-          For more information, contact <Link href='mailto=drones@unicef.org'>drones@unicef.org</Link> or <Link href='mailto=blockchain@unicef.org'>blockchain@unicef.org</Link>
+          For questions on drones, reach out to <Link href='mailto=drones@unicef.org'>drones@unicef.org</Link>
+        </Typography>
+        <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
+          For questions on blockchain, reach out to <Link href='mailto=blockchain@unicef.org'>blockchain@unicef.org</Link>
         </Typography>
       </footer>
     </React.Fragment>

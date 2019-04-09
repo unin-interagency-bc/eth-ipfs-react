@@ -20,9 +20,9 @@ function Blog (props) {
         <CssBaseline />
         <Paper className = {classes.layout}>
             <Typography variant="h6" color="inherit">
-                <p>UNICEF Innovation is leveraging blockchain to issue certificates to Drone Corridor participants.  These certificates will belong to the recipients forever and they can be shared and verified with blockchain.</p>
-                <p>The authentic certificate issued by UNICEF will start a trail of tamper-proof and immutable credentials for the participant. The time-stamped certificate will enable participants to store, share and verify their qualifications to whomever.  Participants will no longer  have to go through an intermediary with cumbersome and expensive processes to share and validate achievements and certifications with third parties.</p>
-                <p>The certifications will be auditable through this <Link href='https://etherscan.io/address/0x87f74b6d00dd8bd8ff6e3b805bda09ca34390258'>smart contract</Link>.</p>
+                <p>UNICEF Ventures is leveraging a public blockchain, Ethereum, to make claims in a transparent and immutable way. In the first phase of the prototype, UNICEF Ventures is issuing certificates confirming the participation of organizations who test in our drone corridors.</p>
+                <p>The authentic certificates issued by UNICEF will start a trail of tamper-proof and immutable credentials for the participants. The time-stamped certificate will enable participants to store, share and verify their qualifications to whomever. Participants will no longer have to go through an intermediary with cumbersome and expensive processes to share and validate achievements and certifications with third parties.</p>
+                <p>The certifications are auditable through this <Link href={'https://etherscan.io/address/0x49880Bae91e8Bc7129A08cfDEF089888D6EEB006'}>smart contract</Link>.* The wallet that the certifications are issued from is 0x49880Bae91e8Bc7129A08cfDEF089888D6EEB006, that is held by UNICEF Ventures**.</p>
             </Typography>
         </Paper>
     </React.Fragment>

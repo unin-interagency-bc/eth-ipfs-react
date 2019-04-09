@@ -12,6 +12,7 @@ import BlogPosts from './BlogPosts';
 import Blog from './Blog';
 import Footer from './Footer';
 import ContractDetails from './ContractDetails';
+import Jumbotron from './Jumbotron';
 
 
 const styles = theme => ({
@@ -41,20 +42,6 @@ class Layout extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const featuredPosts = [
-        {
-          title: 'Drones for search and rescue operations',
-          link: 'https://www.youtube.com/watch?v=VxIKaBXUkBc'
-        },
-        {
-          title: 'UNICEF and the Government of Kazakhstan establish two drone testing corridors',
-          link: 'https://www.unicef.org/kazakhstan/en/press-releases/unicef-collaboration-government-republic-kazakhstan-establishes-two-drone-testing'
-        },
-        {
-          title: 'UNICEF and the Government of Kazakhstan start testing drones for emergency response',
-          link: 'https://www.unicef.org/innovation/stories/unicef-and-government-kazakhstan-begin-test-flights-emergency-response'
-        },
-    ];
     return (
       <Grid container className={classes.root} spacing={24}>
         <Grid item xs={12}>
@@ -62,8 +49,9 @@ class Layout extends React.Component {
               <Grid key={1} item xs={12} sm={12}>
                 <Paper className={classes.paper}>
                   <Typography variant="h3" align="center" gutterBottom>
-                    Welcome to the Drone Corridor Certificates Page
+                    {/* Welcome to the Drone Corridor Certificates Page */}
                   </Typography>
+                  <Jumbotron />
                 </Paper>
               </Grid>          
           </Grid>
@@ -73,9 +61,10 @@ class Layout extends React.Component {
               <Grid key={1} item xs={12} sm={12} md={8}>
                 <Paper className={classes.paper}>
                   <Typography variant="h6" align="left" gutterBottom>
-                      KZ Drones Certificates
+                  UNICEF issues certificates on blockchain to companies testing in drone corridors
                     </Typography>
                     <CertificateTable />
+                    <p>* Please note that loading the certificate from IPFS may take several minutes, as the certificate is loading from a decentralized file storage system. </p>
                 </Paper>
               </Grid>
               <Grid key={2} item xs={12} sm={12} md={4}>
@@ -101,6 +90,9 @@ class Layout extends React.Component {
                     <Link href='https://etherscan.io/address/0x87f74b6d00dd8bd8ff6e3b805bda09ca34390258'>View the smart contract on Etherscan</Link>
                   </Typography>
                   <ContractDetails />
+                  <p>[*Why is this auditability important? <br/><br/>In our digital age, it’s easier than ever to falsify claims and documents. It’s sometimes hard to tell the difference between a phishing scam and real emails. To increase trust in the information being shared, we are providing a transparent way to verify the information that UNICEF Ventures has published.]</p>
+                  <p>[**What this means? <br/><br/>The purpose of sharing this wallet is to prove who has authenticated this certificate. UNICEF Ventures is the only holder of this wallet. Therefore, only credentials issued from this wallet are considered endorsed by UNICEF Ventures.] </p>
+
                 </Paper>
               </Grid>
               <Grid key={2} item xs={12} sm={12} md={4}>
