@@ -7,7 +7,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableFooter from '@material-ui/core/TableFooter';
-import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Card from '@material-ui/core/Card';
 import IconButton from '@material-ui/core/IconButton';
@@ -16,9 +15,25 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 
-import web3 from '../utils/web3.js';
-import storehashes from '../utils/storehashes.js';
 
+import Typography from '@material-ui/core/Typography';
+import Modal from '@material-ui/core/Modal';
+import Button from '@material-ui/core/Button';
+
+function rand() {
+  return Math.round(Math.random() * 20) - 10;
+}
+
+function getModalStyle() {
+  const top = 50 + rand();
+  const left = 50 + rand();
+
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`,
+  };
+}
 
 const actionsStyles = theme => ({
   root: {
@@ -114,6 +129,18 @@ const styles = theme => ({
   },
   tablecell: {
     fontSize: '10pt'
+  },
+  paper: {
+    position: 'absolute',
+    width: theme.spacing.unit * 50,
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing.unit * 4,
+    outline: 'none',
+  },
+  paperImg: {
+    width: theme.spacing.unit * 41,
+    // padding: theme.spacing.unit * 2,
   }
 });
 
@@ -122,46 +149,39 @@ class CertificateTable extends React.Component {
     page: 0,
     rowsPerPage: 5,
     ethCertificates: [],
+    openAltF4: false,
+    openKAZUAV: false,
+    openUAVG: false,
+    openUAVSG: false,
   };
-  componentWillMount = () => {
-    this.getCertificatesFromBlockchain()
-  }
-  getCertificatesFromBlockchain = async () => {
-    // const accounts = await web3.eth.getAccounts();
-    storehashes.methods._getOwnerCount().call({
-            // from: accounts[0]
-            // from: process.env.BLOCKCHAIN_CONTRACT_SENDER // Will have to hard code (or from process.env) get the address that we used to deploy certificates
-            from: "0x49880bae91e8bc7129a08cfdef089888d6eeb006"
-        }, (error, response) => {
-            console.log(response);
-            this.setState({certCount: response})
-            for(let i = 0; i < this.state.certCount; i++){
-                storehashes.methods._getCert(i).call()
-                .then(cert => {
-                    this.setState({ ethCertificates: [...this.state.ethCertificates, cert] })
-  
-                })
-            }
-        });
-    }
-  
-    getCertificateTableRows = (country, hash) => {
-      const ipfsLink = 'https://ipfs.io/ipfs/' + hash
-      return(
-          <tr>
-              <td>{country}</td>
-              <td><a href={ipfsLink}>File on IPFS</a></td>
-              <td>{hash}</td>
-          </tr>
-      )
-  }
-  handleChangePage = (event, page) => {
-    this.setState({ page });
+  // ALTF4
+  handleALTF4Open = () => {
+    this.setState({ openAltF4: true });
   };
-
-  handleChangeRowsPerPage = event => {
-    this.setState({ page: 0, rowsPerPage: event.target.value });
+  handleALTF4Close = () => {
+    this.setState({ openAltF4: false });
   };
+  // KAZUAV
+  handleKAZUAVOpen = () => {
+    this.setState({ openKAZUAV: true });
+  };
+  handleKAZUAVClose = () => {
+    this.setState({ openKAZUAV: false });
+  };
+  // UAVG
+  handleUAVGOpen = () => {
+    this.setState({ openUAVG: true });
+  };
+  handleUAVGClose = () => {
+    this.setState({ openUAVG: false });
+  };
+  // UAVSG
+  handleUAVSGOpen = () => {
+    this.setState({ openUAVSG: true });
+  };
+  handleUAVSGClose = () => {
+    this.setState({ openUAVSG: false });
+  };      
 
   render() {
     const { classes } = this.props;
@@ -169,11 +189,77 @@ class CertificateTable extends React.Component {
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, ethCertificates.length - page * rowsPerPage);
 
     return (
-      <Card className={classes.root}>
+      <div>
+        <Modal
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+          open={this.state.openAltF4}
+          onClose={this.handleALTF4Close}
+        >
+          <div style={getModalStyle()} className={classes.paper}>
+            <Typography variant="h6" id="modal-title">
+              AltF4
+            </Typography>
+            <Typography variant="subtitle1" id="simple-modal-description">
+              This is the certificate that was issued to AltF4
+            </Typography>
+            <img className={classes.paperImg} src="/images/certificates/AltF4.png"></img>
+          </div>
+        </Modal>     
+        <Modal
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+          open={this.state.openKAZUAV}
+          onClose={this.handleKAZUAVClose}
+        >
+          <div style={getModalStyle()} className={classes.paper}>
+            <Typography variant="h6" id="modal-title">
+              KazUAV
+            </Typography>
+            <Typography variant="subtitle1" id="simple-modal-description">
+              This is the certificate that was issued to KazUAV
+            </Typography>
+            <img className={classes.paperImg} src="/images/certificates/KAZUAV.png"></img>
+          </div>
+        </Modal>   
+        <Modal
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+          open={this.state.openUAVG}
+          onClose={this.handleUAVGClose}
+        >
+          <div style={getModalStyle()} className={classes.paper}>
+            <Typography variant="h6" id="modal-title">
+              UAV Group
+            </Typography>
+            <Typography variant="subtitle1" id="simple-modal-description">
+              This is the certificate that was issued to UAV Group
+            </Typography>
+            <img className={classes.paperImg} src="/images/certificates/UAVG.png"></img>
+          </div>
+        </Modal>   
+        <Modal
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+          open={this.state.openUAVSG}
+          onClose={this.handleUAVSGClose}
+        >
+          <div style={getModalStyle()} className={classes.paper}>
+            <Typography variant="h6" id="modal-title">
+              UAV Service Group
+            </Typography>
+            <Typography variant="subtitle1" id="simple-modal-description">
+              This is the certificate that was issued to UAV Service Group
+            </Typography>
+            <img className={classes.paperImg} src="/images/certificates/UAVSG.png"></img>
+          </div>
+        </Modal>                              
+        <Card className={classes.root}>
         <div className={classes.tableWrapper}>
           <Table className={classes.table}>
             <TableHead>
             <TableRow>
+                <TableCell className ={classes.tablecell}>Certificate Preview</TableCell>
                 <TableCell className ={classes.tablecell}>Company Name</TableCell>
                 <TableCell className ={classes.tablecell}>Country</TableCell>
                 <TableCell className ={classes.tablecell}>Date of Participation</TableCell>
@@ -183,6 +269,9 @@ class CertificateTable extends React.Component {
             </TableHead>
             <TableBody>
               <TableRow>
+                <TableCell>
+                  <img onClick={this.handleALTF4Open} src="/images/certificates/AltF4.png" alt="" border='3' height='100'></img>
+                </TableCell>
                 <TableCell  className={classes.tablecell} component="th" scope="row">
                   <Link href={'https://altf4.kz/en'}>AltF4</Link>
                 </TableCell>
@@ -196,6 +285,9 @@ class CertificateTable extends React.Component {
                 <TableCell className={classes.tablecell} ><Link href={'https://etherscan.io/tx/0x237e6df16d365c5f7daafa42a5eb01a811d6d5b569e6b6ee1da8b07685606c70'}>Check here</Link></TableCell>
                 </TableRow>              
                 <TableRow>
+                <TableCell>
+                  <img onClick={this.handleKAZUAVOpen} src="/images/certificates/KAZUAV.png" alt="" border='3' height='100'></img>
+                </TableCell>
                   <TableCell  className={classes.tablecell} component="th" scope="row">
                     <Link href={'http://www.kazuav.kz/'}>KazUAV</Link>
                   </TableCell>
@@ -209,6 +301,9 @@ class CertificateTable extends React.Component {
                   <TableCell className={classes.tablecell} ><Link href={'https://etherscan.io/tx/0x9ac08c54aca2ed3fe81535d59148e350dd64fcaeef1e295098ec1a01e7d33d2d'}>Check here</Link></TableCell>
                 </TableRow>                
                 <TableRow>
+                <TableCell>
+                  <img onClick={this.handleUAVGOpen} src="/images/certificates/UAVG.png" alt="" border='3' height='100'></img>
+                </TableCell>
                 <TableCell  className={classes.tablecell} component="th" scope="row">
                   {/* <Link href={'http://www.flyworx.kz/'}>UAV Group</Link> */}
                   UAV Group
@@ -224,6 +319,9 @@ class CertificateTable extends React.Component {
               </TableRow>
               
               <TableRow>
+              <TableCell>
+                  <img onClick={this.handleUAVSGOpen} src="/images/certificates/UAVSG.png" alt="" border='3' height='100'></img>
+                </TableCell>
                   <TableCell  className={classes.tablecell} component="th" scope="row">
                     <Link href={'http://uavsg.kz/'}>UAV Service Group</Link>
                   </TableCell>
@@ -245,24 +343,13 @@ class CertificateTable extends React.Component {
             </TableBody>
             <TableFooter>
               <TableRow>
-                {/* <TablePagination
-                  rowsPerPageOptions={[5, 10, 25]}
-                  colSpan={3}
-                  count={ethCertificates.length}
-                  rowsPerPage={rowsPerPage}
-                  page={page}
-                  SelectProps={{
-                    native: true,
-                  }}
-                  onChangePage={this.handleChangePage}
-                  onChangeRowsPerPage={this.handleChangeRowsPerPage}
-                  ActionsComponent={TablePaginationActionsWrapped}
-                /> */}
+
               </TableRow>
             </TableFooter>
           </Table>
         </div>
       </Card>
+      </div>
     );
   }
 }

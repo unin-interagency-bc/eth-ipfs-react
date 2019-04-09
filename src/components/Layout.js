@@ -13,6 +13,7 @@ import Blog from './Blog';
 import Footer from './Footer';
 import ContractDetails from './ContractDetails';
 import Jumbotron from './Jumbotron';
+import Hidden from '@material-ui/core/Hidden';
 
 
 const styles = theme => ({
@@ -46,19 +47,21 @@ class Layout extends React.Component {
       <Grid container className={classes.root} spacing={24}>
         <Grid item xs={12}>
           <Grid container className={classes.demo} justify="center" spacing={24}>
-              <Grid key={1} item xs={12} sm={12}>
-                <Paper className={classes.paper}>
-                  <Typography variant="h3" align="center" gutterBottom>
-                    {/* Welcome to the Drone Corridor Certificates Page */}
-                  </Typography>
-                  <Jumbotron />
-                </Paper>
-              </Grid>          
+              <Hidden smDown>
+                <Grid key={1} item md={12} lg={12} xl={12}>
+                  <Paper className={classes.paper}>
+                    <Typography variant="h3" align="center" gutterBottom>
+                      {/* Welcome to the Drone Corridor Certificates Page */}
+                    </Typography>
+                    <Jumbotron />
+                  </Paper>
+                </Grid>          
+              </Hidden>
           </Grid>
         </Grid>      
         <Grid item xs={12}>
           <Grid container className={classes.demo} justify="center" spacing={24}>
-              <Grid key={1} item xs={12} sm={12} md={8}>
+              <Grid key={1} item xs={12} sm={12} md={12}>
                 <Paper className={classes.paper}>
                   <Typography variant="h6" align="left" gutterBottom>
                   UNICEF issues certificates on blockchain to companies testing in drone corridors
@@ -67,7 +70,7 @@ class Layout extends React.Component {
                     <p>* Please note that loading the certificate from IPFS may take several minutes, as the certificate is loading from a decentralized file storage system. </p>
                 </Paper>
               </Grid>
-              <Grid key={2} item xs={12} sm={12} md={4}>
+              <Grid key={2} item xs={12} sm={12} md={12}>
                 <Paper className={classes.paper}>
                   <Typography variant="h6" align="left" gutterBottom>
                     Featured Articles
