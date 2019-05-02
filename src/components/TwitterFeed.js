@@ -63,13 +63,13 @@ const styles = theme => ({
 });
 
 class TwitterFeed extends React.Component {
-  
+
   state = {
     tweets: []
   }
 
   getTweets() {
-    fetch('/getTweets', 
+    fetch('/getTweets',
     {
       method: 'GET'
       , headers: {
@@ -106,7 +106,7 @@ class TwitterFeed extends React.Component {
                 </Paper>
                 {tweets.slice().map((row, i) => (
                   <Tweet key={i} data={row}/>
-                ))}                      
+                ))}
               {/* End sidebar */}
         </div>
       </React.Fragment>
