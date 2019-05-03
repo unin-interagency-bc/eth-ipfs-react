@@ -14,6 +14,12 @@ exports.handle = function(e, ctx, cb) {
   // console.log('data', params.data)
   const data = CryptoJS.AES.decrypt(body.data, secret).toString(CryptoJS.enc.Utf8)
   let response = {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, PUT, POST, DELETE",
+      "Access-Control-Max-Age": 3000,
+      "Accept": "*/*"
+    },
     statusCode: 200,
     body: data
   };

@@ -64,7 +64,7 @@ class Layout extends React.Component {
               <Grid key={1} item xs={12} sm={12} md={12}>
                 <Paper className={classes.paper}>
                   <Typography variant="h6" align="left" gutterBottom>
-                  UNICEF issues certificates on blockchain to companies testing in drone corridors
+                  Interagency Innovation bootcamp 2019
                     </Typography>
                     <CertificateTable />
                     <p>* Please note that loading the certificate from IPFS may take several minutes, as the certificate is loading from a decentralized file storage system. </p>

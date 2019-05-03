@@ -15,7 +15,7 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import {web3, contracts} from '../utils/web3.js';
-
+import decrypt from '../utils/decryptor.js';
 import Typography from '@material-ui/core/Typography';
 import Modal from '@material-ui/core/Modal';
 import Button from '@material-ui/core/Button';
@@ -28,9 +28,12 @@ const getCerts = async () => {
   while(index > -1){
     try {
       const cert = await contract.methods._getCert(index).call();
-      certs.push({ipfsHash: cert[0], details: JSON.parse(cert[1])});
+      const cert_details = await decrypt(cert[1])
+      console.log(cert_details)
+      certs.push({ipfsHash: cert[0], details: cert_details});
       index += 1;
     } catch(e){
+      console.log(e)
       index = -1;
     }
   }
@@ -307,8 +310,8 @@ class CertificateTable extends React.Component {
                   <TableCell  className={classes.tablecell} component="th" scope="row">
                     {cert.details.programmeName}
                   </TableCell>
-                  <TableCell className={classes.tablecell} ><Link href={'https://ipfs.io/ipfs/QmUZ9CvDT7MFNMv62uN21dCyE5gP17iAoAtNC9DH9suuvM'}>See certificate</Link></TableCell>
-                  <TableCell className={classes.tablecell} ><Link href={'https://etherscan.io/address/'+contracts.StoreHashes.address}>Check here</Link></TableCell>
+                  <TableCell className={classes.tablecell} ><Link target="_blank"  href={'https://ipfs.io/ipfs/'+cert.ipfsHash}>See certificate</Link></TableCell>
+                  <TableCell className={classes.tablecell} ><Link target="_blank" href={'https://ropsten.etherscan.io/address/'+contracts.StoreHashes.address}>Check here</Link></TableCell>
                 </TableRow>
               })}
 

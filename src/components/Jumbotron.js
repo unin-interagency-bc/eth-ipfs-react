@@ -9,7 +9,7 @@ const styles = theme => ({
   media: {
     paddingTop: '20%', // 16:9
     backgroundColor: '#000000',
-  
+
   },
   card: {
     position: 'relative',
@@ -31,11 +31,8 @@ class Jumbotron extends React.Component {
       <Card className={classes.card}>
         <CardMedia
           className={classes.media}
-          image="/images/static/kazakhstan4.png"
+          image="/images/static/web-banner.png"
         />
-        <div className={classes.overlay}>
-        <Typography color='white' variant='h2'>Help Delivered From the Sky</Typography>
-        </div>
       </Card>
     );
   }

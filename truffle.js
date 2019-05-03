@@ -7,6 +7,12 @@ module.exports = {
       port: 8545,
       network_id: "*" // Match any network id
     },
+    ropsten: {
+      provider: function() {
+        return new HDWalletProvider("89BF7519DACFC74F1D506DD24E2068EB1716FDC7EF76F1D93B4C3213C189C4D7", "https://ropsten.infura.io/v3/a301162f38e54281a1c6e25656459dfc")
+      },
+      network_id: 3
+    },
     kovan: {
       provider: () => new HDWalletProvider(process.env.MNENOMIC, "https://kovan.infura.io/v3/" + process.env.INFURA_API_KEY),
       network_id: 42,

@@ -4,8 +4,8 @@
 import Web3 from 'web3';
 //overrides metamask v0.2 for our v 1.0
 // const provider = new Web3.providers.JsonRpcProvider({url: keys.ethereumProviderURL, user: keys.ethereumProviderUsername, password: keys.ethereumProviderPassword});
-// const provider = new Web3.providers.HttpProvider('https://testnet-rpc.gochain.io');
-const provider = new Web3.providers.HttpProvider('http://localhost:8545');
+const provider = new Web3.providers.HttpProvider('https://ropsten.infura.io');
+// const provider = new Web3.providers.HttpProvider('http://localhost:8545');
 const web3 = new Web3(provider);
 
 const contracts = {
@@ -157,7 +157,7 @@ const contracts = {
         "signature": "0x7a02719d"
       }
     ],
-    address: '0x2184d0D3248b5fA46629bEAA4C033bFEDbb85f3C'
+    address: '0x5eF351478073C6675dED0f713373D54A89D5b5aa'
   }
 }
 
