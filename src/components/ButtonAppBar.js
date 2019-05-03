@@ -90,9 +90,6 @@ function ButtonAppBar(props) {
           <IconButton className={classes.menuButton} color="primary" aria-label="Menu">
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" className={classes.grow}>
-            // <Button href ='https://www.unicef.org/innovation/venturefund'>UNICEF Ventures</Button>
-          </Typography>
           <div className={classes.search}>
               <div className={classes.searchIcon}>
                 <SearchIcon />
