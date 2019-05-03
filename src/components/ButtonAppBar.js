@@ -15,7 +15,7 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 const theme = createMuiTheme({
   palette: {
       primary: {
-          main: '#00AEFD',
+          main: '#55BA7A',
           '& *': {
             color: 'white',
           }
@@ -91,7 +91,7 @@ function ButtonAppBar(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.grow}>
-            <Button href ='https://www.unicef.org/innovation/venturefund'>UNICEF Ventures</Button>
+            // <Button href ='https://www.unicef.org/innovation/venturefund'>UNICEF Ventures</Button>
           </Typography>
           <div className={classes.search}>
               <div className={classes.searchIcon}>

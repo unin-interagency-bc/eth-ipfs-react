@@ -15,7 +15,7 @@ const server = http.createServer(app);
 
 app.use(bodyParser.json());
 app.use(cors())
-app.use(hostValidation({ hosts: [/.*/]}))
+// app.use(hostValidation({ honsts: [/http:\/\/localhost/, /http:\/\/ec2-63-35-203-203.eu-west-1.compute.amazonaws.com/]}))
 // app.options('*', cors())
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';

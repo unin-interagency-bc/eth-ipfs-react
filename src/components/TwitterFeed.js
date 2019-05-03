@@ -9,13 +9,13 @@ import Tweet from './Tweet';
 
 const styles = theme => ({
   toolbarMain: {
-    borderBottom: `1px solid #00AEFD`,
+    borderBottom: `1px solid #55BA7A`,
   },
   toolbarSecondary: {
     justifyContent: 'space-between',
   },
   mainFeaturedPost: {
-    backgroundColor: '#00AEFD',
+    backgroundColor: '#55BA7A',
     color: theme.palette.common.white,
     marginBottom: theme.spacing.unit * 4,
   },
@@ -44,7 +44,7 @@ const styles = theme => ({
   },
   sidebarAboutBox: {
     padding: theme.spacing.unit * 2,
-    backgroundColor: '#00AEFD',
+    backgroundColor: '#55BA7A',
     color: theme.palette.common.white,
     textAlign: 'center'
   },

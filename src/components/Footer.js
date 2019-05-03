@@ -17,13 +17,13 @@ const styles = theme => ({
     },
   },
   mainFeaturedPost: {
-    backgroundColor: '#00AEFD',
+    backgroundColor: '#55BA7A',
     color: theme.palette.common.white,
     textAlign: 'center'
   },
   featuredPostTitle: {
     padding: `${theme.spacing.unit * 2}px`,
-    backgroundColor: '#00AEFD',
+    backgroundColor: '#55BA7A',
     textAlign: 'center',
     color: theme.palette.common.white,
   },
@@ -48,7 +48,7 @@ const styles = theme => ({
   },
   sidebarAboutBox: {
     padding: theme.spacing.unit * 2,
-    backgroundColor: '#00AEFD',
+    backgroundColor: '#55BA7A',
     color: theme.palette.common.white,
   },
   link: {

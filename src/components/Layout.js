@@ -72,15 +72,6 @@ class Layout extends React.Component {
               </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={12}>
-          <Grid container className={classes.demo} justify="center" spacing={24}>
-              <Grid key={2} item xs={12} sm={12}>
-                <Paper className={classes.paper}>
-                    <Footer />
-                </Paper>
-              </Grid>
-          </Grid>
-        </Grid>
       </Grid>
     );
   }
