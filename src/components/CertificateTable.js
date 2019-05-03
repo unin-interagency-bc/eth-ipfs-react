@@ -310,7 +310,7 @@ class CertificateTable extends React.Component {
                   <TableCell  className={classes.tablecell} component="th" scope="row">
                     {cert.details.programmeName}
                   </TableCell>
-                  <TableCell className={classes.tablecell} ><Link target="_blank"  href={'https://ipfs.io/ipfs/'+cert.ipfsHash}>See certificate</Link></TableCell>
+                  <TableCell className={classes.tablecell} ><Link target="_blank"  href={'https://gateway.ipfs.io/ipfs/'+cert.ipfsHash}>See certificate</Link></TableCell>
                   <TableCell className={classes.tablecell} ><Link target="_blank" href={'https://ropsten.etherscan.io/address/'+contracts.StoreHashes.address}>Check here</Link></TableCell>
                 </TableRow>
               })}

@@ -28,8 +28,7 @@ const contracts = {
         ],
         "payable": false,
         "stateMutability": "view",
-        "type": "function",
-        "signature": "0x3380da2a"
+        "type": "function"
       },
       {
         "constant": true,
@@ -48,8 +47,7 @@ const contracts = {
         ],
         "payable": false,
         "stateMutability": "view",
-        "type": "function",
-        "signature": "0x61c0ac9c"
+        "type": "function"
       },
       {
         "constant": true,
@@ -72,8 +70,27 @@ const contracts = {
         ],
         "payable": false,
         "stateMutability": "view",
-        "type": "function",
-        "signature": "0x86e4a22e"
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [],
+        "name": "admin",
+        "outputs": [
+          {
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "constructor"
       },
       {
         "anonymous": false,
@@ -95,8 +112,7 @@ const contracts = {
           }
         ],
         "name": "NewCert",
-        "type": "event",
-        "signature": "0x9b494ea2de5f841d317272ca4cc8e762d73679e0ec7637f2f3eebe34e638c318"
+        "type": "event"
       },
       {
         "constant": false,
@@ -114,8 +130,7 @@ const contracts = {
         "outputs": [],
         "payable": false,
         "stateMutability": "nonpayable",
-        "type": "function",
-        "signature": "0x8016de4b"
+        "type": "function"
       },
       {
         "constant": true,
@@ -138,8 +153,7 @@ const contracts = {
         ],
         "payable": false,
         "stateMutability": "view",
-        "type": "function",
-        "signature": "0x6c5e8a55"
+        "type": "function"
       },
       {
         "constant": true,
@@ -153,11 +167,10 @@ const contracts = {
         ],
         "payable": false,
         "stateMutability": "view",
-        "type": "function",
-        "signature": "0x7a02719d"
+        "type": "function"
       }
     ],
-    address: '0x5eF351478073C6675dED0f713373D54A89D5b5aa'
+    address: '0xF9fFc4f383ACD5C19E9Fa0a13Fa0d400840A0e7f'
   }
 }
 

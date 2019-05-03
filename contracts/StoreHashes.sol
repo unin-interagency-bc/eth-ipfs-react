@@ -9,10 +9,20 @@ contract StoreHashes {
     }
     CertHash[] public certHashes;
 
+    address public admin;
     mapping(uint => address) public certToOwner;
     mapping (address => uint) public ownerCertCount;
 
-    function _createCert(string memory _ipfsHash, string memory _data) public {
+    constructor() public {
+      admin = msg.sender;
+    }
+
+    modifier onlyAdmin {
+      require(msg.sender == admin, "Only admin can call this method");
+      _;
+    }
+
+    function _createCert(string memory _ipfsHash, string memory _data) public onlyAdmin {
         uint id = certHashes.push(CertHash(_ipfsHash, _data)) - 1;
         certToOwner[id] = msg.sender;
         ownerCertCount[msg.sender]++;

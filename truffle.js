@@ -11,7 +11,8 @@ module.exports = {
       provider: function() {
         return new HDWalletProvider("89BF7519DACFC74F1D506DD24E2068EB1716FDC7EF76F1D93B4C3213C189C4D7", "https://ropsten.infura.io/v3/a301162f38e54281a1c6e25656459dfc")
       },
-      network_id: 3
+      network_id: 3,
+      gas: 3000000
     },
     kovan: {
       provider: () => new HDWalletProvider(process.env.MNENOMIC, "https://kovan.infura.io/v3/" + process.env.INFURA_API_KEY),
