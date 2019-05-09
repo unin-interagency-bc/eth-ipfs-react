@@ -25,7 +25,7 @@ class App extends Component {
     //     companyName:'',
     //     ethCertificates: [], // Will store objects (country and string),
     //     certCount: ''
-    // };    
+    // };
     // componentWillMount = () => {
     //     // this.getCertificatesFromBlockchain()
     // }
@@ -55,7 +55,7 @@ class App extends Component {
     //     const file = event.target.files[0]
     //     let reader = new window.FileReader()
     //     reader.readAsArrayBuffer(file)
-    //     reader.onloadend = () => this.convertToBuffer(reader)    
+    //     reader.onloadend = () => this.convertToBuffer(reader)
     // };
 
     // convertToBuffer = async(reader) => {
@@ -74,7 +74,7 @@ class App extends Component {
     //         }); //await for getTransactionReceipt
 
     //         await this.setState({blockNumber: this.state.txReceipt.blockNumber});
-    //         await this.setState({gasUsed: this.state.txReceipt.gasUsed});    
+    //         await this.setState({gasUsed: this.state.txReceipt.gasUsed});
     //     } //try
     //     catch(error){
     //         console.log(error);
@@ -92,21 +92,21 @@ class App extends Component {
     //         console.log(err,ipfsHash);
     //         this.setState({ ipfsHash:ipfsHash[0].hash });
     //         storehashes.methods._createCert(
-    //             this.state.droneCorridorName, 
+    //             this.state.droneCorridorName,
     //             this.state.ipfsHash,
     //             this.state.companyName,
     //             this.state.date
-                
+
     //             ).send({
     //             from: accounts[0]
     //         }, (error, transactionHash) => {
     //             console.log(transactionHash);
     //             this.setState({transactionHash});
     //         });
-    //     }) //await ipfs.add 
-    // }; //onSubmit 
+    //     }) //await ipfs.add
+    // }; //onSubmit
 
-    
+
 
 render() {
 
@@ -118,42 +118,42 @@ render() {
             {/* <h3> Choose file to send to IPFS </h3>
             <form onSubmit={this.onSubmit}>
                 <div className="form-group">
-                    <input 
+                    <input
                         type = "text"
                         className="form-control"
                         onChange={this.handleChangeCorridor}
                         placeholder="Enter Drone Corridor Name (country)"
                     />
-                    <input 
+                    <input
                         type = "date"
                         className="form-control"
                         onChange={this.handleChangeDate}
                         placeholder="Enter Date"
                     />
-                    <input 
+                    <input
                         type = "text"
                         className="form-control"
                         onChange={this.handleChangeCompany}
                         placeholder="Enter Company Name"
-                    />                    
-                    <input 
+                    />
+                    <input
                         type = "file"
                         className="form-control-file"
                         onChange = {this.captureFile}
                     />
                 </div>
-                <button 
+                <button
                     type="submit"
-                > 
-                    Send it 
+                >
+                    Send it
                 </button>
             </form>
             <hr/>
-            <button 
+            <button
                 className="btn btn-success"
                 onClick = {this.onClick}
-            > 
-                Get Transaction Receipt 
+            >
+                Get Transaction Receipt
             </button>
             <hr/>
             <table>
@@ -182,7 +182,7 @@ render() {
                     <tr>
                         <td>Etherscan Link</td>
                     </tr>
-                    
+
                     <tr>
                         <td>Block Number # </td>
                         <td>{this.state.blockNumber}</td>
@@ -190,11 +190,11 @@ render() {
                     <tr>
                         <td>Gas Used</td>
                         <td>{this.state.gasUsed}</td>
-                    </tr>                
+                    </tr>
                 </tbody>
             </table> */}
             <hr/>
-        </div>
+    </div>
         );
     } //render
 }

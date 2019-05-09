@@ -14,11 +14,31 @@ import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
-
-
+import {web3, contracts} from '../utils/web3.js';
+import decrypt from '../utils/decryptor.js';
 import Typography from '@material-ui/core/Typography';
 import Modal from '@material-ui/core/Modal';
 import Button from '@material-ui/core/Button';
+
+const contract = new web3.eth.Contract(contracts['StoreHashes']['abi'], contracts['StoreHashes']['address'])
+console.log(contract)
+const getCerts = async () => {
+  let index = 0;
+  const certs = [];
+  while(index > -1){
+    try {
+      const cert = await contract.methods._getCert(index).call();
+      const cert_details = await decrypt(cert[1])
+      console.log(cert_details)
+      certs.push({ipfsHash: cert[0], details: cert_details});
+      index += 1;
+    } catch(e){
+      console.log(e)
+      index = -1;
+    }
+  }
+  return certs;
+}
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -43,6 +63,7 @@ const actionsStyles = theme => ({
   },
 });
 
+
 class TablePaginationActions extends React.Component {
   handleFirstPageButtonClick = event => {
     this.props.onChangePage(event, 0);
@@ -62,6 +83,8 @@ class TablePaginationActions extends React.Component {
       Math.max(0, Math.ceil(this.props.count / this.props.rowsPerPage) - 1),
     );
   };
+
+
 
   render() {
     const { classes, count, page, rowsPerPage, theme } = this.props;
@@ -152,7 +175,7 @@ class CertificateTable extends React.Component {
     openAltF4: false,
     openKAZUAV: false,
     openUAVG: false,
-    openUAVSG: false,
+    openUAVSG: false
   };
   // ALTF4
   handleALTF4Open = () => {
@@ -181,13 +204,18 @@ class CertificateTable extends React.Component {
   };
   handleUAVSGClose = () => {
     this.setState({ openUAVSG: false });
-  };      
+  };
+
+  componentDidMount() {
+    getCerts().then((_certs) => {
+      this.setState({ethCertificates:_certs})
+    })
+  }
 
   render() {
     const { classes } = this.props;
     const { ethCertificates, rowsPerPage, page } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, ethCertificates.length - page * rowsPerPage);
-
     return (
       <div>
         <Modal
@@ -205,7 +233,7 @@ class CertificateTable extends React.Component {
             </Typography>
             <img className={classes.paperImg} src="/images/certificates/AltF4.png"></img>
           </div>
-        </Modal>     
+        </Modal>
         <Modal
           aria-labelledby="simple-modal-title"
           aria-describedby="simple-modal-description"
@@ -221,7 +249,7 @@ class CertificateTable extends React.Component {
             </Typography>
             <img className={classes.paperImg} src="/images/certificates/KAZUAV.png"></img>
           </div>
-        </Modal>   
+        </Modal>
         <Modal
           aria-labelledby="simple-modal-title"
           aria-describedby="simple-modal-description"
@@ -237,7 +265,7 @@ class CertificateTable extends React.Component {
             </Typography>
             <img className={classes.paperImg} src="/images/certificates/UAVG.png"></img>
           </div>
-        </Modal>   
+        </Modal>
         <Modal
           aria-labelledby="simple-modal-title"
           aria-describedby="simple-modal-description"
@@ -253,87 +281,39 @@ class CertificateTable extends React.Component {
             </Typography>
             <img className={classes.paperImg} src="/images/certificates/UAVSG.png"></img>
           </div>
-        </Modal>                              
+        </Modal>
         <Card className={classes.root}>
         <div className={classes.tableWrapper}>
           <Table className={classes.table}>
             <TableHead>
             <TableRow>
-                <TableCell className ={classes.tablecell}>Certificate Preview</TableCell>
-                <TableCell className ={classes.tablecell}>Company Name</TableCell>
-                <TableCell className ={classes.tablecell}>Country</TableCell>
+                <TableCell className ={classes.tablecell}>Participant Name</TableCell>
+                <TableCell className ={classes.tablecell}>Participant Organisation</TableCell>
                 <TableCell className ={classes.tablecell}>Date of Participation</TableCell>
-                <TableCell className ={classes.tablecell}>Certificate on IPFS *</TableCell>
+                <TableCell className ={classes.tablecell}>Acceleration Programme Name</TableCell>
+                <TableCell className ={classes.tablecell}>View certificate</TableCell>
                 <TableCell className ={classes.tablecell}>Verify on Ethereum Blockchain</TableCell>
             </TableRow>
             </TableHead>
             <TableBody>
-              <TableRow>
-                <TableCell>
-                  <img onClick={this.handleALTF4Open} src="/images/certificates/AltF4.png" alt="" border='3' height='100'></img>
-                </TableCell>
-                <TableCell  className={classes.tablecell} component="th" scope="row">
-                  <Link href={'https://altf4.kz/en'}>AltF4</Link>
-                </TableCell>
-                <TableCell  className={classes.tablecell} component="th" scope="row">
-                  Kazakhstan
-                </TableCell>
-                <TableCell  className={classes.tablecell} component="th" scope="row">
-                  2019-02-28
-                </TableCell>
-                <TableCell className={classes.tablecell} ><Link href={'https://ipfs.io/ipfs/QmUZ9CvDT7MFNMv62uN21dCyE5gP17iAoAtNC9DH9suuvM'}>See certificate</Link></TableCell>
-                <TableCell className={classes.tablecell} ><Link href={'https://etherscan.io/tx/0x237e6df16d365c5f7daafa42a5eb01a811d6d5b569e6b6ee1da8b07685606c70'}>Check here</Link></TableCell>
-                </TableRow>              
-                <TableRow>
-                <TableCell>
-                  <img onClick={this.handleKAZUAVOpen} src="/images/certificates/KAZUAV.png" alt="" border='3' height='100'></img>
-                </TableCell>
-                  <TableCell  className={classes.tablecell} component="th" scope="row">
-                    <Link href={'http://www.kazuav.kz/'}>KazUAV</Link>
+              { ethCertificates.map((cert)=>{
+                return <TableRow>
+                  <TableCell>
+                    {cert.details.participantName}
                   </TableCell>
                   <TableCell  className={classes.tablecell} component="th" scope="row">
-                    Kazakhstan
+                    {cert.details.participantOrganisation}
                   </TableCell>
                   <TableCell  className={classes.tablecell} component="th" scope="row">
-                    2019-02-28
-                  </TableCell>
-                  <TableCell className={classes.tablecell} ><Link href={'https://ipfs.io/ipfs/QmZ4Yydxq1WP5esBkkfuHj1tQCJLUcYP4Pixu9GQ1eo2K8'}>See certificate</Link></TableCell>
-                  <TableCell className={classes.tablecell} ><Link href={'https://etherscan.io/tx/0x9ac08c54aca2ed3fe81535d59148e350dd64fcaeef1e295098ec1a01e7d33d2d'}>Check here</Link></TableCell>
-                </TableRow>                
-                <TableRow>
-                <TableCell>
-                  <img onClick={this.handleUAVGOpen} src="/images/certificates/UAVG.png" alt="" border='3' height='100'></img>
-                </TableCell>
-                <TableCell  className={classes.tablecell} component="th" scope="row">
-                  {/* <Link href={'http://www.flyworx.kz/'}>UAV Group</Link> */}
-                  UAV Group
-                </TableCell>
-                <TableCell  className={classes.tablecell} component="th" scope="row">
-                  Kazakhstan
-                </TableCell>
-                <TableCell  className={classes.tablecell} component="th" scope="row">
-                  2019-02-28
-                </TableCell>
-                <TableCell className={classes.tablecell} ><Link href={'https://ipfs.io/ipfs/QmZ48Gn1a4pd3zNs5xnRyFpMgFM3JunaCc4MxSrJr7ap5t'}>See certificate</Link></TableCell>
-                <TableCell className={classes.tablecell} ><Link href={'https://etherscan.io/tx/0xa940969d6fb5f599f14be07c74e18afb3e847936166cc247a90864d6d419309e'}>Check here</Link></TableCell>
-              </TableRow>
-              
-              <TableRow>
-              <TableCell>
-                  <img onClick={this.handleUAVSGOpen} src="/images/certificates/UAVSG.png" alt="" border='3' height='100'></img>
-                </TableCell>
-                  <TableCell  className={classes.tablecell} component="th" scope="row">
-                    <Link href={'http://uavsg.kz/'}>UAV Service Group</Link>
+                    {new Date(cert.details.participationDate).toLocaleDateString()}
                   </TableCell>
                   <TableCell  className={classes.tablecell} component="th" scope="row">
-                    Kazakhstan
+                    {cert.details.programmeName}
                   </TableCell>
-                  <TableCell  className={classes.tablecell} component="th" scope="row">
-                    2019-02-28
-                  </TableCell>
-                  <TableCell className={classes.tablecell} ><Link href={'https://ipfs.io/ipfs/QmR1k6TB1HAC73C4BdUWvPbE34z5K6e35X83XYjyj7sgds'}>See certificate</Link></TableCell>
-                  <TableCell className={classes.tablecell} ><Link href={'https://etherscan.io/tx/0x7cb786eb02e55fb3026e73326900b8088f764d463a024773435f7be838b5e9cd'}>Check here</Link></TableCell>
+                  <TableCell className={classes.tablecell} ><Link target="_blank"  href={'https://gateway.ipfs.io/ipfs/'+cert.ipfsHash}>See certificate</Link></TableCell>
+                  <TableCell className={classes.tablecell} ><Link target="_blank" href={'https://ropsten.etherscan.io/address/'+contracts.StoreHashes.address}>Check here</Link></TableCell>
                 </TableRow>
+              })}
 
               {emptyRows > 0 && (
                 <TableRow style={{ height: 30 * emptyRows }}>
