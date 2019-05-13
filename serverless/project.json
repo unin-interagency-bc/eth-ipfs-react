@@ -1,8 +1,0 @@
-{
-  "name": "eth-ipfs",
-  "description": "",
-  "memory": 128,
-  "timeout": 5,
-  "role": "arn:aws:iam::379937780633:role/eth-ipfs_lambda_function",
-  "environment": {}
-}

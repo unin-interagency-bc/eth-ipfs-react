@@ -4,12 +4,12 @@
 import Web3 from 'web3';
 //overrides metamask v0.2 for our v 1.0
 // const provider = new Web3.providers.JsonRpcProvider({url: keys.ethereumProviderURL, user: keys.ethereumProviderUsername, password: keys.ethereumProviderPassword});
-const provider = new Web3.providers.HttpProvider('https://ropsten.infura.io');
-// const provider = new Web3.providers.HttpProvider('http://localhost:8545');
+// const provider = new Web3.providers.HttpProvider('https://ropsten.infura.io');
+const provider = new Web3.providers.HttpProvider('http://localhost:8545');
 const web3 = new Web3(provider);
 
 const contracts = {
-  StoreHashes: {
+  StoreCertAndHash: {
     "abi": [
       {
         "constant": true,
@@ -28,7 +28,8 @@ const contracts = {
         ],
         "payable": false,
         "stateMutability": "view",
-        "type": "function"
+        "type": "function",
+        "signature": "0x3380da2a"
       },
       {
         "constant": true,
@@ -47,7 +48,8 @@ const contracts = {
         ],
         "payable": false,
         "stateMutability": "view",
-        "type": "function"
+        "type": "function",
+        "signature": "0x61c0ac9c"
       },
       {
         "constant": true,
@@ -70,7 +72,8 @@ const contracts = {
         ],
         "payable": false,
         "stateMutability": "view",
-        "type": "function"
+        "type": "function",
+        "signature": "0x86e4a22e"
       },
       {
         "constant": true,
@@ -84,13 +87,15 @@ const contracts = {
         ],
         "payable": false,
         "stateMutability": "view",
-        "type": "function"
+        "type": "function",
+        "signature": "0xf851a440"
       },
       {
         "inputs": [],
         "payable": false,
         "stateMutability": "nonpayable",
-        "type": "constructor"
+        "type": "constructor",
+        "signature": "constructor"
       },
       {
         "anonymous": false,
@@ -112,7 +117,8 @@ const contracts = {
           }
         ],
         "name": "NewCert",
-        "type": "event"
+        "type": "event",
+        "signature": "0x9b494ea2de5f841d317272ca4cc8e762d73679e0ec7637f2f3eebe34e638c318"
       },
       {
         "constant": false,
@@ -130,7 +136,8 @@ const contracts = {
         "outputs": [],
         "payable": false,
         "stateMutability": "nonpayable",
-        "type": "function"
+        "type": "function",
+        "signature": "0x8016de4b"
       },
       {
         "constant": true,
@@ -153,7 +160,8 @@ const contracts = {
         ],
         "payable": false,
         "stateMutability": "view",
-        "type": "function"
+        "type": "function",
+        "signature": "0x6c5e8a55"
       },
       {
         "constant": true,
@@ -167,10 +175,11 @@ const contracts = {
         ],
         "payable": false,
         "stateMutability": "view",
-        "type": "function"
+        "type": "function",
+        "signature": "0x7a02719d"
       }
     ],
-    address: '0xF9fFc4f383ACD5C19E9Fa0a13Fa0d400840A0e7f'
+    address: '0x7bf5b31a167D81dBc23912D8dd5cE671fEDAF8Eb'
   }
 }
 

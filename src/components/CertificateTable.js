@@ -16,12 +16,10 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import {web3, contracts} from '../utils/web3.js';
 import decrypt from '../utils/decryptor.js';
-import Typography from '@material-ui/core/Typography';
-import Modal from '@material-ui/core/Modal';
-import Button from '@material-ui/core/Button';
 
-const contract = new web3.eth.Contract(contracts['StoreHashes']['abi'], contracts['StoreHashes']['address'])
-console.log(contract)
+
+// const contract = new web3.eth.Contract(contracts['StoreHashes']['abi'], contracts['StoreHashes']['address'])
+const contract = new web3.eth.Contract(contracts['StoreCertAndHash']['abi'], contracts['StoreCertAndHash']['address'])
 const getCerts = async () => {
   let index = 0;
   const certs = [];
@@ -29,7 +27,6 @@ const getCerts = async () => {
     try {
       const cert = await contract.methods._getCert(index).call();
       const cert_details = await decrypt(cert[1])
-      console.log(cert_details)
       certs.push({ipfsHash: cert[0], details: cert_details});
       index += 1;
     } catch(e){
@@ -40,20 +37,9 @@ const getCerts = async () => {
   return certs;
 }
 
-function rand() {
-  return Math.round(Math.random() * 20) - 10;
-}
 
-function getModalStyle() {
-  const top = 50 + rand();
-  const left = 50 + rand();
 
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-  };
-}
+
 
 const actionsStyles = theme => ({
   root: {
@@ -177,34 +163,6 @@ class CertificateTable extends React.Component {
     openUAVG: false,
     openUAVSG: false
   };
-  // ALTF4
-  handleALTF4Open = () => {
-    this.setState({ openAltF4: true });
-  };
-  handleALTF4Close = () => {
-    this.setState({ openAltF4: false });
-  };
-  // KAZUAV
-  handleKAZUAVOpen = () => {
-    this.setState({ openKAZUAV: true });
-  };
-  handleKAZUAVClose = () => {
-    this.setState({ openKAZUAV: false });
-  };
-  // UAVG
-  handleUAVGOpen = () => {
-    this.setState({ openUAVG: true });
-  };
-  handleUAVGClose = () => {
-    this.setState({ openUAVG: false });
-  };
-  // UAVSG
-  handleUAVSGOpen = () => {
-    this.setState({ openUAVSG: true });
-  };
-  handleUAVSGClose = () => {
-    this.setState({ openUAVSG: false });
-  };
 
   componentDidMount() {
     getCerts().then((_certs) => {
@@ -218,79 +176,14 @@ class CertificateTable extends React.Component {
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, ethCertificates.length - page * rowsPerPage);
     return (
       <div>
-        <Modal
-          aria-labelledby="simple-modal-title"
-          aria-describedby="simple-modal-description"
-          open={this.state.openAltF4}
-          onClose={this.handleALTF4Close}
-        >
-          <div style={getModalStyle()} className={classes.paper}>
-            <Typography variant="h6" id="modal-title">
-              AltF4
-            </Typography>
-            <Typography variant="subtitle1" id="simple-modal-description">
-              This is the certificate that was issued to AltF4
-            </Typography>
-            <img className={classes.paperImg} src="/images/certificates/AltF4.png"></img>
-          </div>
-        </Modal>
-        <Modal
-          aria-labelledby="simple-modal-title"
-          aria-describedby="simple-modal-description"
-          open={this.state.openKAZUAV}
-          onClose={this.handleKAZUAVClose}
-        >
-          <div style={getModalStyle()} className={classes.paper}>
-            <Typography variant="h6" id="modal-title">
-              KazUAV
-            </Typography>
-            <Typography variant="subtitle1" id="simple-modal-description">
-              This is the certificate that was issued to KazUAV
-            </Typography>
-            <img className={classes.paperImg} src="/images/certificates/KAZUAV.png"></img>
-          </div>
-        </Modal>
-        <Modal
-          aria-labelledby="simple-modal-title"
-          aria-describedby="simple-modal-description"
-          open={this.state.openUAVG}
-          onClose={this.handleUAVGClose}
-        >
-          <div style={getModalStyle()} className={classes.paper}>
-            <Typography variant="h6" id="modal-title">
-              UAV Group
-            </Typography>
-            <Typography variant="subtitle1" id="simple-modal-description">
-              This is the certificate that was issued to UAV Group
-            </Typography>
-            <img className={classes.paperImg} src="/images/certificates/UAVG.png"></img>
-          </div>
-        </Modal>
-        <Modal
-          aria-labelledby="simple-modal-title"
-          aria-describedby="simple-modal-description"
-          open={this.state.openUAVSG}
-          onClose={this.handleUAVSGClose}
-        >
-          <div style={getModalStyle()} className={classes.paper}>
-            <Typography variant="h6" id="modal-title">
-              UAV Service Group
-            </Typography>
-            <Typography variant="subtitle1" id="simple-modal-description">
-              This is the certificate that was issued to UAV Service Group
-            </Typography>
-            <img className={classes.paperImg} src="/images/certificates/UAVSG.png"></img>
-          </div>
-        </Modal>
         <Card className={classes.root}>
         <div className={classes.tableWrapper}>
           <Table className={classes.table}>
             <TableHead>
             <TableRow>
                 <TableCell className ={classes.tablecell}>Participant Name</TableCell>
-                <TableCell className ={classes.tablecell}>Participant Organisation</TableCell>
                 <TableCell className ={classes.tablecell}>Date of Participation</TableCell>
-                <TableCell className ={classes.tablecell}>Acceleration Programme Name</TableCell>
+                <TableCell className ={classes.tablecell}>Course Name</TableCell>
                 <TableCell className ={classes.tablecell}>View certificate</TableCell>
                 <TableCell className ={classes.tablecell}>Verify on Ethereum Blockchain</TableCell>
             </TableRow>
@@ -302,29 +195,18 @@ class CertificateTable extends React.Component {
                     {cert.details.participantName}
                   </TableCell>
                   <TableCell  className={classes.tablecell} component="th" scope="row">
-                    {cert.details.participantOrganisation}
-                  </TableCell>
-                  <TableCell  className={classes.tablecell} component="th" scope="row">
                     {new Date(cert.details.participationDate).toLocaleDateString()}
                   </TableCell>
                   <TableCell  className={classes.tablecell} component="th" scope="row">
                     {cert.details.programmeName}
                   </TableCell>
                   <TableCell className={classes.tablecell} ><Link target="_blank"  href={'https://gateway.ipfs.io/ipfs/'+cert.ipfsHash}>See certificate</Link></TableCell>
-                  <TableCell className={classes.tablecell} ><Link target="_blank" href={'https://ropsten.etherscan.io/address/'+contracts.StoreHashes.address}>Check here</Link></TableCell>
+                  <TableCell className={classes.tablecell} ><Link target="_blank" href={'https://ropsten.etherscan.io/address/'+contracts.StoreCertAndHash.address}>Check here</Link></TableCell>
                 </TableRow>
               })}
-
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 30 * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
             </TableBody>
             <TableFooter>
-              <TableRow>
-
-              </TableRow>
+              <TableRow></TableRow>
             </TableFooter>
           </Table>
         </div>

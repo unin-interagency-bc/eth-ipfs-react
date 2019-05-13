@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
   media: {
-    paddingTop: '20%', // 16:9
+    paddingTop: '30%', // 16:9
     backgroundColor: '#000000',
 
   },
@@ -16,9 +16,8 @@ const styles = theme => ({
   },
   overlay: {
     position: 'absolute',
-    top: '50px',
-    left: '100px',
-    color: 'white',
+    top: '50%',
+    left: '20px',
   }
 });
 
@@ -31,8 +30,16 @@ class Jumbotron extends React.Component {
       <Card className={classes.card}>
         <CardMedia
           className={classes.media}
-          image="/images/static/web-banner.png"
+          image="/images/static/web-banner-2.gif"
         />
+        <div className={classes.overlay}>
+          <Typography variant="h1" style={{ color: '#FFFFFF' }} align="left" gutterBottom>
+            <b>UNICEF Innovation</b>
+          </Typography>      
+          <Typography variant="h3" style={{ color: '#FFFFFF' }}  align="left" gutterBottom>
+            Exploring blockchain for certifications
+          </Typography>              
+        </div>        
       </Card>
     );
   }
