@@ -11,7 +11,6 @@ import TableFooter from '@material-ui/core/TableFooter';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 import Modal from '@material-ui/core/Modal';
-import Button from '@material-ui/core/Button';
 
 function getModalStyle() {
   const top = 50 + rand();
@@ -27,88 +26,52 @@ function rand() {
   return Math.round(Math.random() * 20) - 10;
 }
 const styles = theme => ({
-  layout: {
-    width: 'auto',
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
-    [theme.breakpoints.up(1100 + theme.spacing.unit * 3 * 2)]: {
-      width: 1100,
-      marginLeft: 'auto',
-      marginRight: 'auto',
-    },
-  },
-
-  mainFeaturedPostContent: {
-    padding: `${theme.spacing.unit * 6}px`,
-  },
-  twitterBox: {
-    color: theme.palette.common.white,
-  },
-  mainGrid: {
+  root: {
+    width: '100%',
     marginTop: theme.spacing.unit * 3,
   },
-  card: {
-    display: 'flex',
-    height: '150px'
+  table: {
+    minWidth: 300,
   },
-  cardDetails: {
-    flex: 1,
+  tableWrapper: {
+    overflowX: 'auto',
   },
-  markdown: {
-    padding: `${theme.spacing.unit * 3}px 0`,
+  tablecell: {
+    fontSize: '10pt'
   },
-  sidebarAboutBox: {
-    padding: theme.spacing.unit * 2,
-    backgroundColor: '#55BA7A',
-    color: theme.palette.common.white,
-  },
-  link: {
-    color: theme.palette.common.white,
-    margin: theme.spacing.unit,
-  },
-  sidebarSection: {
-    marginTop: theme.spacing.unit * 3,
-  },
-  footer: {
+  paper: {
+    position: 'absolute',
+    width: theme.spacing.unit * 50,
     backgroundColor: theme.palette.background.paper,
-    // marginTop: theme.spacing.unit * 4,
-    padding: `${theme.spacing.unit * 4}px 0`,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing.unit * 4,
+    outline: 'none',
   },
+  paperImg: {
+    width: theme.spacing.unit * 41,
+    // padding: theme.spacing.unit * 2,
+  }
 });
+
 class StaticCertificateTable extends React.Component {
   state = {
     page: 0,
     rowsPerPage: 5,
-    ethCertificates: [],
     openAltF4: false,
     openKAZUAV: false,
     openUAVG: false,
     openUAVSG: false
   };
-  handleALTF4Open = () => {
-    this.setState({ openAltF4: true });
-  };
-  handleALTF4Close = () => {
-    this.setState({ openAltF4: false });
-  };
-  handleKAZUAVOpen = () => {
-    this.setState({ openKAZUAV: true });
-  };
-  handleKAZUAVClose = () => {
-    this.setState({ openKAZUAV: false });
-  };
-  handleUAVGOpen = () => {
-    this.setState({ openUAVG: true });
-  };
-  handleUAVGClose = () => {
-    this.setState({ openUAVG: false });
-  };
-  handleUAVSGOpen = () => {
-    this.setState({ openUAVSG: true });
-  };
-  handleUAVSGClose = () => {
-    this.setState({ openUAVSG: false });
-  };
+  
+  handleALTF4Open = () => { this.setState({ openAltF4: true });};
+  handleALTF4Close = () => { this.setState({ openAltF4: false });};
+  handleKAZUAVOpen = () => { this.setState({ openKAZUAV: true });};
+  handleKAZUAVClose = () => { this.setState({ openKAZUAV: false });};
+  handleUAVGOpen = () => { this.setState({ openUAVG: true });};
+  handleUAVGClose = () => { this.setState({ openUAVG: false });};
+  handleUAVSGOpen = () => { this.setState({ openUAVSG: true });};
+  handleUAVSGClose = () => { this.setState({ openUAVSG: false });};
+  
   render() {
   const { classes } = this.props;
   return (
