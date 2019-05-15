@@ -13,28 +13,13 @@ import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import Modal from '@material-ui/core/Modal';
 
-// If we want blockchain to be used: 
 
-// import {web3, contracts} from '../utils/web3.js';
-// import decrypt from '../utils/decryptor.js';
-// const contract = new web3.eth.Contract(contracts['StoreHashes']['abi'], contracts['StoreHashes']['address'])
-// const contract = new web3.eth.Contract(contracts['StoreCertAndHash']['abi'], contracts['StoreCertAndHash']['address'])
-// const getCerts = async () => {
-//   let index = 0;
-//   const certs = [];
-//   while(index > -1){
-//     try {
-//       const cert = await contract.methods._getCert(index).call();
-//       const cert_details = await decrypt(cert[1])
-//       certs.push({ipfsHash: cert[0], details: cert_details});
-//       index += 1;
-//     } catch(e){
-//       console.log(e)
-//       index = -1;
-//     }
-//   }
-//   return certs;
-// }
+import IconButton from '@material-ui/core/IconButton';
+import FirstPageIcon from '@material-ui/icons/FirstPage';
+import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import LastPageIcon from '@material-ui/icons/LastPage';
+import TablePagination from '@material-ui/core/TablePagination';
 
 function getModalStyle() {
   const top = 50 + rand();
@@ -73,16 +58,255 @@ const styles = theme => ({
   },
   paperImg: {
     width: theme.spacing.unit * 41,
-    // padding: theme.spacing.unit * 2,
   }
 });
+
+// Pagination for the long table: 
+const actionsStyles = theme => ({
+  root: {
+    flexShrink: 0,
+    color: theme.palette.text.secondary,
+    marginLeft: theme.spacing.unit * 2.5,
+  },
+});
+class TablePaginationActions extends React.Component {
+  handleFirstPageButtonClick = event => {
+    this.props.onChangePage(event, 0);
+  };
+
+  handleBackButtonClick = event => {
+    this.props.onChangePage(event, this.props.page - 1);
+  };
+
+  handleNextButtonClick = event => {
+    this.props.onChangePage(event, this.props.page + 1);
+  };
+
+  handleLastPageButtonClick = event => {
+    this.props.onChangePage(
+      event,
+      Math.max(0, Math.ceil(this.props.count / this.props.rowsPerPage) - 1),
+    );
+  };
+
+  render() {
+    const { classes, count, page, rowsPerPage, theme } = this.props;
+
+    return (
+      <div className={classes.root}>
+        <IconButton
+          onClick={this.handleFirstPageButtonClick}
+          disabled={page === 0}
+          aria-label="First Page"
+        >
+          {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+        </IconButton>
+        <IconButton
+          onClick={this.handleBackButtonClick}
+          disabled={page === 0}
+          aria-label="Previous Page"
+        >
+          {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+        </IconButton>
+        <IconButton
+          onClick={this.handleNextButtonClick}
+          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+          aria-label="Next Page"
+        >
+          {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+        </IconButton>
+        <IconButton
+          onClick={this.handleLastPageButtonClick}
+          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+          aria-label="Last Page"
+        >
+          {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+        </IconButton>
+      </div>
+    );
+  }
+}
+
+TablePaginationActions.propTypes = {
+  classes: PropTypes.object.isRequired,
+  count: PropTypes.number.isRequired,
+  onChangePage: PropTypes.func.isRequired,
+  page: PropTypes.number.isRequired,
+  rowsPerPage: PropTypes.number.isRequired,
+  theme: PropTypes.object.isRequired,
+};
+
+const TablePaginationActionsWrapped = withStyles(actionsStyles, { withTheme: true })(
+  TablePaginationActions,
+);
+
+let counter = 0;
+function createData(handleOpenFn, handleCloseFn, imgSrc, name, date, courseName, ipfsLink, etherScanLink, modalState) {
+  console.log(handleCloseFn)
+  counter += 1;
+  return { 
+    id: counter, 
+    handleOpenFn,
+    handleCloseFn,
+    imgSrc,
+    name,
+    date,
+    courseName,
+    ipfsLink,
+    etherScanLink,
+    modalState
+  };
+}
 
 class CertificateTable extends React.Component {
   state = {
     page: 0,
     rowsPerPage: 5,
-    // Needed for blockchain implementation:
-    // ethCertificates: [],
+    rows: [
+      createData(
+        () => { this.setState({openYZ: true})}, 
+        () => { this.setState({openYZ: false})}, 
+        "/images/nyu/certificate_YZ.jpg", 
+        "Yalta Zhu", 
+        "5/13/2019", 
+        "UN-chained: Assessing emerging technologies for social good",
+        "https://gateway.ipfs.io/ipfs/QmXYxGk64v8LdKQ51SMaBSC7JX6G4GxV3sTzaA2GPyqGSN",
+        "https://etherscan.io/address/0x0824dc3B4ec8c1220763425729fCb42EBdd84c8F",
+        () => {return this.state.openYZ }
+      ),
+      createData(
+        () => { this.setState({openYW: true})}, 
+        () => { this.setState({openYW: false})}, 
+        "/images/nyu/certificate_YW.jpg", 
+        "Yiping Wang", 
+        "5/13/2019", 
+        "UN-chained: Assessing emerging technologies for social good",
+        "https://gateway.ipfs.io/ipfs/QmXLS1qr6oNNa9qX8yfk2tbj6Kh5SeQxRhpv3VXG7EFAXm",
+        "https://etherscan.io/address/0x0824dc3B4ec8c1220763425729fCb42EBdd84c8F",
+        () => {return this.state.openYW }
+      ),
+      createData(
+        () => { this.setState({openYTC: true})}, 
+        () => { this.setState({openYTC: false})}, 
+        "/images/nyu/certificate_YTC.jpg", 
+        "Yi-Syuan (Tina) Chen", 
+        "5/13/2019", 
+        "UN-chained: Assessing emerging technologies for social good",
+        "https://gateway.ipfs.io/ipfs/QmSnvprgmVTNC7AthZxHbeaiMLQk2YLmMQz6aBrvjPeHoP",
+        "https://etherscan.io/address/0x0824dc3B4ec8c1220763425729fCb42EBdd84c8F",
+        () => {return this.state.openYTC }
+      ),
+      createData(
+        () => { this.setState({openYNC: true})}, 
+        () => { this.setState({openYNC: false})}, 
+        "/images/nyu/certificate_YNC.jpg", 
+        "Yi-Yuan (Nancy) Chiu", 
+        "5/13/2019", 
+        "UN-chained: Assessing emerging technologies for social good",
+        "https://gateway.ipfs.io/ipfs/QmVtwFph6p5DUZLw8T7Ez2PstosZ6BqMX5an2Nhozoys1e",
+        "https://etherscan.io/address/0x0824dc3B4ec8c1220763425729fCb42EBdd84c8F",
+        () => {return this.state.openYNC }
+      ),
+      createData(
+        () => { this.setState({openYH: true})}, 
+        () => { this.setState({openYH: false})}, 
+        "/images/nyu/certificate_YH.jpg", 
+        "Yan Huang", 
+        "5/13/2019", 
+        "UN-chained: Assessing emerging technologies for social good",
+        "https://gateway.ipfs.io/ipfs/QmPCkftCbpCXtQt3jhvNXq7vypByQk6hCwWnTAboeUfEJJ",
+        "https://etherscan.io/address/0x0824dc3B4ec8c1220763425729fCb42EBdd84c8F",
+        () => {return this.state.openYH }
+      ),
+      createData(
+        () => { this.setState({openMW: true})}, 
+        () => { this.setState({openMW: false})}, 
+        "/images/nyu/certificate_MW.jpg", 
+        "Man-Ping Wu", 
+        "5/13/2019", 
+        "UN-chained: Assessing emerging technologies for social good",
+        "https://gateway.ipfs.io/ipfs/QmYZditUJSc4nCfLkMUbtT6tUJV9y2Ni6tB73Ns27PN5zb",
+        "https://etherscan.io/address/0x0824dc3B4ec8c1220763425729fCb42EBdd84c8F",
+        () => {return this.state.openMW }
+      ),
+      createData(
+        () => { this.setState({openMS: true})}, 
+        () => { this.setState({openMS: false})}, 
+        "/images/nyu/certificate_MS.jpg", 
+        "Moeezo Saleem", 
+        "5/13/2019", 
+        "UN-chained: Assessing emerging technologies for social good",
+        "https://gateway.ipfs.io/ipfs/QmWirUiZTrKis7N7VYnX2H5sKXdX4UiPAXD9VEa4A6SRLa",
+        "https://etherscan.io/address/0x0824dc3B4ec8c1220763425729fCb42EBdd84c8F",
+        () => {return this.state.openMS }
+      ),
+      createData(
+        () => { this.setState({openMR: true})}, 
+        () => { this.setState({openMR: false})}, 
+        "/images/nyu/certificate_MR.jpg", 
+        "Maria Rojas", 
+        "5/13/2019", 
+        "UN-chained: Assessing emerging technologies for social good",
+        "https://gateway.ipfs.io/ipfs/QmbfdLNZ5tDTRqkZrjhJQgX384pJzwLczoWSCMUFpw4eeF",
+        "https://etherscan.io/address/0x0824dc3B4ec8c1220763425729fCb42EBdd84c8F",
+        () => {return this.state.openMR }
+      ),
+      createData(
+        () => { this.setState({openEX: true})}, 
+        () => { this.setState({openEX: false})}, 
+        "/images/nyu/certificate_EX.jpg", 
+        "Evelyn Xu", 
+        "5/13/2019", 
+        "UN-chained: Assessing emerging technologies for social good",
+        "https://gateway.ipfs.io/ipfs/QmbkB6T35eZPf4vUyyaPhve3UsjaDkutQrxHyykyztkfzR",
+        "https://etherscan.io/address/0x0824dc3B4ec8c1220763425729fCb42EBdd84c8F",
+        () => {return this.state.openEX }
+      ),
+      createData(
+        () => { this.setState({openBAM: true})}, 
+        () => { this.setState({openBAM: false})}, 
+        "/images/nyu/certificate_BAM.jpg", 
+        "Brittney Atkinson-McFarlane", 
+        "5/13/2019", 
+        "UN-chained: Assessing emerging technologies for social good",
+        "https://gateway.ipfs.io/ipfs/QmfARQPW82suuRcuEdtDrEezXsA4A61zG5Z1DMtK8sXAbB",
+        "https://etherscan.io/address/0x0824dc3B4ec8c1220763425729fCb42EBdd84c8F",
+        () => {return this.state.openBAM }
+      ),
+      createData(
+        () => { this.setState({openAS: true})}, 
+        () => { this.setState({openAS: false})}, 
+        "/images/nyu/certificate_AS.jpg", 
+        "Alex Santarelli", 
+        "5/13/2019", 
+        "UN-chained: Assessing emerging technologies for social good",
+        "https://gateway.ipfs.io/ipfs/QmURSXbZ6ijbswLbFoT2UVfYcnq4H4uPu7Pgn5P6zqpuNz",
+        "https://etherscan.io/address/0x0824dc3B4ec8c1220763425729fCb42EBdd84c8F",
+        () => {return this.state.openAS }
+      ),
+      createData(
+        () => { this.setState({openAR: true})}, 
+        () => { this.setState({openAR: false})}, 
+        "/images/nyu/certificate_AR.jpg", 
+        "Ahmed Razin", 
+        "5/13/2019", 
+        "UN-chained: Assessing emerging technologies for social good",
+        "https://gateway.ipfs.io/ipfs/QmdGU8x4HgXjSRTWaBPGk5qxCYqG6hhbnmd5QYeJ8Hd7cH",
+        "https://etherscan.io/address/0x0824dc3B4ec8c1220763425729fCb42EBdd84c8F",
+        () => {return this.state.openAR }
+      ),
+      createData(
+        () => { this.setState({openAC: true})},
+        () => { this.setState({openAC: false})},  
+        "/images/nyu/certificate_AC.jpg", 
+        "Abhiroop CVK", 
+        "5/13/2019", 
+        "UN-chained: Assessing emerging technologies for social good",
+        "https://gateway.ipfs.io/ipfs/QmSt9KpHBsw8PWTWuofP7GkUYXsuv9rLpH7SJHM37gsPnc",
+        "https://etherscan.io/address/0x0824dc3B4ec8c1220763425729fCb42EBdd84c8F",
+        () => {return this.state.openAC }
+      ),
+    ],
     openYZ: false,
     openYW: false,
     openYTC: false,
@@ -97,266 +321,47 @@ class CertificateTable extends React.Component {
     openAR: false,
     openAC: false,
   };
-  handleYZOpen = () => { this.setState({openYZ: true})}
-  handleYZClose = () => {  this.setState( {openYZ: false})}
-  handleYWOpen = () => { this.setState({openYW: true})}
-  handleYWClose = () => {  this.setState( {openYW: false})}
-  handleYTCOpen = () => { this.setState({openYTC: true})}
-  handleYTCClose = () => {  this.setState( {openYTC: false})}
-  handleYNCOpen = () => { this.setState({openYNC: true})}
-  handleYNCClose = () => {  this.setState( {openYNC: false})}
-  handleYHOpen = () => { this.setState({openYH: true})}
-  handleYHClose = () => {  this.setState( {openYH: false})}
-  handleMWOpen = () => { this.setState({openMW: true})}
-  handleMWClose = () => {  this.setState( {openMW: false})}
-  handleMSOpen = () => { this.setState({openMS: true})}
-  handleMSClose = () => {  this.setState( {openMS: false})}
-  handleMROpen = () => { this.setState({openMR: true})}
-  handleMRClose = () => {  this.setState( {openMR: false})}
-  handleEXOpen = () => { this.setState({openEX: true})}
-  handleEXClose = () => {  this.setState( {openEX: false})}
-  handleBAMOpen = () => { this.setState({openBAM: true})}
-  handleBAMClose = () => {  this.setState( {openBAM: false})}
-  handleASOpen = () => { this.setState({openAS: true})}
-  handleASClose = () => {  this.setState( {openAS: false})}
-  handleAROpen = () => { this.setState({openAR: true})}
-  handleARClose = () => {  this.setState( {openAR: false})}
-  handleACOpen = () => { this.setState({openAC: true})}
-  handleACClose = () => {  this.setState( {openAC: false})}
-  componentDidMount() {
-    // getCerts().then((_certs) => {
-    //   this.setState({ethCertificates:_certs})
-    // })
+  handleChangePage = (event, page) => {
+    this.setState({ page });
+  };
+   handleChangeRowsPerPage = event => {
+    this.setState({ page: 0, rowsPerPage: event.target.value });
+  };
+
+
+  createModals = (rows) => {
+    const { classes } = this.props;
+    const allModals = [];
+    rows.map(row => {
+      console.log(row.modalState)
+      allModals.push(
+      <Modal
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+        open={row.modalState? row.modalState() : null}
+        onClose={row.handleCloseFn}
+      >
+        <div style={getModalStyle()} className={classes.paper}>
+          <Typography variant="h6" id="modal-title">
+            {row.name}
+          </Typography>
+          <Typography variant="subtitle1" id="simple-modal-description">
+            This is the certificate that was issued to {row.name}
+          </Typography>
+          <img className={classes.paperImg} src={row.imgSrc}></img>
+        </div>
+      </Modal>)              
+    })
+    return allModals
   }
 
   render() {
     const { classes } = this.props;
-    // const { ethCertificates, rowsPerPage, page } = this.state;
-    // const emptyRows = rowsPerPage - Math.min(rowsPerPage, ethCertificates.length - page * rowsPerPage);
+    const { rows, rowsPerPage, page } = this.state;
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
     return (
       <div>
-      <Modal
-          aria-labelledby="simple-modal-title"
-          aria-describedby="simple-modal-description"
-          open={this.state.openYZ}
-          onClose={this.handleYZClose}
-        >
-          <div style={getModalStyle()} className={classes.paper}>
-            <Typography variant="h6" id="modal-title">
-              Yalta Zhu
-            </Typography>
-            <Typography variant="subtitle1" id="simple-modal-description">
-              This is the certificate that was issued to Yalta Zhu
-            </Typography>
-            <img className={classes.paperImg} src="/images/nyu/certificate_YZ.jpg"></img>
-          </div>
-        </Modal>        
-
-        <Modal
-          aria-labelledby='simple-modal-title'
-          aria-describedby='simple-modal-description'
-          open={this.state.openYW}
-          onClose={this.handleYWClose}
-          
-        >
-          <div style={getModalStyle()} className={classes.paper}>
-            <Typography variant='h6' id='modal-title'>
-              YW
-            </Typography>
-            <Typography variant='subtitle1' id='simple-modal-description'>
-              This is the certificate that was issued to YW
-            </Typography>
-            <img className={classes.paperImg} src='/images/nyu/certificate_YW.jpg'></img>
-          </div>
-        </Modal>
-        <Modal
-          aria-labelledby='simple-modal-title'
-          aria-describedby='simple-modal-description'
-          open={this.state.openYTC}
-          onClose={this.handleYTCClose}
-          
-        >
-          <div style={getModalStyle()} className={classes.paper}>
-            <Typography variant='h6' id='modal-title'>
-              YTC
-            </Typography>
-            <Typography variant='subtitle1' id='simple-modal-description'>
-              This is the certificate that was issued to YTC
-            </Typography>
-            <img className={classes.paperImg} src='/images/nyu/certificate_YTC.jpg'></img>
-          </div>
-        </Modal>
-        <Modal
-          aria-labelledby='simple-modal-title'
-          aria-describedby='simple-modal-description'
-          open={this.state.openYNC}
-          onClose={this.handleYNCClose}
-          
-        >
-          <div style={getModalStyle()} className={classes.paper}>
-            <Typography variant='h6' id='modal-title'>
-              YNC
-            </Typography>
-            <Typography variant='subtitle1' id='simple-modal-description'>
-              This is the certificate that was issued to YNC
-            </Typography>
-            <img className={classes.paperImg} src='/images/nyu/certificate_YNC.jpg'></img>
-          </div>
-        </Modal>
-        <Modal
-          aria-labelledby='simple-modal-title'
-          aria-describedby='simple-modal-description'
-          open={this.state.openYH}
-          onClose={this.handleYHClose}
-          
-        >
-          <div style={getModalStyle()} className={classes.paper}>
-            <Typography variant='h6' id='modal-title'>
-              YH
-            </Typography>
-            <Typography variant='subtitle1' id='simple-modal-description'>
-              This is the certificate that was issued to YH
-            </Typography>
-            <img className={classes.paperImg} src='/images/nyu/certificate_YH.jpg'></img>
-          </div>
-        </Modal>
-        <Modal
-          aria-labelledby='simple-modal-title'
-          aria-describedby='simple-modal-description'
-          open={this.state.openMW}
-          onClose={this.handleMWClose}
-          
-        >
-          <div style={getModalStyle()} className={classes.paper}>
-            <Typography variant='h6' id='modal-title'>
-              MW
-            </Typography>
-            <Typography variant='subtitle1' id='simple-modal-description'>
-              This is the certificate that was issued to MW
-            </Typography>
-            <img className={classes.paperImg} src='/images/nyu/certificate_MW.jpg'></img>
-          </div>
-        </Modal>
-        <Modal
-          aria-labelledby='simple-modal-title'
-          aria-describedby='simple-modal-description'
-          open={this.state.openMS}
-          onClose={this.handleMSClose}
-          
-        >
-          <div style={getModalStyle()} className={classes.paper}>
-            <Typography variant='h6' id='modal-title'>
-              MS
-            </Typography>
-            <Typography variant='subtitle1' id='simple-modal-description'>
-              This is the certificate that was issued to MS
-            </Typography>
-            <img className={classes.paperImg} src='/images/nyu/certificate_MS.jpg'></img>
-          </div>
-        </Modal>
-        <Modal
-          aria-labelledby='simple-modal-title'
-          aria-describedby='simple-modal-description'
-          open={this.state.openMR}
-          onClose={this.handleMRClose}
-          
-        >
-          <div style={getModalStyle()} className={classes.paper}>
-            <Typography variant='h6' id='modal-title'>
-              MR
-            </Typography>
-            <Typography variant='subtitle1' id='simple-modal-description'>
-              This is the certificate that was issued to MR
-            </Typography>
-            <img className={classes.paperImg} src='/images/nyu/certificate_MR.jpg'></img>
-          </div>
-        </Modal>
-        <Modal
-          aria-labelledby='simple-modal-title'
-          aria-describedby='simple-modal-description'
-          open={this.state.openEX}
-          onClose={this.handleEXClose}
-          
-        >
-          <div style={getModalStyle()} className={classes.paper}>
-            <Typography variant='h6' id='modal-title'>
-              EX
-            </Typography>
-            <Typography variant='subtitle1' id='simple-modal-description'>
-              This is the certificate that was issued to EX
-            </Typography>
-            <img className={classes.paperImg} src='/images/nyu/certificate_EX.jpg'></img>
-          </div>
-        </Modal>
-        <Modal
-          aria-labelledby='simple-modal-title'
-          aria-describedby='simple-modal-description'
-          open={this.state.openBAM}
-          onClose={this.handleBAMClose}
-          
-        >
-          <div style={getModalStyle()} className={classes.paper}>
-            <Typography variant='h6' id='modal-title'>
-              BAM
-            </Typography>
-            <Typography variant='subtitle1' id='simple-modal-description'>
-              This is the certificate that was issued to BAM
-            </Typography>
-            <img className={classes.paperImg} src='/images/nyu/certificate_BAM.jpg'></img>
-          </div>
-        </Modal>
-        <Modal
-          aria-labelledby='simple-modal-title'
-          aria-describedby='simple-modal-description'
-          open={this.state.openAS}
-          onClose={this.handleASClose}
-          
-        >
-          <div style={getModalStyle()} className={classes.paper}>
-            <Typography variant='h6' id='modal-title'>
-              AS
-            </Typography>
-            <Typography variant='subtitle1' id='simple-modal-description'>
-              This is the certificate that was issued to AS
-            </Typography>
-            <img className={classes.paperImg} src='/images/nyu/certificate_AS.jpg'></img>
-          </div>
-        </Modal>
-        <Modal
-          aria-labelledby='simple-modal-title'
-          aria-describedby='simple-modal-description'
-          open={this.state.openAR}
-          onClose={this.handleARClose}
-          
-        >
-          <div style={getModalStyle()} className={classes.paper}>
-            <Typography variant='h6' id='modal-title'>
-              AR
-            </Typography>
-            <Typography variant='subtitle1' id='simple-modal-description'>
-              This is the certificate that was issued to AR
-            </Typography>
-            <img className={classes.paperImg} src='/images/nyu/certificate_AR.jpg'></img>
-          </div>
-        </Modal>
-        <Modal
-          aria-labelledby='simple-modal-title'
-          aria-describedby='simple-modal-description'
-          open={this.state.openAC  }
-          onClose={this.handleACClose}
-          
-        >
-          <div style={getModalStyle()} className={classes.paper}>
-            <Typography variant='h6' id='modal-title'>
-              AC
-            </Typography>
-            <Typography variant='subtitle1' id='simple-modal-description'>
-              This is the certificate that was issued to AC
-            </Typography>
-            <img className={classes.paperImg} src='/images/nyu/certificate_AC.jpg'></img>
-          </div>
-        </Modal>
-
+        { this.createModals(rows) }
 
         <Card className={classes.root}>
         <div className={classes.tableWrapper}>
@@ -372,231 +377,46 @@ class CertificateTable extends React.Component {
             </TableRow>
             </TableHead>
             <TableBody>
-                <TableRow>       
+            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => (
+                <TableRow key={row.id}>
                 <TableCell>
-                  <img onClick={this.handleYZOpen} src="/images/nyu/certificate_YZ.jpg" alt="" border='1' height='100'></img>
+                  <img onClick={row.handleOpenFn} src={row.imgSrc} alt="" border='1' height='100'></img>
                 </TableCell>                                               
                   <TableCell>
-                    Yalta Zhu
+                    {row.name}
                   </TableCell>
                   <TableCell  className={classes.tablecell} component="th" scope="row">
-                    5/13/2019
+                    {row.date}
                   </TableCell>
                   <TableCell  className={classes.tablecell} component="th" scope="row">
-                    UN-chained: Assessing emerging technologies for social good
+                    {row.courseName}
                   </TableCell>
-                  <TableCell className={classes.tablecell} ><Link target="_blank"  href={'https://gateway.ipfs.io/ipfs/QmXYxGk64v8LdKQ51SMaBSC7JX6G4GxV3sTzaA2GPyqGSN'}>See certificate</Link></TableCell>
-                  <TableCell className={classes.tablecell} ><Link target="_blank" href={'https://etherscan.io/address/0x0824dc3B4ec8c1220763425729fCb42EBdd84c8F'}>Check here</Link></TableCell>
+                  <TableCell className={classes.tablecell} ><Link target="_blank"  href={row.ipfsLink}>See certificate</Link></TableCell>
+                  <TableCell className={classes.tablecell} ><Link target="_blank" href={row.etherScanLink}>Check here</Link></TableCell>
                 </TableRow>
-
-                <TableRow>
-                <TableCell>
-                  <img onClick={this.handleYWOpen} src="/images/nyu/certificate_YW.jpg" alt="" border='1' height='100'></img>
-                </TableCell>                                               
-                  <TableCell>
-                    Yiping Wang	
-                  </TableCell>
-                  <TableCell  className={classes.tablecell} component="th" scope="row">
-                    5/13/2019
-                  </TableCell>
-                  <TableCell  className={classes.tablecell} component="th" scope="row">
-                    UN-chained: Assessing emerging technologies for social good
-                  </TableCell>
-                  <TableCell className={classes.tablecell} ><Link target="_blank"  href={'https://gateway.ipfs.io/ipfs/QmXLS1qr6oNNa9qX8yfk2tbj6Kh5SeQxRhpv3VXG7EFAXm'}>See certificate</Link></TableCell>
-                  <TableCell className={classes.tablecell} ><Link target="_blank" href={'https://etherscan.io/address/0x0824dc3B4ec8c1220763425729fCb42EBdd84c8F'}>Check here</Link></TableCell>
+              ))}
+                {emptyRows > 0 && (
+                <TableRow style={{ height: 48 * emptyRows }}>
+                  <TableCell colSpan={6} />
                 </TableRow>
-
-                <TableRow>
-                <TableCell>
-                  <img onClick={this.handleYTCOpen} src="/images/nyu/certificate_YTC.jpg" alt="" border='1' height='100'></img>
-                </TableCell>                                               
-                  <TableCell>
-                    Yi-Syuan (Tina) Chen
-                  </TableCell>
-                  <TableCell  className={classes.tablecell} component="th" scope="row">
-                    5/13/2019
-                  </TableCell>
-                  <TableCell  className={classes.tablecell} component="th" scope="row">
-                    UN-chained: Assessing emerging technologies for social good
-                  </TableCell>
-                  <TableCell className={classes.tablecell} ><Link target="_blank"  href={'https://gateway.ipfs.io/ipfs/QmSnvprgmVTNC7AthZxHbeaiMLQk2YLmMQz6aBrvjPeHoP'}>See certificate</Link></TableCell>
-                  <TableCell className={classes.tablecell} ><Link target="_blank" href={'https://etherscan.io/address/0x0824dc3B4ec8c1220763425729fCb42EBdd84c8F'}>Check here</Link></TableCell>
-                </TableRow>
-
-
-                <TableRow>
-                <TableCell>
-                  <img onClick={this.handleYNCOpen} src="/images/nyu/certificate_YNC.jpg" alt="" border='1' height='100'></img>
-                </TableCell>                                               
-                  <TableCell>
-                  Yi-Yuan (Nancy) Chiu
-                  </TableCell>
-                  <TableCell  className={classes.tablecell} component="th" scope="row">
-                    5/13/2019
-                  </TableCell>
-                  <TableCell  className={classes.tablecell} component="th" scope="row">
-                    UN-chained: Assessing emerging technologies for social good
-                  </TableCell>
-                  <TableCell className={classes.tablecell} ><Link target="_blank"  href={'https://gateway.ipfs.io/ipfs/QmVtwFph6p5DUZLw8T7Ez2PstosZ6BqMX5an2Nhozoys1e'}>See certificate</Link></TableCell>
-                  <TableCell className={classes.tablecell} ><Link target="_blank" href={'https://etherscan.io/address/0x0824dc3B4ec8c1220763425729fCb42EBdd84c8F'}>Check here</Link></TableCell>
-                </TableRow>
-                
-                <TableRow>
-                <TableCell>
-                  <img onClick={this.handleYHOpen} src="/images/nyu/certificate_YH.jpg" alt="" border='1' height='100'></img>
-                </TableCell>                                               
-                  <TableCell>
-                  Yan Huang
-                  </TableCell>
-                  <TableCell  className={classes.tablecell} component="th" scope="row">
-                    5/13/2019
-                  </TableCell>
-                  <TableCell  className={classes.tablecell} component="th" scope="row">
-                    UN-chained: Assessing emerging technologies for social good
-                  </TableCell>
-                  <TableCell className={classes.tablecell} ><Link target="_blank"  href={'https://gateway.ipfs.io/ipfs/QmPCkftCbpCXtQt3jhvNXq7vypByQk6hCwWnTAboeUfEJJ'}>See certificate</Link></TableCell>
-                  <TableCell className={classes.tablecell} ><Link target="_blank" href={'https://etherscan.io/address/0x0824dc3B4ec8c1220763425729fCb42EBdd84c8F'}>Check here</Link></TableCell>
-                </TableRow>
-                
-                <TableRow>
-                <TableCell>
-                  <img onClick={this.handleMWOpen} src="/images/nyu/certificate_MW.jpg" alt="" border='1' height='100'></img>
-                </TableCell>                             
-                  <TableCell>
-                  Man-Ping Wu
-                  </TableCell>
-                  <TableCell  className={classes.tablecell} component="th" scope="row">
-                    5/13/2019
-                  </TableCell>
-                  <TableCell  className={classes.tablecell} component="th" scope="row">
-                    UN-chained: Assessing emerging technologies for social good
-                  </TableCell>
-                  <TableCell className={classes.tablecell} ><Link target="_blank"  href={'https://gateway.ipfs.io/ipfs/QmYZditUJSc4nCfLkMUbtT6tUJV9y2Ni6tB73Ns27PN5zb'}>See certificate</Link></TableCell>
-                  <TableCell className={classes.tablecell} ><Link target="_blank" href={'https://etherscan.io/address/0x0824dc3B4ec8c1220763425729fCb42EBdd84c8F'}>Check here</Link></TableCell>
-                </TableRow>
-                
-                <TableRow>
-                <TableCell>
-                  <img onClick={this.handleMSOpen} src="/images/nyu/certificate_MS.jpg" alt="" border='1' height='100'></img>
-                </TableCell>                                               
-                  <TableCell>
-                    Moeezo Saleem
-                  </TableCell>
-                  <TableCell  className={classes.tablecell} component="th" scope="row">
-                    5/13/2019
-                  </TableCell>
-                  <TableCell  className={classes.tablecell} component="th" scope="row">
-                    UN-chained: Assessing emerging technologies for social good
-                  </TableCell>
-                  <TableCell className={classes.tablecell} ><Link target="_blank"  href={'https://gateway.ipfs.io/ipfs/QmWirUiZTrKis7N7VYnX2H5sKXdX4UiPAXD9VEa4A6SRLa'}>See certificate</Link></TableCell>
-                  <TableCell className={classes.tablecell} ><Link target="_blank" href={'https://etherscan.io/address/0x0824dc3B4ec8c1220763425729fCb42EBdd84c8F'}>Check here</Link></TableCell>
-                </TableRow>
-                
-                <TableRow>
-                <TableCell>
-                  <img onClick={this.handleMROpen} src="/images/nyu/certificate_MR.jpg" alt="" border='1' height='100'></img>
-                </TableCell>                             
-                  <TableCell>
-                  Maria Rojas
-                  </TableCell>
-                  <TableCell  className={classes.tablecell} component="th" scope="row">
-                    5/13/2019
-                  </TableCell>
-                  <TableCell  className={classes.tablecell} component="th" scope="row">
-                    UN-chained: Assessing emerging technologies for social good
-                  </TableCell>
-                  <TableCell className={classes.tablecell} ><Link target="_blank"  href={'https://gateway.ipfs.io/ipfs/QmbfdLNZ5tDTRqkZrjhJQgX384pJzwLczoWSCMUFpw4eeF'}>See certificate</Link></TableCell>
-                  <TableCell className={classes.tablecell} ><Link target="_blank" href={'https://etherscan.io/address/0x0824dc3B4ec8c1220763425729fCb42EBdd84c8F'}>Check here</Link></TableCell>
-                </TableRow>
-
-                <TableRow>
-                <TableCell>
-                  <img onClick={this.handleEXOpen} src="/images/nyu/certificate_EX.jpg" alt="" border='1' height='100'></img>
-                </TableCell>                             
-                  <TableCell>
-                    Evelyn Xu
-                  </TableCell>
-                  <TableCell  className={classes.tablecell} component="th" scope="row">
-                    5/13/2019
-                  </TableCell>
-                  <TableCell  className={classes.tablecell} component="th" scope="row">
-                    UN-chained: Assessing emerging technologies for social good
-                  </TableCell>
-                  <TableCell className={classes.tablecell} ><Link target="_blank"  href={'https://gateway.ipfs.io/ipfs/QmbkB6T35eZPf4vUyyaPhve3UsjaDkutQrxHyykyztkfzR'}>See certificate</Link></TableCell>
-                  <TableCell className={classes.tablecell} ><Link target="_blank" href={'https://etherscan.io/address/0x0824dc3B4ec8c1220763425729fCb42EBdd84c8F'}>Check here</Link></TableCell>
-                </TableRow>
-
-                <TableRow>
-                <TableCell>
-                  <img onClick={this.handleBAMOpen} src="/images/nyu/certificate_BAM.jpg" alt="" border='1' height='100'></img>
-                </TableCell>                                               
-                  <TableCell>
-                    Brittney Atkinson-McFarlane
-                  </TableCell>
-                  <TableCell  className={classes.tablecell} component="th" scope="row">
-                    5/13/2019
-                  </TableCell>
-                  <TableCell  className={classes.tablecell} component="th" scope="row">
-                    UN-chained: Assessing emerging technologies for social good
-                  </TableCell>
-                  <TableCell className={classes.tablecell} ><Link target="_blank"  href={'https://gateway.ipfs.io/ipfs/QmfARQPW82suuRcuEdtDrEezXsA4A61zG5Z1DMtK8sXAbB'}>See certificate</Link></TableCell>
-                  <TableCell className={classes.tablecell} ><Link target="_blank" href={'https://etherscan.io/address/0x0824dc3B4ec8c1220763425729fCb42EBdd84c8F'}>Check here</Link></TableCell>
-                </TableRow>
-
-                <TableRow>
-                <TableCell>
-                  <img onClick={this.handleASOpen} src="/images/nyu/certificate_AS.jpg" alt="" border='1' height='100'></img>
-                </TableCell>                             
-                  <TableCell>
-                    Alex Santarelli
-                  </TableCell>
-                  <TableCell  className={classes.tablecell} component="th" scope="row">
-                    5/13/2019
-                  </TableCell>
-                  <TableCell  className={classes.tablecell} component="th" scope="row">
-                    UN-chained: Assessing emerging technologies for social good
-                  </TableCell>
-                  <TableCell className={classes.tablecell} ><Link target="_blank"  href={'https://gateway.ipfs.io/ipfs/QmURSXbZ6ijbswLbFoT2UVfYcnq4H4uPu7Pgn5P6zqpuNz'}>See certificate</Link></TableCell>
-                  <TableCell className={classes.tablecell} ><Link target="_blank" href={'https://etherscan.io/address/0x0824dc3B4ec8c1220763425729fCb42EBdd84c8F'}>Check here</Link></TableCell>
-                </TableRow>     
-
-                <TableRow>
-                <TableCell>
-                  <img onClick={this.handleAROpen} src="/images/nyu/certificate_AR.jpg" alt="" border='1' height='100'></img>
-                </TableCell>                             
-                  <TableCell>
-                  Ahmed Razin
-                  </TableCell>
-                  <TableCell  className={classes.tablecell} component="th" scope="row">
-                    5/13/2019
-                  </TableCell>
-                  <TableCell  className={classes.tablecell} component="th" scope="row">
-                    UN-chained: Assessing emerging technologies for social good
-                  </TableCell>
-                  <TableCell className={classes.tablecell} ><Link target="_blank"  href={'https://gateway.ipfs.io/ipfs/QmdGU8x4HgXjSRTWaBPGk5qxCYqG6hhbnmd5QYeJ8Hd7cH'}>See certificate</Link></TableCell>
-                  <TableCell className={classes.tablecell} ><Link target="_blank" href={'https://etherscan.io/address/0x0824dc3B4ec8c1220763425729fCb42EBdd84c8F'}>Check here</Link></TableCell>
-                </TableRow>   
-
-                <TableRow>
-                <TableCell>
-                  <img onClick={this.handleACOpen} src="/images/nyu/certificate_AC.jpg" alt="" border='1' height='100'></img>
-                </TableCell>                             
-                  <TableCell>
-                  Abhiroop CVK
-                  </TableCell>
-                  <TableCell  className={classes.tablecell} component="th" scope="row">
-                    5/13/2019
-                  </TableCell>
-                  <TableCell  className={classes.tablecell} component="th" scope="row">
-                    UN-chained: Assessing emerging technologies for social good
-                  </TableCell>
-                  <TableCell className={classes.tablecell} ><Link target="_blank"  href={'https://gateway.ipfs.io/ipfs/QmSt9KpHBsw8PWTWuofP7GkUYXsuv9rLpH7SJHM37gsPnc'}>See certificate</Link></TableCell>
-                  <TableCell className={classes.tablecell} ><Link target="_blank" href={'https://etherscan.io/address/0x0824dc3B4ec8c1220763425729fCb42EBdd84c8F'}>Check here</Link></TableCell>
-                </TableRow>                                                                                              
-
+              )}                                                                                                          
             </TableBody>
             <TableFooter>
-              <TableRow></TableRow>
+              <TableRow>
+                <TablePagination
+                  rowsPerPageOptions={[5, 10, 25]}
+                  colSpan={3}
+                  count={rows.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  SelectProps={{
+                    native: true,
+                  }}
+                  onChangePage={this.handleChangePage}
+                  onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                  ActionsComponent={TablePaginationActionsWrapped}
+                />
+              </TableRow>
             </TableFooter>
           </Table>
         </div>
