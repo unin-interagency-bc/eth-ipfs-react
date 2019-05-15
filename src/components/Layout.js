@@ -62,13 +62,13 @@ class Layout extends React.Component {
               <Grid key={1} item xs={12} sm={12} md={12}>
                 <Paper className={classes.paper}>
                   <Typography variant="h5" align="left" gutterBottom>
-                    UN-chained: Assessing emerging technologies for social good Participants
+                    Participants for NYU Class: UN-chained: Assessing emerging technologies for social good
                   </Typography>
                   <CertificateTable />
                 </Paper>
                 <Paper className={classes.paper}>
                   <Typography variant="h5" align="left" gutterBottom>
-                    UNICEF Kazakhstan Drone Corridor Participants
+                    Participants for UNICEF Kazakhstan Drone Corridor
                   </Typography>
                   <StaticCertificateTable />
                 </Paper>
