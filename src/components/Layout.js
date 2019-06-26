@@ -14,6 +14,7 @@ import Footer from './Footer';
 import ContractDetails from './ContractDetails';
 import Jumbotron from './Jumbotron';
 import Hidden from '@material-ui/core/Hidden';
+import StaticCertificateTable from './StaticCertificateTable';
 
 
 const styles = theme => ({
@@ -50,70 +51,31 @@ class Layout extends React.Component {
               <Hidden smDown>
                 <Grid key={1} item md={12} lg={12} xl={12}>
                   <Paper className={classes.paper}>
-                    <Typography variant="h3" align="center" gutterBottom>
-                      {/* Welcome to the Drone Corridor Certificates Page */}
-                    </Typography>
                     <Jumbotron />
                   </Paper>
-                </Grid>          
+                </Grid>
               </Hidden>
-          </Grid>
-        </Grid>      
-        <Grid item xs={12}>
-          <Grid container className={classes.demo} justify="center" spacing={24}>
-              <Grid key={1} item xs={12} sm={12} md={12}>
-                <Paper className={classes.paper}>
-                  <Typography variant="h6" align="left" gutterBottom>
-                  UNICEF issues certificates on blockchain to companies testing in drone corridors
-                    </Typography>
-                    <CertificateTable />
-                    <p>* Please note that loading the certificate from IPFS may take several minutes, as the certificate is loading from a decentralized file storage system. </p>
-                </Paper>
-              </Grid>
-              <Grid key={2} item xs={12} sm={12} md={12}>
-                <Paper className={classes.paper}>
-                  <Typography variant="h6" align="left" gutterBottom>
-                    Featured Articles
-                  </Typography>
-                  <BlogPosts />
-                </Paper>
-              </Grid>              
           </Grid>
         </Grid>
         <Grid item xs={12}>
           <Grid container className={classes.demo} justify="center" spacing={24}>
-              <Grid key={1} item xs={12} sm={12} md={8}>
+              <Grid key={1} item xs={12} sm={12} md={12}>
                 <Paper className={classes.paper}>
-                  <Typography variant="h6" align="left" gutterBottom>
-                    UNICEF issues certificates on the Ethereum blockchain to companies testing drones for emergency and response in Kazakhstan corridor.
+                  <Typography variant="h5" align="left" gutterBottom>
+                    Participants for NYU Class: UN-chained: Assessing emerging technologies for social good
                   </Typography>
-                  <Blog /><br/>
-                  <Typography variant="h6" align="left" gutterBottom>
-                    Contract on Etherscan<br/>
-                    <Link href='https://etherscan.io/address/0x87f74b6d00dd8bd8ff6e3b805bda09ca34390258'>View the smart contract on Etherscan</Link>
-                  </Typography>
-                  <ContractDetails />
-                  <p>[*Why is this auditability important? <br/><br/>In our digital age, it’s easier than ever to falsify claims and documents. It’s sometimes hard to tell the difference between a phishing scam and real emails. To increase trust in the information being shared, we are providing a transparent way to verify the information that UNICEF Ventures has published.]</p>
-                  <p>[**What this means? <br/><br/>The purpose of sharing this wallet is to prove who has authenticated this certificate. UNICEF Ventures is the only holder of this wallet. Therefore, only credentials issued from this wallet are considered endorsed by UNICEF Ventures.] </p>
-
+                  <CertificateTable />
                 </Paper>
+                <Paper className={classes.paper}>
+                  <Typography variant="h5" align="left" gutterBottom>
+                    Participants for UNICEF Kazakhstan Drone Corridor
+                  </Typography>
+                  <StaticCertificateTable />
+                </Paper>
+                <p>* Please note that loading the certificate from IPFS may take several minutes, as the certificate is loading from a decentralized file storage system.</p>
               </Grid>
-              <Grid key={2} item xs={12} sm={12} md={4}>
-                <Paper className={classes.paper}>
-                    <TwitterFeed />
-                </Paper>
-              </Grid>              
           </Grid>
-        </Grid>     
-        <Grid item xs={12}>
-          <Grid container className={classes.demo} justify="center" spacing={24}>
-              <Grid key={2} item xs={12} sm={12}>
-                <Paper className={classes.paper}>
-                    <Footer />
-                </Paper>
-              </Grid>              
-          </Grid>
-        </Grid>     
+        </Grid>
       </Grid>
     );
   }

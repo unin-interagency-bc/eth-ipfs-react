@@ -9,32 +9,59 @@ import TableCell from '@material-ui/core/TableCell';
 import TableFooter from '@material-ui/core/TableFooter';
 import TableRow from '@material-ui/core/TableRow';
 import Card from '@material-ui/core/Card';
+
+import Typography from '@material-ui/core/Typography';
+import Modal from '@material-ui/core/Modal';
+
+
 import IconButton from '@material-ui/core/IconButton';
 import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
-
-
-import Typography from '@material-ui/core/Typography';
-import Modal from '@material-ui/core/Modal';
-import Button from '@material-ui/core/Button';
-
-function rand() {
-  return Math.round(Math.random() * 20) - 10;
-}
+import TablePagination from '@material-ui/core/TablePagination';
 
 function getModalStyle() {
   const top = 50 + rand();
   const left = 50 + rand();
-
   return {
     top: `${top}%`,
     left: `${left}%`,
     transform: `translate(-${top}%, -${left}%)`,
-  };
+  }
+}
+function rand() {
+  return Math.round(Math.random() * 20) - 10;
 }
 
+const styles = theme => ({
+  root: {
+    width: '100%',
+    marginTop: theme.spacing.unit * 3,
+  },
+  table: {
+    minWidth: 300,
+  },
+  tableWrapper: {
+    overflowX: 'auto',
+  },
+  tablecell: {
+    fontSize: '10pt'
+  },
+  paper: {
+    position: 'absolute',
+    width: theme.spacing.unit * 50,
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing.unit * 4,
+    outline: 'none',
+  },
+  paperImg: {
+    width: theme.spacing.unit * 41,
+  }
+});
+
+// Pagination for the long table: 
 const actionsStyles = theme => ({
   root: {
     flexShrink: 0,
@@ -42,7 +69,6 @@ const actionsStyles = theme => ({
     marginLeft: theme.spacing.unit * 2.5,
   },
 });
-
 class TablePaginationActions extends React.Component {
   handleFirstPageButtonClick = event => {
     this.props.onChangePage(event, 0);
@@ -115,235 +141,281 @@ const TablePaginationActionsWrapped = withStyles(actionsStyles, { withTheme: tru
 );
 
 let counter = 0;
-
-const styles = theme => ({
-  root: {
-    width: '100%',
-    marginTop: theme.spacing.unit * 3,
-  },
-  table: {
-    minWidth: 300,
-  },
-  tableWrapper: {
-    overflowX: 'auto',
-  },
-  tablecell: {
-    fontSize: '10pt'
-  },
-  paper: {
-    position: 'absolute',
-    width: theme.spacing.unit * 50,
-    backgroundColor: theme.palette.background.paper,
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing.unit * 4,
-    outline: 'none',
-  },
-  paperImg: {
-    width: theme.spacing.unit * 41,
-    // padding: theme.spacing.unit * 2,
-  }
-});
+function createData(handleOpenFn, handleCloseFn, imgSrc, name, date, courseName, ipfsLink, etherScanLink, modalState) {
+  console.log(handleCloseFn)
+  counter += 1;
+  return { 
+    id: counter, 
+    handleOpenFn,
+    handleCloseFn,
+    imgSrc,
+    name,
+    date,
+    courseName,
+    ipfsLink,
+    etherScanLink,
+    modalState
+  };
+}
 
 class CertificateTable extends React.Component {
   state = {
     page: 0,
     rowsPerPage: 5,
-    ethCertificates: [],
-    openAltF4: false,
-    openKAZUAV: false,
-    openUAVG: false,
-    openUAVSG: false,
+    rows: [
+      createData(
+        () => { this.setState({openYZ: true})}, 
+        () => { this.setState({openYZ: false})}, 
+        "/images/nyu/certificate_YZ.jpg", 
+        "Yalta Zhu", 
+        "5/13/2019", 
+        "UN-chained: Assessing emerging technologies for social good",
+        "https://gateway.ipfs.io/ipfs/QmXYxGk64v8LdKQ51SMaBSC7JX6G4GxV3sTzaA2GPyqGSN",
+        "https://etherscan.io/address/0x0824dc3B4ec8c1220763425729fCb42EBdd84c8F",
+        () => {return this.state.openYZ }
+      ),
+      createData(
+        () => { this.setState({openYW: true})}, 
+        () => { this.setState({openYW: false})}, 
+        "/images/nyu/certificate_YW.jpg", 
+        "Yiping Wang", 
+        "5/13/2019", 
+        "UN-chained: Assessing emerging technologies for social good",
+        "https://gateway.ipfs.io/ipfs/QmXLS1qr6oNNa9qX8yfk2tbj6Kh5SeQxRhpv3VXG7EFAXm",
+        "https://etherscan.io/address/0x0824dc3B4ec8c1220763425729fCb42EBdd84c8F",
+        () => {return this.state.openYW }
+      ),
+      createData(
+        () => { this.setState({openYTC: true})}, 
+        () => { this.setState({openYTC: false})}, 
+        "/images/nyu/certificate_YTC.jpg", 
+        "Yi-Syuan (Tina) Chen", 
+        "5/13/2019", 
+        "UN-chained: Assessing emerging technologies for social good",
+        "https://gateway.ipfs.io/ipfs/QmSnvprgmVTNC7AthZxHbeaiMLQk2YLmMQz6aBrvjPeHoP",
+        "https://etherscan.io/address/0x0824dc3B4ec8c1220763425729fCb42EBdd84c8F",
+        () => {return this.state.openYTC }
+      ),
+      createData(
+        () => { this.setState({openYNC: true})}, 
+        () => { this.setState({openYNC: false})}, 
+        "/images/nyu/certificate_YNC.jpg", 
+        "Yi-Yuan (Nancy) Chiu", 
+        "5/13/2019", 
+        "UN-chained: Assessing emerging technologies for social good",
+        "https://gateway.ipfs.io/ipfs/QmVtwFph6p5DUZLw8T7Ez2PstosZ6BqMX5an2Nhozoys1e",
+        "https://etherscan.io/address/0x0824dc3B4ec8c1220763425729fCb42EBdd84c8F",
+        () => {return this.state.openYNC }
+      ),
+      createData(
+        () => { this.setState({openYH: true})}, 
+        () => { this.setState({openYH: false})}, 
+        "/images/nyu/certificate_YH.jpg", 
+        "Yan Huang", 
+        "5/13/2019", 
+        "UN-chained: Assessing emerging technologies for social good",
+        "https://gateway.ipfs.io/ipfs/QmPCkftCbpCXtQt3jhvNXq7vypByQk6hCwWnTAboeUfEJJ",
+        "https://etherscan.io/address/0x0824dc3B4ec8c1220763425729fCb42EBdd84c8F",
+        () => {return this.state.openYH }
+      ),
+      createData(
+        () => { this.setState({openMW: true})}, 
+        () => { this.setState({openMW: false})}, 
+        "/images/nyu/certificate_MW.jpg", 
+        "Man-Ping Wu", 
+        "5/13/2019", 
+        "UN-chained: Assessing emerging technologies for social good",
+        "https://gateway.ipfs.io/ipfs/QmYZditUJSc4nCfLkMUbtT6tUJV9y2Ni6tB73Ns27PN5zb",
+        "https://etherscan.io/address/0x0824dc3B4ec8c1220763425729fCb42EBdd84c8F",
+        () => {return this.state.openMW }
+      ),
+      createData(
+        () => { this.setState({openMS: true})}, 
+        () => { this.setState({openMS: false})}, 
+        "/images/nyu/certificate_MS.jpg", 
+        "Moeezo Saleem", 
+        "5/13/2019", 
+        "UN-chained: Assessing emerging technologies for social good",
+        "https://gateway.ipfs.io/ipfs/QmWirUiZTrKis7N7VYnX2H5sKXdX4UiPAXD9VEa4A6SRLa",
+        "https://etherscan.io/address/0x0824dc3B4ec8c1220763425729fCb42EBdd84c8F",
+        () => {return this.state.openMS }
+      ),
+      createData(
+        () => { this.setState({openMR: true})}, 
+        () => { this.setState({openMR: false})}, 
+        "/images/nyu/certificate_MR.jpg", 
+        "Maria Rojas", 
+        "5/13/2019", 
+        "UN-chained: Assessing emerging technologies for social good",
+        "https://gateway.ipfs.io/ipfs/QmbfdLNZ5tDTRqkZrjhJQgX384pJzwLczoWSCMUFpw4eeF",
+        "https://etherscan.io/address/0x0824dc3B4ec8c1220763425729fCb42EBdd84c8F",
+        () => {return this.state.openMR }
+      ),
+      createData(
+        () => { this.setState({openEX: true})}, 
+        () => { this.setState({openEX: false})}, 
+        "/images/nyu/certificate_EX.jpg", 
+        "Evelyn Xu", 
+        "5/13/2019", 
+        "UN-chained: Assessing emerging technologies for social good",
+        "https://gateway.ipfs.io/ipfs/QmbkB6T35eZPf4vUyyaPhve3UsjaDkutQrxHyykyztkfzR",
+        "https://etherscan.io/address/0x0824dc3B4ec8c1220763425729fCb42EBdd84c8F",
+        () => {return this.state.openEX }
+      ),
+      createData(
+        () => { this.setState({openBAM: true})}, 
+        () => { this.setState({openBAM: false})}, 
+        "/images/nyu/certificate_BAM.jpg", 
+        "Brittney Atkinson-McFarlane", 
+        "5/13/2019", 
+        "UN-chained: Assessing emerging technologies for social good",
+        "https://gateway.ipfs.io/ipfs/QmfARQPW82suuRcuEdtDrEezXsA4A61zG5Z1DMtK8sXAbB",
+        "https://etherscan.io/address/0x0824dc3B4ec8c1220763425729fCb42EBdd84c8F",
+        () => {return this.state.openBAM }
+      ),
+      createData(
+        () => { this.setState({openAS: true})}, 
+        () => { this.setState({openAS: false})}, 
+        "/images/nyu/certificate_AS.jpg", 
+        "Alex Santarelli", 
+        "5/13/2019", 
+        "UN-chained: Assessing emerging technologies for social good",
+        "https://gateway.ipfs.io/ipfs/QmURSXbZ6ijbswLbFoT2UVfYcnq4H4uPu7Pgn5P6zqpuNz",
+        "https://etherscan.io/address/0x0824dc3B4ec8c1220763425729fCb42EBdd84c8F",
+        () => {return this.state.openAS }
+      ),
+      createData(
+        () => { this.setState({openAR: true})}, 
+        () => { this.setState({openAR: false})}, 
+        "/images/nyu/certificate_AR.jpg", 
+        "Ahmed Razin", 
+        "5/13/2019", 
+        "UN-chained: Assessing emerging technologies for social good",
+        "https://gateway.ipfs.io/ipfs/QmdGU8x4HgXjSRTWaBPGk5qxCYqG6hhbnmd5QYeJ8Hd7cH",
+        "https://etherscan.io/address/0x0824dc3B4ec8c1220763425729fCb42EBdd84c8F",
+        () => {return this.state.openAR }
+      ),
+      createData(
+        () => { this.setState({openAC: true})},
+        () => { this.setState({openAC: false})},  
+        "/images/nyu/certificate_AC.jpg", 
+        "Abhiroop CVK", 
+        "5/13/2019", 
+        "UN-chained: Assessing emerging technologies for social good",
+        "https://gateway.ipfs.io/ipfs/QmSt9KpHBsw8PWTWuofP7GkUYXsuv9rLpH7SJHM37gsPnc",
+        "https://etherscan.io/address/0x0824dc3B4ec8c1220763425729fCb42EBdd84c8F",
+        () => {return this.state.openAC }
+      ),
+    ],
+    openYZ: false,
+    openYW: false,
+    openYTC: false,
+    openYNC: false,
+    openYH: false,
+    openMW: false,
+    openMS: false,
+    openMR: false,
+    openEX: false,
+    openBAM: false,
+    openAS: false,
+    openAR: false,
+    openAC: false,
   };
-  // ALTF4
-  handleALTF4Open = () => {
-    this.setState({ openAltF4: true });
+  handleChangePage = (event, page) => {
+    this.setState({ page });
   };
-  handleALTF4Close = () => {
-    this.setState({ openAltF4: false });
+   handleChangeRowsPerPage = event => {
+    this.setState({ page: 0, rowsPerPage: event.target.value });
   };
-  // KAZUAV
-  handleKAZUAVOpen = () => {
-    this.setState({ openKAZUAV: true });
-  };
-  handleKAZUAVClose = () => {
-    this.setState({ openKAZUAV: false });
-  };
-  // UAVG
-  handleUAVGOpen = () => {
-    this.setState({ openUAVG: true });
-  };
-  handleUAVGClose = () => {
-    this.setState({ openUAVG: false });
-  };
-  // UAVSG
-  handleUAVSGOpen = () => {
-    this.setState({ openUAVSG: true });
-  };
-  handleUAVSGClose = () => {
-    this.setState({ openUAVSG: false });
-  };      
+
+
+  createModals = (rows) => {
+    const { classes } = this.props;
+    const allModals = [];
+    rows.map(row => {
+      console.log(row.modalState)
+      allModals.push(
+      <Modal
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+        open={row.modalState? row.modalState() : null}
+        onClose={row.handleCloseFn}
+      >
+        <div style={getModalStyle()} className={classes.paper}>
+          <Typography variant="h6" id="modal-title">
+            {row.name}
+          </Typography>
+          <Typography variant="subtitle1" id="simple-modal-description">
+            This is the certificate that was issued to {row.name}
+          </Typography>
+          <img className={classes.paperImg} src={row.imgSrc}></img>
+        </div>
+      </Modal>)              
+    })
+    return allModals
+  }
 
   render() {
     const { classes } = this.props;
-    const { ethCertificates, rowsPerPage, page } = this.state;
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, ethCertificates.length - page * rowsPerPage);
-
+    const { rows, rowsPerPage, page } = this.state;
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
     return (
       <div>
-        <Modal
-          aria-labelledby="simple-modal-title"
-          aria-describedby="simple-modal-description"
-          open={this.state.openAltF4}
-          onClose={this.handleALTF4Close}
-        >
-          <div style={getModalStyle()} className={classes.paper}>
-            <Typography variant="h6" id="modal-title">
-              AltF4
-            </Typography>
-            <Typography variant="subtitle1" id="simple-modal-description">
-              This is the certificate that was issued to AltF4
-            </Typography>
-            <img className={classes.paperImg} src="/images/certificates/AltF4.png"></img>
-          </div>
-        </Modal>     
-        <Modal
-          aria-labelledby="simple-modal-title"
-          aria-describedby="simple-modal-description"
-          open={this.state.openKAZUAV}
-          onClose={this.handleKAZUAVClose}
-        >
-          <div style={getModalStyle()} className={classes.paper}>
-            <Typography variant="h6" id="modal-title">
-              KazUAV
-            </Typography>
-            <Typography variant="subtitle1" id="simple-modal-description">
-              This is the certificate that was issued to KazUAV
-            </Typography>
-            <img className={classes.paperImg} src="/images/certificates/KAZUAV.png"></img>
-          </div>
-        </Modal>   
-        <Modal
-          aria-labelledby="simple-modal-title"
-          aria-describedby="simple-modal-description"
-          open={this.state.openUAVG}
-          onClose={this.handleUAVGClose}
-        >
-          <div style={getModalStyle()} className={classes.paper}>
-            <Typography variant="h6" id="modal-title">
-              UAV Group
-            </Typography>
-            <Typography variant="subtitle1" id="simple-modal-description">
-              This is the certificate that was issued to UAV Group
-            </Typography>
-            <img className={classes.paperImg} src="/images/certificates/UAVG.png"></img>
-          </div>
-        </Modal>   
-        <Modal
-          aria-labelledby="simple-modal-title"
-          aria-describedby="simple-modal-description"
-          open={this.state.openUAVSG}
-          onClose={this.handleUAVSGClose}
-        >
-          <div style={getModalStyle()} className={classes.paper}>
-            <Typography variant="h6" id="modal-title">
-              UAV Service Group
-            </Typography>
-            <Typography variant="subtitle1" id="simple-modal-description">
-              This is the certificate that was issued to UAV Service Group
-            </Typography>
-            <img className={classes.paperImg} src="/images/certificates/UAVSG.png"></img>
-          </div>
-        </Modal>                              
+        { this.createModals(rows) }
+
         <Card className={classes.root}>
         <div className={classes.tableWrapper}>
           <Table className={classes.table}>
             <TableHead>
             <TableRow>
                 <TableCell className ={classes.tablecell}>Certificate Preview</TableCell>
-                <TableCell className ={classes.tablecell}>Company Name</TableCell>
-                <TableCell className ={classes.tablecell}>Country</TableCell>
+                <TableCell className ={classes.tablecell}>Participant Name</TableCell>
                 <TableCell className ={classes.tablecell}>Date of Participation</TableCell>
-                <TableCell className ={classes.tablecell}>Certificate on IPFS *</TableCell>
+                <TableCell className ={classes.tablecell}>Course Name</TableCell>
+                <TableCell className ={classes.tablecell}>View certificate</TableCell>
                 <TableCell className ={classes.tablecell}>Verify on Ethereum Blockchain</TableCell>
             </TableRow>
             </TableHead>
             <TableBody>
-              <TableRow>
+            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => (
+                <TableRow key={row.id}>
                 <TableCell>
-                  <img onClick={this.handleALTF4Open} src="/images/certificates/AltF4.png" alt="" border='3' height='100'></img>
-                </TableCell>
-                <TableCell  className={classes.tablecell} component="th" scope="row">
-                  <Link href={'https://altf4.kz/en'}>AltF4</Link>
-                </TableCell>
-                <TableCell  className={classes.tablecell} component="th" scope="row">
-                  Kazakhstan
-                </TableCell>
-                <TableCell  className={classes.tablecell} component="th" scope="row">
-                  2019-02-28
-                </TableCell>
-                <TableCell className={classes.tablecell} ><Link href={'https://ipfs.io/ipfs/QmUZ9CvDT7MFNMv62uN21dCyE5gP17iAoAtNC9DH9suuvM'}>See certificate</Link></TableCell>
-                <TableCell className={classes.tablecell} ><Link href={'https://etherscan.io/tx/0x237e6df16d365c5f7daafa42a5eb01a811d6d5b569e6b6ee1da8b07685606c70'}>Check here</Link></TableCell>
-                </TableRow>              
-                <TableRow>
-                <TableCell>
-                  <img onClick={this.handleKAZUAVOpen} src="/images/certificates/KAZUAV.png" alt="" border='3' height='100'></img>
-                </TableCell>
-                  <TableCell  className={classes.tablecell} component="th" scope="row">
-                    <Link href={'http://www.kazuav.kz/'}>KazUAV</Link>
+                  <img onClick={row.handleOpenFn} src={row.imgSrc} alt="" border='1' height='100'></img>
+                </TableCell>                                               
+                  <TableCell>
+                    {row.name}
                   </TableCell>
                   <TableCell  className={classes.tablecell} component="th" scope="row">
-                    Kazakhstan
+                    {row.date}
                   </TableCell>
                   <TableCell  className={classes.tablecell} component="th" scope="row">
-                    2019-02-28
+                    {row.courseName}
                   </TableCell>
-                  <TableCell className={classes.tablecell} ><Link href={'https://ipfs.io/ipfs/QmZ4Yydxq1WP5esBkkfuHj1tQCJLUcYP4Pixu9GQ1eo2K8'}>See certificate</Link></TableCell>
-                  <TableCell className={classes.tablecell} ><Link href={'https://etherscan.io/tx/0x9ac08c54aca2ed3fe81535d59148e350dd64fcaeef1e295098ec1a01e7d33d2d'}>Check here</Link></TableCell>
-                </TableRow>                
-                <TableRow>
-                <TableCell>
-                  <img onClick={this.handleUAVGOpen} src="/images/certificates/UAVG.png" alt="" border='3' height='100'></img>
-                </TableCell>
-                <TableCell  className={classes.tablecell} component="th" scope="row">
-                  {/* <Link href={'http://www.flyworx.kz/'}>UAV Group</Link> */}
-                  UAV Group
-                </TableCell>
-                <TableCell  className={classes.tablecell} component="th" scope="row">
-                  Kazakhstan
-                </TableCell>
-                <TableCell  className={classes.tablecell} component="th" scope="row">
-                  2019-02-28
-                </TableCell>
-                <TableCell className={classes.tablecell} ><Link href={'https://ipfs.io/ipfs/QmZ48Gn1a4pd3zNs5xnRyFpMgFM3JunaCc4MxSrJr7ap5t'}>See certificate</Link></TableCell>
-                <TableCell className={classes.tablecell} ><Link href={'https://etherscan.io/tx/0xa940969d6fb5f599f14be07c74e18afb3e847936166cc247a90864d6d419309e'}>Check here</Link></TableCell>
-              </TableRow>
-              
-              <TableRow>
-              <TableCell>
-                  <img onClick={this.handleUAVSGOpen} src="/images/certificates/UAVSG.png" alt="" border='3' height='100'></img>
-                </TableCell>
-                  <TableCell  className={classes.tablecell} component="th" scope="row">
-                    <Link href={'http://uavsg.kz/'}>UAV Service Group</Link>
-                  </TableCell>
-                  <TableCell  className={classes.tablecell} component="th" scope="row">
-                    Kazakhstan
-                  </TableCell>
-                  <TableCell  className={classes.tablecell} component="th" scope="row">
-                    2019-02-28
-                  </TableCell>
-                  <TableCell className={classes.tablecell} ><Link href={'https://ipfs.io/ipfs/QmR1k6TB1HAC73C4BdUWvPbE34z5K6e35X83XYjyj7sgds'}>See certificate</Link></TableCell>
-                  <TableCell className={classes.tablecell} ><Link href={'https://etherscan.io/tx/0x7cb786eb02e55fb3026e73326900b8088f764d463a024773435f7be838b5e9cd'}>Check here</Link></TableCell>
+                  <TableCell className={classes.tablecell} ><Link target="_blank"  href={row.ipfsLink}>See certificate</Link></TableCell>
+                  <TableCell className={classes.tablecell} ><Link target="_blank" href={row.etherScanLink}>Check here</Link></TableCell>
                 </TableRow>
-
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 30 * emptyRows }}>
+              ))}
+                {emptyRows > 0 && (
+                <TableRow style={{ height: 48 * emptyRows }}>
                   <TableCell colSpan={6} />
                 </TableRow>
-              )}
+              )}                                                                                                          
             </TableBody>
             <TableFooter>
               <TableRow>
-
+                <TablePagination
+                  rowsPerPageOptions={[5, 10, 25]}
+                  colSpan={3}
+                  count={rows.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  SelectProps={{
+                    native: true,
+                  }}
+                  onChangePage={this.handleChangePage}
+                  onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                  ActionsComponent={TablePaginationActionsWrapped}
+                />
               </TableRow>
             </TableFooter>
           </Table>
