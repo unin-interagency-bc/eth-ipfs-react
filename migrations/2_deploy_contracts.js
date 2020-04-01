@@ -12,109 +12,102 @@ module.exports = async (deployer) => {
   // Will need to get name, course name, participation date
   const certs = [
     {    
-    ipfsHash: "QmXYxGk64v8LdKQ51SMaBSC7JX6G4GxV3sTzaA2GPyqGSN",
+    ipfsHash: "QmfSbnBFsHUihCeQpE3nRUM7iTYBWAf9okCKFsAFcqx1Kz",
       details: {
-        'participantName': 'Yalta Zhu',
-        'participationDate': new Date().getTime(),
-        'programmeName': 'UN-chained: Assessing emerging technologies for social good'
+        'participantName': 'Antonia Charlemagne-Marshall',
+        'participationDate': "11/19/2019",
+        'programmeName': "UN Innovation Network's Blockchain Learning Course"
       }
     },
     {      
-    ipfsHash: "QmXLS1qr6oNNa9qX8yfk2tbj6Kh5SeQxRhpv3VXG7EFAXm",
+    ipfsHash: "QmVWo92YooZgE9UEShSA3Wz2ydKnkVuwyBf1APQMB1F3nE",
       details: {
-        'participantName': 'Yiping Wang',
-        'participationDate': new Date().getTime(),
-        'programmeName': 'UN-chained: Assessing emerging technologies for social good'
+        'participantName': 'Anu Girija Senan',
+        'participationDate': "11/19/2019",
+        'programmeName': "UN Innovation Network's Blockchain Learning Course"
       }
     },
     {      
-    ipfsHash: "QmSnvprgmVTNC7AthZxHbeaiMLQk2YLmMQz6aBrvjPeHoP",
+    ipfsHash: "QmTeDX7mY7y7t14JR4XYGsMLa4pcu1Yfhc3Ze7Hxi7YHDA",
       details: {
-        'participantName': 'Yi-Syuan (Tina) Chen',
-        'participationDate': new Date().getTime(),
-        'programmeName': 'UN-chained: Assessing emerging technologies for social good'
+        'participantName': 'Elena Flocos',
+        'participationDate': "11/19/2019",
+        'programmeName': "UN Innovation Network's Blockchain Learning Course"
       }
     },
     {      
-    ipfsHash: "QmVtwFph6p5DUZLw8T7Ez2PstosZ6BqMX5an2Nhozoys1e",
+    ipfsHash: "QmSKuXzsjquRzN2TAra89id8YquBCygYu126doveRe8F7e",
       details: {
-        'participantName': 'Yi-Yuan (Nancy) Chiu',
-        'participationDate': new Date().getTime(),
-        'programmeName': 'UN-chained: Assessing emerging technologies for social good'
+        'participantName': 'Eric Rodriguez',
+        'participationDate': "11/19/2019",
+        'programmeName': "UN Innovation Network's Blockchain Learning Course"
       }
     },
     {      
-    ipfsHash: "QmPCkftCbpCXtQt3jhvNXq7vypByQk6hCwWnTAboeUfEJJ",
+    ipfsHash: "QmXjbP9aKp4qHqU3MRh7nNXRXAuskQquCJWrFkpSmWxyzu",
       details: {
-        'participantName': 'Yan Huang',
-        'participationDate': new Date().getTime(),
-        'programmeName': 'UN-chained: Assessing emerging technologies for social good'
+        'participantName': 'Erica Choi',
+        'participationDate': "11/19/2019",
+        'programmeName': "UN Innovation Network's Blockchain Learning Course"
       }
     },
     {   
-    ipfsHash: "QmYZditUJSc4nCfLkMUbtT6tUJV9y2Ni6tB73Ns27PN5zb",
+    ipfsHash: "QmY8HjFoVstoJcEk1MLefSvAaM1f17aGRYXHntLoGnwj9o",
       details: {
-        'participantName': 'Man-Ping Wu',
-        'participationDate': new Date().getTime(),
-        'programmeName': 'UN-chained: Assessing emerging technologies for social good'
+        'participantName': 'Juan Manuel Merlos Tevar',
+        'participationDate': "11/19/2019",
+        'programmeName': "UN Innovation Network's Blockchain Learning Course"
       }
     },
     {      
-    ipfsHash: "QmWirUiZTrKis7N7VYnX2H5sKXdX4UiPAXD9VEa4A6SRLa",
+    ipfsHash: "QmRnfjwo1mUNFRnvCmb575UjpHyhemdHnQASMwjtpuT12S",
       details: {
-        'participantName': 'Moeezo Saleen',
-        'participationDate': new Date().getTime(),
-        'programmeName': 'UN-chained: Assessing emerging technologies for social good'
+        'participantName': 'Manish Swar',
+        'participationDate': "11/19/2019",
+        'programmeName': "UN Innovation Network's Blockchain Learning Course"
       }
     },
     {      
-    ipfsHash: "QmbfdLNZ5tDTRqkZrjhJQgX384pJzwLczoWSCMUFpw4eeF",
+    ipfsHash: "QmRBUVyBWGRkrjZ2RYnJUjkrkEWYyL9uh9d44srbhrh6Nc",
       details: {
-        'participantName': 'Maria Rojas',
-        'participationDate': new Date().getTime(),
-        'programmeName': 'UN-chained: Assessing emerging technologies for social good'
+        'participantName': 'Marcin Pawlowski',
+        'participationDate': "11/19/2019",
+        'programmeName': "UN Innovation Network's Blockchain Learning Course"
       }
     },
     {      
-    ipfsHash: "QmbkB6T35eZPf4vUyyaPhve3UsjaDkutQrxHyykyztkfzR",
+    ipfsHash: "Qmdo9hfQ6Lq7UJSqZphtqEps9xZczE4kzuLKUHwKfngQFy",
       details: {
-        'participantName': 'Evelyn Xu',
-        'participationDate': new Date().getTime(),
-        'programmeName': 'UN-chained: Assessing emerging technologies for social good'
+        'participantName': 'Prashant Menon',
+        'participationDate': "11/19/2019",
+        'programmeName': "UN Innovation Network's Blockchain Learning Course"
       }
     },
     {      
-    ipfsHash: "QmfARQPW82suuRcuEdtDrEezXsA4A61zG5Z1DMtK8sXAbB",
+    ipfsHash: "QmUxTR78ixu2J2Ufhb9ZRP1VAYMvHDZBJ2Wrv35bqxPEhK",
       details: {
-        'participantName': 'Brittney Atkinson-McFarlane',
-        'participationDate': new Date().getTime(),
-        'programmeName': 'UN-chained: Assessing emerging technologies for social good'
+        'participantName': 'Rodolfo Mascarenas',
+        'participationDate': "11/19/2019",
+        'programmeName': "UN Innovation Network's Blockchain Learning Course"
       }
     },
     {      
-    ipfsHash: "QmURSXbZ6ijbswLbFoT2UVfYcnq4H4uPu7Pgn5P6zqpuNz",
+    ipfsHash: "QmdYZLbayeDtYqvVcm6SBXz26vqN8kM1PnsHVgsBfCEHBG",
       details: {
-        'participantName': 'Alex Santarelli',
-        'participationDate': new Date().getTime(),
-        'programmeName': 'UN-chained: Assessing emerging technologies for social good'
+        'participantName': 'Tejopriya Pamarthi',
+        'participationDate': "11/19/2019",
+        'programmeName': "UN Innovation Network's Blockchain Learning Course"
       }
     },
     {      
-    ipfsHash: "QmdGU8x4HgXjSRTWaBPGk5qxCYqG6hhbnmd5QYeJ8Hd7cH",
+    ipfsHash: "QmTUHjw6YevzYQVaEeH8B13UZPG9EYtyyayZsrRfkeu3Wc",
       details: {
-        'participantName': 'Ahmed Razin',
-        'participationDate': new Date().getTime(),
-        'programmeName': 'UN-chained: Assessing emerging technologies for social good'
+        'participantName': 'Tom Buelens',
+        'participationDate': "11/19/2019",
+        'programmeName': "UN Innovation Network's Blockchain Learning Course"
       }
     },
-    {      
-    ipfsHash: "QmSt9KpHBsw8PWTWuofP7GkUYXsuv9rLpH7SJHM37gsPnc",
-      details: {
-        'participantName': 'Abhiroop CVK',
-        'participationDate': new Date().getTime(),
-        'programmeName': 'UN-chained: Assessing emerging technologies for social good'
-      }
-    }
+
 ];
 
   for(let i=0; i<certs.length; i++){
