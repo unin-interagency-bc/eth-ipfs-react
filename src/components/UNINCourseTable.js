@@ -22,6 +22,7 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import TablePagination from '@material-ui/core/TablePagination';
 
+
 const actionsStyles = theme => ({
     root: {
       flexShrink: 0,
@@ -48,6 +49,7 @@ const actionsStyles = theme => ({
         Math.max(0, Math.ceil(this.props.count / this.props.rowsPerPage) - 1),
       );
     };
+
   
     render() {
       const { classes, count, page, rowsPerPage, theme } = this.props;
@@ -135,7 +137,6 @@ function rand() {
 const styles = theme => ({
     root: {
       width: '100%',
-    //   marginTop: theme.spacing.unit * 3,
     },
     table: {
       minWidth: 300,
@@ -148,16 +149,14 @@ const styles = theme => ({
     },
     paper: {
       position: 'absolute',
-    //   width: theme.spacing.unit * 50,
-    //   backgroundColor: theme.palette.background.paper,
-    //   boxShadow: theme.shadows[5],
-    //   padding: theme.spacing.unit * 4,
       outline: 'none',
     },
     paperImg: {
-    //   width: theme.spacing.unit * 41,
+      maxWidth:'50%'
     }
 });  
+
+
 
 export const UNINCourseTable = () => {
     const classes = styles()
@@ -178,15 +177,15 @@ export const UNINCourseTable = () => {
     const [rows] = React.useState(
         [
             createData(
-              () => setOpen1(true), 
-              () => setOpen1(false), 
+              () => { setOpen1(true) }, 
+              () => { setOpen1(false)}, 
               "/images/unin-10-2019/Antonia-1.png", 
               "Antonia Charlemagne-Marshall", 
               "11/19/2019", 
               "UNICEF ICTD Blockchain Certificate of Completion",
               "https://gateway.ipfs.io/ipfs/QmfSbnBFsHUihCeQpE3nRUM7iTYBWAf9okCKFsAFcqx1Kz",
               "",
-              () => {return open1 }
+              () => {return open1}
             ),
             createData(
               () => setOpen2(true), 
@@ -274,7 +273,7 @@ export const UNINCourseTable = () => {
               "UNICEF ICTD Blockchain Certificate of Completion",
               "https://gateway.ipfs.io/ipfs/Qmdo9hfQ6Lq7UJSqZphtqEps9xZczE4kzuLKUHwKfngQFy",
               "",
-              () => {return open9 }
+              () => open9
             ),
             createData(
                 () => setOpen10(true), 
@@ -285,7 +284,7 @@ export const UNINCourseTable = () => {
               "UNICEF ICTD Blockchain Certificate of Completion",
               "https://gateway.ipfs.io/ipfs/QmUxTR78ixu2J2Ufhb9ZRP1VAYMvHDZBJ2Wrv35bqxPEhK",
               "",
-              () => {return open10 }
+              () => open10
             ),
             createData(
                 () => setOpen11(true), 
@@ -296,7 +295,7 @@ export const UNINCourseTable = () => {
               "UNICEF ICTD Blockchain Certificate of Completion",
               "https://gateway.ipfs.io/ipfs/QmdYZLbayeDtYqvVcm6SBXz26vqN8kM1PnsHVgsBfCEHBG",
               "",
-              () => {return open11 }
+              () => open11
             ),
             createData(
                 () => setOpen12(true), 
@@ -315,15 +314,40 @@ export const UNINCourseTable = () => {
     
     const handleChangePage = (event, page) => {
         setPage(page)
-    };
+    }
     const handleChangeRowsPerPage = event => {
         setPage(0)
         setRowsPerPage(event.target.value)
-    };
+    }
+    const createModals = (rows) => {
+      const allModals = [];
+      rows.map(row => {
+        console.log(row.modalState)
+        allModals.push(
+        <Modal
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+          open={row.modalState? row.modalState() : null}
+          onClose={row.handleCloseFn}
+        >
+          <div style={getModalStyle()} className={classes.paper}>
+            <Typography variant="h6" id="modal-title">
+              {row.name}
+            </Typography>
+            <Typography variant="subtitle1" id="simple-modal-description">
+              This is the certificate that was issued to {row.name}
+            </Typography>
+            <img className={classes.paperImg} src={row.imgSrc}></img>
+          </div>
+        </Modal>)              
+      })
+      return allModals
+    }
+    
     return(
         <React.Fragment>
             <CssBaseline />
-
+            { createModals(rows) }
             <Table className={classes.table}>
                 <TableHead>
                     <TableRow>
@@ -339,7 +363,7 @@ export const UNINCourseTable = () => {
                     {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => (
                         <TableRow key={row.id}>
                         <TableCell>
-                        <img onClick={row.handleOpenFn} src={row.imgSrc} alt="" border='1' height='100'></img>
+                        <img onClick={() => row.handleOpenFn} src={row.imgSrc} alt="" border='1' height='100'></img>
                         </TableCell>                                               
                         <TableCell>
                             {row.name}
