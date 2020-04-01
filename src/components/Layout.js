@@ -15,6 +15,7 @@ import ContractDetails from './ContractDetails';
 import Jumbotron from './Jumbotron';
 import Hidden from '@material-ui/core/Hidden';
 import StaticCertificateTable from './StaticCertificateTable';
+import { UNINCourseTable } from './UNINCourseTable';
 
 
 const styles = theme => ({
@@ -60,6 +61,12 @@ class Layout extends React.Component {
         <Grid item xs={12}>
           <Grid container className={classes.demo} justify="center" spacing={24}>
               <Grid key={1} item xs={12} sm={12} md={12}>
+              <Paper className={classes.paper}>
+                  <Typography variant="h5" align="left" gutterBottom>
+                    Participants for Blockchain Course by UNICEF
+                  </Typography>
+                  <UNINCourseTable />
+                </Paper>
                 <Paper className={classes.paper}>
                   <Typography variant="h5" align="left" gutterBottom>
                     Participants for NYU Class: UN-chained: Assessing emerging technologies for social good
