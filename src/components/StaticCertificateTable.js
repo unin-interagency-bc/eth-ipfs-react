@@ -91,7 +91,7 @@ class StaticCertificateTable extends React.Component {
             <Typography variant="subtitle1" id="simple-modal-description">
               This is the certificate that was issued to AltF4
             </Typography>
-            <img className={classes.paperImg} src="/images/certificates/AltF4.png"></img>
+            <img alt='altf4 certificate' className={classes.paperImg} src="/images/certificates/AltF4.png"></img>
           </div>
         </Modal>
         <Modal
@@ -107,7 +107,7 @@ class StaticCertificateTable extends React.Component {
             <Typography variant="subtitle1" id="simple-modal-description">
               This is the certificate that was issued to KazUAV
             </Typography>
-            <img className={classes.paperImg} src="/images/certificates/KAZUAV.png"></img>
+            <img alt='kazuav certificate' className={classes.paperImg} src="/images/certificates/KAZUAV.png"></img>
           </div>
         </Modal>
         <Modal
@@ -123,7 +123,7 @@ class StaticCertificateTable extends React.Component {
             <Typography variant="subtitle1" id="simple-modal-description">
               This is the certificate that was issued to UAV Group
             </Typography>
-            <img className={classes.paperImg} src="/images/certificates/UAVG.png"></img>
+            <img alt='uavg certificate' className={classes.paperImg} src="/images/certificates/UAVG.png"></img>
           </div>
         </Modal>
         <Modal
@@ -139,7 +139,7 @@ class StaticCertificateTable extends React.Component {
             <Typography variant="subtitle1" id="simple-modal-description">
               This is the certificate that was issued to UAV Service Group
             </Typography>
-            <img className={classes.paperImg} src="/images/certificates/UAVSG.png"></img>
+            <img alt='uavsg certificate' className={classes.paperImg} src="/images/certificates/UAVSG.png"></img>
           </div>
         </Modal>
       <Table className={classes.table}>

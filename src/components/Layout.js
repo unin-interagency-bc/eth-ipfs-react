@@ -3,15 +3,14 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 // Trying this out:
-import TwitterFeed from './TwitterFeed'
+// import TwitterFeed from './TwitterFeed'
 import CertificateTable from './CertificateTable';
-import BlogPosts from './BlogPosts';
-import Blog from './Blog';
-import Footer from './Footer';
-import ContractDetails from './ContractDetails';
+// import BlogPosts from './BlogPosts';
+// import Blog from './Blog';
+// import Footer from './Footer';
+// import ContractDetails from './ContractDetails';
 import Jumbotron from './Jumbotron';
 import Hidden from '@material-ui/core/Hidden';
 import StaticCertificateTable from './StaticCertificateTable';
@@ -63,7 +62,7 @@ class Layout extends React.Component {
               <Grid key={1} item xs={12} sm={12} md={12}>
               <Paper className={classes.paper}>
                   <Typography variant="h5" align="left" gutterBottom>
-                    Participants for Blockchain Course by UNICEF
+                    Participants for UN Innovation Network's Blockchain Learning Course
                   </Typography>
                   <UNINCourseTable />
                 </Paper>

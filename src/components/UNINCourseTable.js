@@ -2,7 +2,6 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Link from '@material-ui/core/Link';
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
@@ -10,9 +9,6 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableFooter from '@material-ui/core/TableFooter';
 import TableRow from '@material-ui/core/TableRow';
-
-import Typography from '@material-ui/core/Typography';
-import Modal from '@material-ui/core/Modal';
 
 
 import IconButton from '@material-ui/core/IconButton';
@@ -22,6 +18,7 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import TablePagination from '@material-ui/core/TablePagination';
 
+import { ModalsForTables } from './ModalsForTables'
 
 const actionsStyles = theme => ({
     root: {
@@ -29,7 +26,7 @@ const actionsStyles = theme => ({
       color: theme.palette.text.secondary,
       marginLeft: theme.spacing.unit * 2.5,
     },
-  });
+});
   class TablePaginationActions extends React.Component {
     handleFirstPageButtonClick = event => {
       this.props.onChangePage(event, 0);
@@ -104,7 +101,6 @@ const actionsStyles = theme => ({
   
   let counter = 0;
   function createData(handleOpenFn, handleCloseFn, imgSrc, name, date, courseName, ipfsLink, etherScanLink, modalState) {
-    console.log(handleCloseFn)
     counter += 1;
     return { 
       id: counter, 
@@ -120,26 +116,12 @@ const actionsStyles = theme => ({
     };
   }
 
-function getModalStyle() {
-    const top = 50 + rand();
-    const left = 50 + rand();
-  
-    return {
-      top: `${top}%`,
-      left: `${left}%`,
-      transform: `translate(-${top}%, -${left}%)`,
-    };
-}
-function rand() {
-    return Math.round(Math.random() * 20) - 10;
-}
-
 const styles = theme => ({
     root: {
       width: '100%',
     },
     table: {
-      minWidth: 300,
+      minWidth: "300",
     },
     tableWrapper: {
       overflowX: 'auto',
@@ -150,19 +132,20 @@ const styles = theme => ({
     paper: {
       position: 'absolute',
       outline: 'none',
+      width:'50%',
+      backgroundColor: 'white',
+      boxShadow:'black'
     },
     paperImg: {
-      maxWidth:'50%'
+      width:'50%',
     }
-});  
-
-
+  })
 
 export const UNINCourseTable = () => {
-    const classes = styles()
+    const classes = styles
     const [page, setPage] = React.useState(0)
     const [rowsPerPage, setRowsPerPage] = React.useState(5)
-    const [open1, setOpen1] = React.useState(false)
+    let [open1, setOpen1] = React.useState(false)
     const [open2, setOpen2] = React.useState(false)
     const [open3, setOpen3] = React.useState(false)
     const [open4, setOpen4] = React.useState(false)
@@ -174,84 +157,85 @@ export const UNINCourseTable = () => {
     const [open10, setOpen10] = React.useState(false)
     const [open11, setOpen11] = React.useState(false)
     const [open12, setOpen12] = React.useState(false)
+    const [modals, setModals] = React.useState([])
     const [rows] = React.useState(
         [
             createData(
-              () => { setOpen1(true) }, 
+              () => setOpen1(true),
               () => { setOpen1(false)}, 
               "/images/unin-10-2019/Antonia-1.png", 
               "Antonia Charlemagne-Marshall", 
               "11/19/2019", 
-              "UNICEF ICTD Blockchain Certificate of Completion",
+              "UN Innovation Network's Blockchain Learning Course",
               "https://gateway.ipfs.io/ipfs/QmfSbnBFsHUihCeQpE3nRUM7iTYBWAf9okCKFsAFcqx1Kz",
               "",
-              () => {return open1}
+              open1
             ),
             createData(
               () => setOpen2(true), 
               () => setOpen2(false), 
               "/images/unin-10-2019/Anu-1.png", 
               "Anu Girija Senan", 
-              "11/27/5019", 
-              "UNICEF ICTD Blockchain Certificate of Completion",
+              "11/19/2019", 
+              "UN Innovation Network's Blockchain Learning Course",
               "https://gateway.ipfs.io/ipfs/QmVWo92YooZgE9UEShSA3Wz2ydKnkVuwyBf1APQMB1F3nE",
               "",
-              () => {return open2 }
+              open2 
             ),
             createData(
                 () => setOpen3(true), 
                 () => setOpen3(false), 
               "/images/unin-10-2019/Elena-1.png", 
               "Elena Flocos", 
-              "11/27/2019", 
-              "UNICEF ICTD Blockchain Certificate of Completion",
+              "11/19/2019", 
+              "UN Innovation Network's Blockchain Learning Course",
               "https://gateway.ipfs.io/ipfs/QmTeDX7mY7y7t14JR4XYGsMLa4pcu1Yfhc3Ze7Hxi7YHDA",
               "",
-              () => {return open3 }
+              open3
             ),
             createData(
                 () => setOpen4(true), 
                 () => setOpen4(false), 
               "/images/unin-10-2019/Eric-1.png", 
               "Eric Rodriguez", 
-              "11/27/2019", 
-              "UNICEF ICTD Blockchain Certificate of Completion",
+              "11/19/2019", 
+              "UN Innovation Network's Blockchain Learning Course",
               "https://gateway.ipfs.io/ipfs/QmSKuXzsjquRzN2TAra89id8YquBCygYu126doveRe8F7e",
               "",
-              () => {return open4 }
+              open4
             ),
             createData(
                 () => setOpen5(true), 
                 () => setOpen5(false), 
               "/images/unin-10-2019/Erica-1.png", 
               "Erica Choi", 
-              "11/20/2019", 
-              "UNICEF ICTD Blockchain Certificate of Completion",
+              "11/19/2019", 
+              "UN Innovation Network's Blockchain Learning Course",
               "https://gateway.ipfs.io/ipfs/QmXjbP9aKp4qHqU3MRh7nNXRXAuskQquCJWrFkpSmWxyzu",
               "",
-              () => {return open5 }
+              open5
             ),
             createData(
                 () => setOpen6(true), 
                 () => setOpen6(false), 
               "/images/unin-10-2019/Juan-1.png", 
               "Juan Manuel Merlos Tevar", 
-              "11/20/2019", 
-              "UNICEF ICTD Blockchain Certificate of Completion",
+              "11/19/2019", 
+              "UN Innovation Network's Blockchain Learning Course",
               "https://gateway.ipfs.io/ipfs/QmY8HjFoVstoJcEk1MLefSvAaM1f17aGRYXHntLoGnwj9o",
               "",
-              () => {return open6 }
+              open6
             ),
             createData(
                 () => setOpen7(true), 
                 () => setOpen7(false), 
               "/images/unin-10-2019/Manish-1.png", 
               "Manish Swar", 
-              "11/27/2019", 
-              "UNICEF ICTD Blockchain Certificate of Completion",
+              "11/19/2019", 
+              "UN Innovation Network's Blockchain Learning Course",
               "https://gateway.ipfs.io/ipfs/QmRnfjwo1mUNFRnvCmb575UjpHyhemdHnQASMwjtpuT12S",
               "",
-              () => {return open7 }
+              open7
             ),
             createData(
                 () => setOpen8(true), 
@@ -259,60 +243,62 @@ export const UNINCourseTable = () => {
               "/images/unin-10-2019/Marcin-1.png", 
               "Marcin Pawlowski", 
               "11/19/2019", 
-              "UNICEF ICTD Blockchain Certificate of Completion",
+              "UN Innovation Network's Blockchain Learning Course",
               "https://gateway.ipfs.io/ipfs/QmRBUVyBWGRkrjZ2RYnJUjkrkEWYyL9uh9d44srbhrh6Nc",
               "",
-              () => {return open8 }
+              open8
             ),
             createData(
                 () => setOpen9(true), 
                 () => setOpen9(false), 
               "/images/unin-10-2019/Prashant-1.png", 
               "Prashant Menon", 
-              "11/27/2019", 
-              "UNICEF ICTD Blockchain Certificate of Completion",
+              "11/19/2019", 
+              "UN Innovation Network's Blockchain Learning Course",
               "https://gateway.ipfs.io/ipfs/Qmdo9hfQ6Lq7UJSqZphtqEps9xZczE4kzuLKUHwKfngQFy",
               "",
-              () => open9
+              open9
             ),
             createData(
                 () => setOpen10(true), 
                 () => setOpen10(false), 
               "/images/unin-10-2019/Rodolfo-1.png", 
               "Rodolfo Mascarenas", 
-              "11/27/2019", 
-              "UNICEF ICTD Blockchain Certificate of Completion",
+              "11/19/2019", 
+              "UN Innovation Network's Blockchain Learning Course",
               "https://gateway.ipfs.io/ipfs/QmUxTR78ixu2J2Ufhb9ZRP1VAYMvHDZBJ2Wrv35bqxPEhK",
               "",
-              () => open10
+              open10
             ),
             createData(
                 () => setOpen11(true), 
                 () => setOpen11(false), 
               "/images/unin-10-2019/Tejopriya-1.png", 
               "Tejopriya Pamarthi", 
-              "11/27/2019", 
-              "UNICEF ICTD Blockchain Certificate of Completion",
+              "11/19/2019", 
+              "UN Innovation Network's Blockchain Learning Course",
               "https://gateway.ipfs.io/ipfs/QmdYZLbayeDtYqvVcm6SBXz26vqN8kM1PnsHVgsBfCEHBG",
               "",
-              () => open11
+              open11
             ),
             createData(
                 () => setOpen12(true), 
                 () => setOpen12(false), 
               "/images/unin-10-2019/Tom-1.png", 
               "Tom Buelens", 
-              "11/27/2019", 
-              "UNICEF ICTD Blockchain Certificate of Completion",
+              "11/19/2019", 
+              "UN Innovation Network's Blockchain Learning Course",
               "https://gateway.ipfs.io/ipfs/QmTUHjw6YevzYQVaEeH8B13UZPG9EYtyyayZsrRfkeu3Wc",
               "",
-              () => {return open12 }
+              open12
             ),
           ]
     )
+    React.useEffect(() => {
+      createModals(rows)
+    },[open1])
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-    
-    const handleChangePage = (event, page) => {
+    const handleChangePage = (page) => {
         setPage(page)
     }
     const handleChangeRowsPerPage = event => {
@@ -320,34 +306,12 @@ export const UNINCourseTable = () => {
         setRowsPerPage(event.target.value)
     }
     const createModals = (rows) => {
-      const allModals = [];
-      rows.map(row => {
-        console.log(row.modalState)
-        allModals.push(
-        <Modal
-          aria-labelledby="simple-modal-title"
-          aria-describedby="simple-modal-description"
-          open={row.modalState? row.modalState() : null}
-          onClose={row.handleCloseFn}
-        >
-          <div style={getModalStyle()} className={classes.paper}>
-            <Typography variant="h6" id="modal-title">
-              {row.name}
-            </Typography>
-            <Typography variant="subtitle1" id="simple-modal-description">
-              This is the certificate that was issued to {row.name}
-            </Typography>
-            <img className={classes.paperImg} src={row.imgSrc}></img>
-          </div>
-        </Modal>)              
-      })
-      return allModals
+      setModals(<ModalsForTables rows={rows}/>)
     }
     
     return(
         <React.Fragment>
-            <CssBaseline />
-            { createModals(rows) }
+            {modals}
             <Table className={classes.table}>
                 <TableHead>
                     <TableRow>

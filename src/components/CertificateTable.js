@@ -142,7 +142,6 @@ const TablePaginationActionsWrapped = withStyles(actionsStyles, { withTheme: tru
 
 let counter = 0;
 function createData(handleOpenFn, handleCloseFn, imgSrc, name, date, courseName, ipfsLink, etherScanLink, modalState) {
-  console.log(handleCloseFn)
   counter += 1;
   return { 
     id: counter, 
@@ -333,8 +332,7 @@ class CertificateTable extends React.Component {
     const { classes } = this.props;
     const allModals = [];
     rows.map(row => {
-      console.log(row.modalState)
-      allModals.push(
+      return allModals.push(
       <Modal
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
@@ -348,7 +346,7 @@ class CertificateTable extends React.Component {
           <Typography variant="subtitle1" id="simple-modal-description">
             This is the certificate that was issued to {row.name}
           </Typography>
-          <img className={classes.paperImg} src={row.imgSrc}></img>
+          <img alt='cert' className={classes.paperImg} src={row.imgSrc}></img>
         </div>
       </Modal>)              
     })
