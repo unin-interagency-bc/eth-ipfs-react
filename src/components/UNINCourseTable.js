@@ -298,7 +298,7 @@ export const UNINCourseTable = () => {
       createModals(rows)
     },[open1])
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-    const handleChangePage = (page) => {
+    const handleChangePage = (event, page) => {
         setPage(page)
     }
     const handleChangeRowsPerPage = event => {
